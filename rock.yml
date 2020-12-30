@@ -1,0 +1,18 @@
+package: fir
+source:
+  url: git://github.com/daelvn/fir.git
+description:
+  summary: A language-agnostic documentation generator.
+  detailed: >
+    fir extracts documentation comments from source code and builds
+    trees out of them, so you can turn them into any other format.
+  homepage: https://github.com/daelvn/fir
+dependencies:
+  - lua >= 5.1
+build:
+  type: builtin
+  modules:
+    fir.languages: fir/languages.lua
+    fir.backend.generic: fir/backend/generic.lua
+    fir.parser.generic: fir/parser/generic.lua
+    fir.frontend.generic.markdown: fir/frontend/generic/markdown.lua
