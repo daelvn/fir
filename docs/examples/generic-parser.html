@@ -1,0 +1,3436 @@
+<!doctype html>
+<html>
+<head>
+<style>
+      details > *:not(summary) {
+        padding-left: 2em;
+      }
+  
+      #main {
+        font-family: Fira Code, 'Courier New', Courier, monospace;
+      }
+            
+      span.object {
+        color: #aaa;
+        font-size: 0.7em;
+      }
+  
+      div.pair {
+        margin: 0.5em;
+        display: flex;
+      }
+  
+      div.kv {
+        display: inline-block;
+        width: max-content;
+      }
+  
+      details,
+      details[open],
+      details:focus {
+        outline: 0;
+        outline-color: #fff;
+      }
+  
+      .code-string {
+        color: green;
+      }
+  
+      .code-number {
+        color: purple;
+      }
+  
+      .code-boolean {
+        color: gold;
+      }
+  
+      .code-function {
+        color: blue;
+      }
+  
+      .code-table {
+        color: brown;
+      }
+
+      details > summary {
+        list-style: none;
+      }
+      details > summary::-webkit-details-marker {
+        display: none;
+      }
+      details > summary::after {
+        content: "\25BC";
+        display: inline-block;
+        transform: rotate(-90deg);
+      }
+      
+      details[open] > summary::after {
+        transform: none;
+      }
+      
+      :focus {
+        outline: none;
+      }
+    
+</style>
+</head>
+<body>
+<div id='main'>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<span class='summary'>
+Table (5)
+</span>
+<span class='object'>
+table: 0x55c536f569f0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f58130
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;contents&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (4)
+</span>
+<span class='object'>
+table: 0x55c536f58180
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;sanitize&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (6)
+</span>
+<span class='object'>
+table: 0x55c536f58210
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot; input:string -&gt; escaped:string&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;summary&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Takes any string and escapes it to work with patterns.&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;tags&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (0)
+</span>
+<span class='object'>
+table: 0x55c536f58640
+</span>
+</summary>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;is&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;function&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;description&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (0)
+</span>
+<span class='object'>
+table: 0x55c536f585a0
+</span>
+</summary>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;name&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f58380
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;sanitize&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;lines&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (6)
+</span>
+<span class='object'>
+table: 0x55c536f58cc0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot; input:string -&gt; lines:table&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;summary&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Splits a table into lines.&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;tags&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (0)
+</span>
+<span class='object'>
+table: 0x55c536f590c0
+</span>
+</summary>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;is&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;function&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;description&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f59020
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f59110
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f59160
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Taken from [Penlight&#039;s `stringx` (`splitlines`)](https://stevedonovan.github.io/Penlight/api/libraries/pl.stringx.html#splitlines).&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;name&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f58d80
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;lines&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;trim&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (6)
+</span>
+<span class='object'>
+table: 0x55c536f586e0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot; input:string -&gt; trimmed:string, n:number&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;summary&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Trims the whitespace at each end of a string.&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;tags&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (0)
+</span>
+<span class='object'>
+table: 0x55c536f58a70
+</span>
+</summary>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;is&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;function&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;description&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f589d0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f58ac0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f58b70
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Taken from [Lua-users wiki&#039;s StringTrim (`trim11`)](http://lua-users.org/wiki/StringTrim).&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;name&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f587a0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;trim&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;lconcat&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (6)
+</span>
+<span class='object'>
+table: 0x55c536f592e0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot; la:[*], lb:[*] -&gt; merged:[*]&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;summary&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Concatenates two lists&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;tags&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (0)
+</span>
+<span class='object'>
+table: 0x55c536f59610
+</span>
+</summary>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;is&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;function&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;description&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (0)
+</span>
+<span class='object'>
+table: 0x55c536f59570
+</span>
+</summary>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;name&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f593a0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;lconcat&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;section&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (4)
+</span>
+<span class='object'>
+table: 0x55c536f57c10
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;id&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-number'>
+1
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;description&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f57db0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f57f00
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f57fb0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Several utils used internally.&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;name&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Utils&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;tags&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f57e50
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;internal&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-boolean'>
+true
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+2
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f59ae0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;contents&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (3)
+</span>
+<span class='object'>
+table: 0x55c536f59b30
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;extract&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (6)
+</span>
+<span class='object'>
+table: 0x55c536f5aaf0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot; input:string, language?:Language, options?:table -&gt; comments:[GenericComment]&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;summary&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Extracts comment from a string separated by newlines.&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;tags&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (0)
+</span>
+<span class='object'>
+table: 0x55c536f5b090
+</span>
+</summary>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;is&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;function&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;description&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (5)
+</span>
+<span class='object'>
+table: 0x55c536f5aff0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f5b0e0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f5b130
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;# Available options&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+2
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f5b1c0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f5b270
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;- `patterns:boolean` (`false`): Whether to use patterns for the language fields and ignore string or not.&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+3
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f5b310
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f5b3c0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&#039;- `ignore:string` (`&quot;///&quot;`): String used to determine when to start or stop ignoring comments.&#039;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+4
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f5b4e0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f5b590
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;- `merge:boolean` (`true`): Whether to merge adjacent single-line comments.&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+5
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f5b670
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f5b720
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&#039;- `paragraphs:boolean` (`true`): Whether to split multi-line comments by empty strings (`&quot;&quot;`).&#039;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;name&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f5acc0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;extract&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;Language&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (5)
+</span>
+<span class='object'>
+table: 0x55c536f59c90
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;name&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f59d50
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Language&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;tags&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (0)
+</span>
+<span class='object'>
+table: 0x55c536f5a0a0
+</span>
+</summary>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;is&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;type&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;description&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f5a000
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (4)
+</span>
+<span class='object'>
+table: 0x55c536f5a120
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (5)
+</span>
+<span class='object'>
+table: 0x55c536f5a220
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Language {&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+2
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;  single     :: string&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+3
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;  multi      :: [string]&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+4
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;  extensions :: [string]&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+5
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;}&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;snippet&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;language&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;moon&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;title&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Format&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;summary&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Language type accepted by [`extract`](#extract).&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;GenericComment&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (5)
+</span>
+<span class='object'>
+table: 0x55c536f5a370
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;name&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f5a500
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;GenericComment&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;tags&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (0)
+</span>
+<span class='object'>
+table: 0x55c536f5a840
+</span>
+</summary>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;is&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;type&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;description&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f5a7a0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (4)
+</span>
+<span class='object'>
+table: 0x55c536f5a890
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (5)
+</span>
+<span class='object'>
+table: 0x55c536f5a990
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;GenericComment {&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+2
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;  start   :: number&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+3
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;  end     :: number&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+4
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;  content :: [string]&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+5
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;}&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;snippet&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;language&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;moon&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;title&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Format&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;summary&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Comment returned by [`extract`](#extract).&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;section&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (4)
+</span>
+<span class='object'>
+table: 0x55c536f59690
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;id&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-number'>
+2
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;description&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f59850
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f59940
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f599f0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;This is the API provided to work with the generic backend.&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;name&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;API&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;tags&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (0)
+</span>
+<span class='object'>
+table: 0x55c536f598f0
+</span>
+</summary>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;description&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (7)
+</span>
+<span class='object'>
+table: 0x55c536f56d30
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f56e20
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f56ed0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;A generic implementation of a [backend](#/backend.md) for the Fir&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+2
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f56fd0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f57080
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;documentation generator.&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+3
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f572f0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f57340
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+4
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f574d0
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f57580
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;This specific implementation uses a `language` module (defaults to `fir.generic.languages`) to&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+5
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f57690
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f57740
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;parse comments from any file.&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+6
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f57390
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f57910
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+7
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (2)
+</span>
+<span class='object'>
+table: 0x55c536f57a50
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;content&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (1)
+</span>
+<span class='object'>
+table: 0x55c536f57b00
+</span>
+</summary>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-number'>
+1
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;Check out an example output of this backend [here](/examples/generic-backend.html).&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;type&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;text&quot;
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;title&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<div class='kv code-string'>
+&quot;fir.generic.backend&quot;
+</div>
+</div>
+</div>
+<div class='pair'>
+<div class='kv value'>
+<details>
+<summary>
+<div class='kv key'>
+<span>
+[
+</span>
+<span class='code-string'>
+&quot;tags&quot;
+</span>
+<span>
+] =
+</span>
+</div>
+<span class='summary'>
+Table (0)
+</span>
+<span class='object'>
+table: 0x55c536f56dd0
+</span>
+</summary>
+</details>
+</div>
+</div>
+</details>
+</div>
+</div>
+</div>
+</body>
+</html>
+
