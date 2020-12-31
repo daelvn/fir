@@ -1,5 +1,6 @@
 ---# fir.generic.backend #---
--- A generic implementation of a [backend](#/backend.md) for the Fir documentation generator.
+-- A generic implementation of a [backend](#/backend.md) for the Fir
+-- documentation generator.
 --
 -- This specific implementation uses a `language` module (defaults to `fir.generic.languages`) to
 -- parse comments from any file.
@@ -7,7 +8,8 @@
 -- Check out an example output of this backend [here](/examples/generic-backend.html).
 {:find, :sub, :match} = string
 
---# @internal Utils #--
+--# Utils #--
+-- @internal
 -- Several utils used internally.
 
 --- @function sanitize :: input:string -> escaped:string
@@ -19,7 +21,7 @@ sanitize = (input) -> input\gsub "[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0" if "string
 -- Taken from [Lua-users wiki's StringTrim (`trim11`)](http://lua-users.org/wiki/StringTrim).
 trim = (input) -> return if n = find input, "%S" then match input, ".*%S", n else ""
 
---- @function lines = input:string -> lines:table
+--- @function lines :: input:string -> lines:table
 --- Splits a table into lines.
 -- Taken from [Penlight's `stringx` (`splitlines`)](https://stevedonovan.github.io/Penlight/api/libraries/pl.stringx.html#splitlines).
 lines = (s) ->
@@ -36,7 +38,7 @@ lines = (s) ->
     res[#res+1] = sub s, pos
   return res
 
---- @function lconcat = la:[*], lb:[*] -> merged:[*]
+--- @function lconcat :: la:[*], lb:[*] -> merged:[*]
 --- Concatenates two lists
 lconcat = (ta, tb) ->
   tc = {}
@@ -178,6 +180,7 @@ extract = (input="", language={}, options={}) ->
   return comments
 --///--
 
+--///--
 -- readFile = (f) ->
 --   local content
 --   with io.open f, "r"
@@ -185,5 +188,6 @@ extract = (input="", language={}, options={}) ->
 --     \close!
 --   return content
 --print generate extract (readFile "fir/generic/backend.moon"), {single: "--"}, {}
+--///--
 
 { :extract }
