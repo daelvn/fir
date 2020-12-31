@@ -2,7 +2,8 @@
 -- A parser that works with the format provided by the [generic backend](#/generic/backend.md).
 {:match, :find, :gsub, :sub} = string
 
---# @internal Utils #--
+--# Utils #--
+-- @internal
 -- Several utils used internally.
 
 --- @function sanitize :: input:string -> escaped:string
@@ -28,7 +29,7 @@ trim = (input) -> return if n = find input, "%S" then match input, ".*%S", n els
 -- }
 
 --- @function parseDescription :: description:[string] -> description:[DescriptionLine], tags:[string]
---- Parses codeblocks, tags and normal text in descriptions.
+--- Parses codeblocks, tags, headers and normal text in descriptions.
 -- Returns an array of DescriptionLines and an array of tags.
 --# Notes
 -- - In a codeblock, the first character of every line is removed (for a space).
@@ -50,6 +51,9 @@ parseDescription = (desc) ->
     elseif tag = match line, "^%s-@(%w+)(.-)"
       tag, value = match line, "^%s-@(%w+)(.-)"
       tags[tag] = (value == "") and true or value
+    -- headers
+    elseif header = match line, "^#%s+(.+)"
+      ndesc[#ndesc+1] = {content: {trim header}, type: "header"}
     -- snippets
     elseif snippet = match line, "^:(%w+)%s+(.+)"
       -- if there was a previous snippet open, close it
@@ -156,6 +160,7 @@ parse = (comments, language) ->
 --     \close!
 --   return content
 -- import extract  from require "fir.generic.backend"
+-- import generate from require "tableview"
 -- print generate parse (extract (readFile "fir/generic/backend.moon"), {single: "--"}, {}), {single: "--"}
 --///--
 
