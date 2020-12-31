@@ -22,10 +22,11 @@ trim = (input) -> return if n = find input, "%S" then match input, ".*%S", n els
 --- A single element in a description returned by `parseDescription`
 --:moon Format
 -- DescriptionLine {
---   type      :: string (text|code)
+--   type      :: string (text|snippet|header)
 --   content   :: [string]
---   language? :: string -- only when type is code
---   title?    :: string -- only when type is code
+--   language? :: string -- only when type is snippet
+--   title?    :: string -- only when type is snippet
+--   n?        :: number -- only when type is header
 -- }
 
 --- @function parseDescription :: description:[string] -> description:[DescriptionLine], tags:[string]
@@ -52,8 +53,15 @@ parseDescription = (desc) ->
       tag, value = match line, "^%s-@(%w+)(.-)"
       tags[tag] = (value == "") and true or value
     -- headers
+    elseif header = match line, "^###%s+(.+)"
+      ndesc[#ndesc+1] = {content: {trim header}, type: "header", n: 3}
+    elseif header = match line, "^##%s+(.+)"
+      ndesc[#ndesc+1] = {content: {trim header}, type: "header", n: 2}
     elseif header = match line, "^#%s+(.+)"
-      ndesc[#ndesc+1] = {content: {trim header}, type: "header"}
+      ndesc[#ndesc+1] = {content: {trim header}, type: "header", n: 1}
+    elseif headern = match line, "^(%d)%s+(.+)"
+      header, n = match line, "^(%d)%s+(.+)"
+      ndesc[#ndesc+1] = {content: {trim header}, type: "header", :n}
     -- snippets
     elseif snippet = match line, "^:(%w+)%s+(.+)"
       -- if there was a previous snippet open, close it
