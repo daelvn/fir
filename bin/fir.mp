@@ -26,9 +26,7 @@ with argparse!
   -- DOCUMENTATION
   g = with \command "generate g"
     \description "Generates documentation for a project"
-  s = with \command "serve s"
-    \description "Starts a live server to preview the documentation (requires python3)"
-  \group "Documentation", g, s
+  \group "Documentation", g
 
   -- FLAGS
   sl = with \flag "-s --silent"

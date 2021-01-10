@@ -27,13 +27,7 @@ do
 		_with_1:description("Generates documentation for a project")
 		g = _with_1
 	end
-	local s
-	do
-		local _with_1 = _with_0:command("serve s")
-		_with_1:description("Starts a live server to preview the documentation (requires python3)")
-		s = _with_1
-	end
-	_with_0:group("Documentation", g, s)
+	_with_0:group("Documentation", g)
 	local sl
 	do
 		local _with_1 = _with_0:flag("-s --silent")
