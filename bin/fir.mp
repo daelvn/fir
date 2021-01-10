@@ -31,6 +31,11 @@ with argparse!
     \description "Starts a live server to preview the documentation (requires python3)"
   \group "Documentation", g, s
 
+  -- FLAGS
+  sl = with \flag "-s --silent"
+    \description "Does not print to stderr"
+  \group "Flags", sl
+
   args = \parse!
 
 -- load config file
@@ -47,7 +52,7 @@ LANGUAGE = do
   elseif FILE\match "lua$"    then "lua"
   elseif args.config_language then args.config_language
   else error "Cannot resolve format for Firfile."
-io.stderr\write "Using #{FILE} (#{LANGUAGE})\n"
+io.stderr\write "Using #{FILE} (#{LANGUAGE})\n" unless arg.silent
 
 -- Load string
 import readMoon, readLua, loadEnv from require "fir.file"
@@ -69,10 +74,10 @@ project     = firEnv
 for k, v in pairs rconfig do project[k] = v
 
 -- arrow
-printArrow = (txt) -> io.stderr\write style "%{blue}==>%{white} #{txt}\n"
-printError = (txt) -> io.stderr\write style "%{red}#{txt}\n"
-printPlus  = (txt) -> io.stderr\write style "%{green}+ #{txt}\n"
-printMini  = (txt) -> io.stderr\write style "%{yellow}-> #{txt}\n"
+printArrow = (txt) -> io.stderr\write style "%{blue}==>%{white} #{txt}\n" unless args.silent
+printError = (txt) -> io.stderr\write style "%{red}#{txt}\n"              unless args.silent
+printPlus  = (txt) -> io.stderr\write style "%{green}+ #{txt}\n"          unless args.silent
+printMini  = (txt) -> io.stderr\write style "%{yellow}-> #{txt}\n"        unless args.silent
 
 -- readfile
 readFile = (f) ->
@@ -127,7 +132,7 @@ if args.generate
     os.exit 1
   --- extract comments ---
   import extract from require "fir.generic.backend"
-  printArrow "Extracting comments"
+  --printArrow "Extracting comments"
   --
   extracted = {}
   for file in *files
@@ -135,7 +140,7 @@ if args.generate
     extracted[file] = (readFile file) |> extract(_, project.language, project.backend or {})
   --- parse comments ---
   import parse from require "fir.generic.parser"
-  printArrow "Parsing comments"
+  --printArrow "Parsing comments"
   --
   parsed = {}
   for file in *files
@@ -147,7 +152,7 @@ if args.generate
     printError "Please set a 'format' field (string) in #{FILE}"
     os.exit 1
   import emit from require "fir.generic.emit.#{project.format}"
-  printArrow "Emitting documentation"
+  --printArrow "Emitting documentation"
   --
   emitted = {}
   for file in *files
@@ -158,7 +163,7 @@ if args.generate
     printError "No output folder specified."
     printError "Please set an 'output' field (string) in #{FILE}"
     os.exit 1
-  printArrow "Writing documentation..."
+  --printArrow "Writing documentation..."
   -- make docs dir
   fs.makeDir project.output unless fs.isDir project.output
   -- write
