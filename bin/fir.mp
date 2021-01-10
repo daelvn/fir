@@ -7,7 +7,6 @@
 import "argparse"
 import "filekit"       as fs
 import "ansikit.style" as {:style}
-import "tableview"     as {:generate}
 
 local args
 with argparse!

@@ -3,7 +3,6 @@
 --
 -- You can see an example of the output of this formatter [here](/examples/generic-emit-markdown.md).
 {:rep, :find, :match} = string
-import generate from require "tableview"
 
 --# Utils #--
 -- @internal
