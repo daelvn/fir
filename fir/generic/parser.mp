@@ -72,7 +72,7 @@ parseDescription = (desc) ->
       incode          = true
     -- add line
     else
-      ndesc[#ndesc+1] = {type: "text", content: {trim line}}
+      ndesc[#ndesc+1] = {type: "text", content: {line\match " ?(.+)"}}
   -- add last and return
   ndesc[#ndesc+1] = code if incode
   return ndesc, tags
