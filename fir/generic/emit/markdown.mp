@@ -122,7 +122,8 @@ export emitSection = (section, options) ->
   for ty, elems in pairs byis
     for elemk, elemv in bkpairs elems
       -- continue if internal
-      continue if elemv.tags.internal and not options.all
+      -- TODO missing existential operator, might not be fixed
+      continue if elemv.tags?.internal and not options.all
       -- print
       md[#md+1] = "### #{elemk}"
       md[#md+1] = ""
@@ -163,7 +164,8 @@ export emit = (ast, options={}) ->
     function: "Functions"
   }                                  if options.types == nil
   -- exit if internal
-  if ast.tags.internal and not options.all
+  -- TODO missing existential operator, might not be fixed
+  if ast.tags?.internal and not options.all
     return nil, "(internal)"
   -- emit title and description
   if ast.title

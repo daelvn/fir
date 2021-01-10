@@ -137,7 +137,13 @@ emitSection = function(section, options)
 		for elemk, elemv in bkpairs(elems) do
 			local _continue_0 = false
 			repeat
-				if elemv.tags.internal and not options.all then
+				if (function()
+					local _obj_0 = elemv.tags
+					if _obj_0 ~= nil then
+						return _obj_0.internal
+					end
+					return nil
+				end)() and not options.all then
 					_continue_0 = true
 					break
 				end
@@ -205,7 +211,13 @@ emit = function(ast, options)
 			["function"] = "Functions"
 		}
 	end
-	if ast.tags.internal and not options.all then
+	if (function()
+		local _obj_0 = ast.tags
+		if _obj_0 ~= nil then
+			return _obj_0.internal
+		end
+		return nil
+	end)() and not options.all then
 		return nil, "(internal)"
 	end
 	if ast.title then
