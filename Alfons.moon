@@ -5,6 +5,7 @@ tasks:
   -- compile everything
   compile: =>
     sh "moonc #{file}" for file in wildcard "fir/**.moon"
+    sh "moonp ."
   -- clean everything
   clean: =>
     show "Cleaning files"
