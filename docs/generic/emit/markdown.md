@@ -33,7 +33,7 @@ Emits Markdown from a GenericAST
     - `[1]:string` (`"Element"`) - Left column
     - `[2]:string` (`"Summary"`) - Right column
 - `types:table` (): Aliases for types.
-  - `[type]:string` (): (where `type` can be any of the types supported by [GenericAST](#/generic/backend?id=GenericAST)). Default values include `type=Types` and `function=Functions`
+  - `[type]:string` (): (where `type` can be any of the types supported by [GenericAST](generic/parser.md#GenericAST)). Default values include `type=Types` and `function=Functions`
 
 ### emitDescription
 
