@@ -120,10 +120,12 @@ export parse = (comments, language) ->
   -- iterate comments
   for comment in *comments
     heading = comment.content[1]
+    -- top header
     if title = match heading, "^#{lead}#(.+)##{lead}.+"
       tracking.editing          = "title"
       ast.title                 = trim title
       ast.description, ast.tags = parseDescription [l for l in *comment.content[2,]]
+    -- section
     elseif section = match heading, "^#(.+)#.+"
       tracking.editing             = "section"
       tracking.section             = {
@@ -132,6 +134,7 @@ export parse = (comments, language) ->
       }
       tracking.section.description, tracking.section.tags = parseDescription [l for l in *comment.content[2,]]
       ast[tracking.section.id] = {section: tracking.section, contents: {}}
+    -- function
     elseif fn = match heading, "^#{lead}%s+@function%s+(.+)%s+::(.+)"
       fn, typ = match heading, "^#{lead}%s+@function%s+(.+)%s+::(.+)"
       ast[tracking.section.id].contents[fn] = {
@@ -141,6 +144,7 @@ export parse = (comments, language) ->
         summary:     match (comment.content[2] or ""), "^-%s+(.+)"
       }
       ast[tracking.section.id].contents[fn].description, ast[tracking.section.id].contents[fn].tags = parseDescription [l for l in *comment.content[3,]]
+    -- type
     elseif typ = match heading, "^#{lead}%s+@type%s+(.+)"
       ast[tracking.section.id].contents[typ] = {
         is:          "type"
@@ -148,6 +152,7 @@ export parse = (comments, language) ->
         summary:     match (comment.content[2] or ""), "^-%s+(.+)"
       }
       ast[tracking.section.id].contents[typ].description, ast[tracking.section.id].contents[typ].tags = parseDescription [l for l in *comment.content[3,]]
+    -- text
     else
       switch tracking.editing
         when "title"

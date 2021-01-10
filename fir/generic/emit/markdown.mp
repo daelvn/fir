@@ -1,5 +1,5 @@
 ---# fir.generic.emit.markdown #---
--- An emitter that works with a [GenericAST](#/generic/parser.md?id=GenericAST) and turns it into markdown.
+-- An emitter that works with a [GenericAST](/generic/parser.md#GenericAST) and turns it into markdown.
 --
 -- You can see an example of the output of this formatter [here](/examples/generic-emit-markdown.md).
 {:rep, :find, :match} = string
