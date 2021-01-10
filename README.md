@@ -16,9 +16,9 @@ If you want to compile from source, you will need to install the following depen
 - `argparse` (CLI)
 - `ansikit` (CLI, optional if using CLI with `--silent`)
 - `filekit` (Library, CLI)
-- `moonplus` (Project-wide)
-- `alfons` (Project-wide)
-- `rockbuild` (Project-wide)
+- `moonplus` (Compiling)
+- `alfons` (Compiling)
+- `rockbuild` (Compiling)
 
 Then, simply run `alfons compile make -v 1.0`. To clean the project, simply `alfons clean`.
 

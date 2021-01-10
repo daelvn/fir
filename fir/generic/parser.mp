@@ -1,5 +1,5 @@
 ---# fir.generic.parser #---
--- A parser that works with the format provided by the [generic backend](#/generic/backend.md).
+-- A parser that works with the format provided by the [generic backend](generic/backend.md).
 {:match, :find, :gsub, :sub} = string
 
 --# Utils #--

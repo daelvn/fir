@@ -1,5 +1,5 @@
 ---# fir.generic.backend #---
--- A generic implementation of a [backend](#/backend.md) for the Fir
+-- A generic implementation of a [backend](/backend.md) for the Fir
 -- documentation generator.
 --
 -- This specific implementation uses a `language` module (defaults to `fir.generic.languages`) to

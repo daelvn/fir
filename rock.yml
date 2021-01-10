@@ -9,6 +9,9 @@ description:
   homepage: https://github.com/daelvn/fir
 dependencies:
   - lua >= 5.1
+  - argparse
+  - ansikit
+  - filekit
 build:
   type: builtin
   modules:
