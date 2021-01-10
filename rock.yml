@@ -12,7 +12,11 @@ dependencies:
 build:
   type: builtin
   modules:
-    fir.languages: fir/languages.lua
-    fir.backend.generic: fir/backend/generic.lua
-    fir.parser.generic: fir/parser/generic.lua
-    fir.frontend.generic.markdown: fir/frontend/generic/markdown.lua
+    fir.generic.backend:       fir/generic/backend.lua
+    fir.generic.parser:        fir/generic/parser.lua
+    fir.generic.emit.markdown: fir/generic/emit/markdown.lua
+    fir.file:                  fir/file.lua
+    fir.version:               fir/version.lua
+  install:
+    bin:
+      fir: bin/fir.lua
