@@ -25,15 +25,15 @@ Emits Markdown from a GenericAST
 #### Recognized options
 
 - `tabs:table` (`{use=false}`): Adds [docsify-tabs](https://jhildenbiddle.github.io/docsify-tabs/#/) comments for code snippets.
-- `header:string` (`"####"`): Headers to use for docsify-tabs.
+  - `header:string` (`"####"`): Headers to use for docsify-tabs.
 - `all:boolean` (`false`): Also emits hidden elements.
 - `sections:table` (): Settings for sections.
 - `columns:table` (): Settings for columns.
-- `[n]:table` (): (where `n` can be any number or `"*"`). Specifies the column names for section `n` (with fallback).
-- `[1]:string` (`"Element"`) - Left column
-- `[2]:string` (`"Summary"`) - Right column
+  - `[n]:table` (): (where `n` can be any number or `"*"`). Specifies the column names for section `n` (with fallback).
+    - `[1]:string` (`"Element"`) - Left column
+    - `[2]:string` (`"Summary"`) - Right column
 - `types:table` (): Aliases for types.
-- `[type]:string` (): (where `type` can be any of the types supported by [GenericAST](#/generic/backend?id=GenericAST)). Default values include `type=Types` and `function=Functions`
+  - `[type]:string` (): (where `type` can be any of the types supported by [GenericAST](#/generic/backend?id=GenericAST)). Default values include `type=Types` and `function=Functions`
 
 ### emitDescription
 
@@ -45,7 +45,7 @@ Emits Markdown from the description of an element.
 #### Inherited options
 
 - `tabs:table` (`{use=false}`): Adds [docsify-tabs](https://jhildenbiddle.github.io/docsify-tabs/#/) comments for code snippets.
-- `header:string` (`"####"`): Headers to use for docsify-tabs.
+  - `header:string` (`"####"`): Headers to use for docsify-tabs.
 
 #### Recognized options
 

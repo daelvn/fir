@@ -49,10 +49,18 @@ This is the API provided to work with the generic parser.
 
 | Element | Summary |
 |---------|---------|
-| **Types** |  |
-| [GenericAST](#GenericAST) | The AST produced by `parse`. |
 | **Functions** |  |
 | [parse](#parse) | Parses a list of GenericComments into a GenericAST |
+| **Types** |  |
+| [GenericAST](#GenericAST) | The AST produced by `parse`. |
+
+### parse
+
+**Type:** `comments:[GenericComment], language:Language -> ast:GenericAST`  
+
+Parses a list of GenericComments into a GenericAST
+
+
 
 ### GenericAST
 
@@ -80,11 +88,3 @@ GenericAST {
   }
 }
 ```
-
-### parse
-
-**Type:** `comments:[GenericComment], language:Language -> ast:GenericAST`  
-
-Parses a list of GenericComments into a GenericAST
-
-
