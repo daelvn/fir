@@ -48,7 +48,7 @@ do
 	elseif fs.exists("Fir.moon") then
 		FILE = "Fir.moon"
 	else
-		FILE = errors(1, "No Firfile found.")
+		FILE = error("No Firfile found.")
 	end
 end
 local LANGUAGE

@@ -41,7 +41,7 @@ FILE = do
   elseif args.config          then args.config
   elseif fs.exists "Fir.lua"  then "Fir.lua"
   elseif fs.exists "Fir.moon" then "Fir.moon"
-  else errors 1, "No Firfile found."
+  else error "No Firfile found."
 
 -- Also accept a custom language
 LANGUAGE = do
