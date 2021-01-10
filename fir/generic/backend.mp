@@ -14,7 +14,7 @@
 
 --- @function sanitize :: input:string -> escaped:string
 --- Takes any string and escapes it to work with patterns.
-sanitize = (input) -> input\gsub "[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0" if "string" == type input
+sanitize = (input) -> if "string" == type input then return input\gsub "[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0" else return input
 
 --- @function trim :: input:string -> trimmed:string, n:number
 --- Trims the whitespace at each end of a string.
@@ -97,21 +97,21 @@ extract = (input="", language={}, options={}) ->
     ignore: false
   }
   -- options
-  options.patterns   = false if options.patterns   == nil
-  options.ignore     = "///" if options.ignore     == nil
-  options.merge      = true  if options.merge      == nil
-  options.paragraphs = true  if options.paragraphs == nil
+  options.patterns   = false if options.patterns?
+  options.ignore     = "///" if options.ignore?
+  options.merge      = true  if options.merge?
+  options.paragraphs = true  if options.paragraphs?
   -- sanitize language
   igstring = options.patterns and options.ignore or sanitize options.ignore
   local single, multis, multie
   if options.patterns
-    single = language.single   or  ""
-    multis = language.multi    and language.multi[1]
-    multie = language.multi    and language.multi[2]
+    single = language.single or ""
+    multis = language.multi?[1]
+    multie = language.multi?[2]
   else
-    single = language.single    and (sanitize language.single) or ""
-    multis = language.multi     and (language.multi[1] and (sanitize language.multi[1]) or false)
-    multie = language.multi     and (language.multi[2] and (sanitize language.multi[2]) or false)
+    single = (sanitize language.single    or "")
+    multis = (sanitize language.multi?[1] or false)
+    multie = (sanitize language.multi?[2] or false)
   -- line loop
   -- lc:number - (l)ine (c)ount
   for lc=1, #lt
