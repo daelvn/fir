@@ -12,6 +12,8 @@ The most important part to maintaining the documentation of a project with Fir i
 
 The file must be named `Fir.lua` or `Fir.moon` for it to be detected automatically, but you can also use `-c` or `--config` to change the configuration file, and `--config-language` to set the language it should be loaded as (only supports `lua` and `moon`).
 
+?> **Note:** To use a Fir.moon configuration file, or any configuration file written in MoonScript, you need to install MoonScript via LuaRocks with the following command: `luarocks install moonscript`
+
 Here follows a complete description of all the options that the Fir CLI accepts.
 
 <!-- TODO include backend and emit options -->

@@ -10,6 +10,18 @@ You can install Fir via LuaRocks:
 $ luarocks install fir
 ```
 
+### Compiling from source
+
+If you want to compile from source, you will need to install the following dependencies from LuaRocks:
+- `argparse` (CLI)
+- `ansikit` (CLI, optional if using CLI with `--silent`)
+- `filekit` (Library, CLI)
+- `moonplus` (Project-wide)
+- `alfons` (Project-wide)
+- `rockbuild` (Project-wide)
+
+Then, simply run `alfons compile make -v 1.0`. To clean the project, simply `alfons clean`.
+
 ## Documentation
 
 Check out the documentation [here](//git.daelvn.com/fir/).
