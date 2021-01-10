@@ -2,12 +2,17 @@
 -- An emitter that works with a [GenericAST](#/generic/parser.md?id=GenericAST) and turns it into markdown.
 --
 -- You can see an example of the output of this formatter [here](/examples/generic-emit-markdown.md).
-{:rep} = string
+{:rep, :find, :match} = string
 import generate from require "tableview"
 
 --# Utils #--
 -- @internal
 -- Utils to work internally.
+
+--- @function trim :: input:string -> trimmed:string, n:number
+--- Trims the whitespace at each end of a string.
+-- Taken from [Lua-users wiki's StringTrim (`trim11`)](http://lua-users.org/wiki/StringTrim).
+trim = (input) -> return if n = find input, "%S" then match input, ".*%S", n else ""
 
 --- @function bkpairs :: tbl:table -> Iterator
 --- Iterates over a table in key order.
@@ -35,15 +40,17 @@ bkpairs = (t) ->
 --# Recognized options
 -- - `headerOffset:number` (`1`): Offsets the header levels by n
 --///--
-emitDescription = (desc, options={}) ->
+export emitDescription = (desc, options={}) ->
   md = {}
   -- options
-  options.headerOffset = 1
+  options.headerOffset = 1 if options.headerOffset == nil
   -- emit
   for line in *desc
     switch line.type
       when "header"
+        md[#md+1] = ""
         md[#md+1] = (rep "#", line.n + options.headerOffset) .. " " .. line.content[1]
+        md[#md+1] = ""
       when "snippet"
         if options.tabs.use
           if md[#md] == "<!-- tabs:end -->"
@@ -70,17 +77,17 @@ emitDescription = (desc, options={}) ->
 --- Emits Markdown from a GenericSection
 -- This function takes the same options than [emit](#emit)
 --///--
-emitSection = (section, options) ->
+export emitSection = (section, options) ->
   md = {}
   -- failsafe option checking
-  options.tabs        = use: false if options.tabs?
-  options.tabs.header = "####"     if options.tabs.header?
-  options.all         = false      if options.all?
-  options.columns     = {}         if options.columns?
+  options.tabs        = {use: false} if options.tabs == nil
+  options.tabs.header = "####"       if options.tabs.header == nil
+  options.all         = false        if options.all == nil
+  options.columns     = {}           if options.columns == nil
   options.types       = {
     type: "Types"
     function: "Functions"
-  }                                if options.types?
+  }                                  if options.types == nil
   -- exit if internal
   if section.section.tags.internal and not options.all
     return table.concat md, "\n"
@@ -95,13 +102,11 @@ emitSection = (section, options) ->
   for k, v in pairs section.contents
     byis[v.is]  or= {}
     byis[v.is][k] = v
-  print generate byis
-    -- TODO order functions inside alphabetically
   -- create TOC
   -- Header
   md[#md+1] = ""
   if options.columns[section.id]
-    md[#md+1] = "| #{options.columns[section.id][1]} | #{options.columns[section.id][2]} |"
+    md[#md+1] = "| **#{options.columns[section.id][1]}** | #{options.columns[section.id][2]} |"
   elseif options.columns["*"]
     md[#md+1] = "| #{options.columns['*'][1]} | #{options.columns['*'][2]} |"
   else
@@ -110,9 +115,26 @@ emitSection = (section, options) ->
   -- elements
   for ty, elems in pairs byis
     -- subheaders
-    md[#md+1] = "| #{options.types[ty]} |  |"
+    md[#md+1] = "| **#{options.types[ty]}** |  |"
     for elemk, elemv in bkpairs elems
       md[#md+1] = "| [#{elemk}](##{elemk}) | #{elemv.summary} |"
+  md[#md+1] = ""
+  -- print types and functions
+  for ty, elems in pairs byis
+    for elemk, elemv in bkpairs elems
+      -- continue if internal
+      continue if elemv.tags.internal and not options.all
+      -- print
+      md[#md+1] = "### #{elemk}"
+      md[#md+1] = ""
+      md[#md+1] = "**Type:** `#{trim elemv.type}`  " if ty == "function"
+      md[#md+1] = "**Aliases:** `#{table.concat [n for n in *elemv.name[2,]], ', '}`" if #elemv.name > 1
+      md[#md+1] = "" if (ty == "function") or (#elemv.name > 1)
+      md[#md+1] = elemv.summary
+      md[#md+1] = ""
+      md[#md+1] = emitDescription elemv.description, {headerOffset: 3, tabs: options.tabs}
+      md[#md+1] = ""
+  --
   return table.concat md, "\n"
 --///--
 
@@ -130,17 +152,17 @@ emitSection = (section, options) ->
 -- - `types:table` (): Aliases for types.
 --   - `[type]:string` (): (where `type` can be any of the types supported by [GenericAST](#/generic/backend?id=GenericAST)). Default values include `type=Types` and `function=Functions`
 --///-
-emit = (ast, options={}) ->
+export emit = (ast, options={}) ->
   md = {}
   -- options
-  options.tabs        = use: false if options.tabs?
-  options.tabs.header = "####"     if options.tabs.header?
-  options.all         = false      if options.all?
-  options.columns     = {}         if options.columns?
+  options.tabs        = {use: false} if options.tabs == nil
+  options.tabs.header = "####"       if options.tabs.header == nil
+  options.all         = false        if options.all == nil
+  options.columns     = {}           if options.columns == nil
   options.types       = {
     type: "Types"
     function: "Functions"
-  }                                if options.types?
+  }                                  if options.types == nil
   -- exit if internal
   if ast.tags.internal and not options.all
     return nil, "(internal)"
@@ -157,24 +179,20 @@ emit = (ast, options={}) ->
   return table.concat md, "\n"
 --///-- 
 
--- Test
-readFile = (f) ->
-  local content
-  with io.open f, "r"
-    content = \read "*a"
-    \close!
-  return content
-import "fir.generic.backend" as {:extract}
-import "fir.generic.parser"  as {:parse}
-import "lunamark"            as lm
+--///--
+-- readFile = (f) ->
+--   local content
+--   with io.open f, "r"
+--     content = \read "*a"
+--     \close!
+--   return content
+-- import "fir.generic.backend" as {:extract}
+-- import "fir.generic.parser"  as {:parse}
 
-writer = lm.writer.html.new {}
-render = lm.reader.markdown.new writer, {}
-
-const languageMoon = {single: "--"}
-readFile "fir/generic/backend.moon"
-  |> (extract _, languageMoon, {})
-  |> (parse _, languageMoon)
-  |> emit
-  |> render
-  |> print
+-- const languageMoon = {single: "--"}
+-- (readFile "fir/generic/backend.mp")
+--   |> extract(_, languageMoon, {})
+--   |> parse( _, languageMoon)
+--   |> emit
+--   |> print
+--///--

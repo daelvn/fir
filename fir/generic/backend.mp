@@ -78,7 +78,7 @@ lconcat = (ta, tb) ->
 -- - `paragraphs:boolean` (`true`): Whether to split multi-line comments by empty strings (`""`).
 
 --///--
-extract = (input="", language={}, options={}) ->
+export extract = (input="", language={}, options={}) ->
   -- lt:table       - (l)ines (t)able, lines in the file
   -- comments:table - comments that were parsed
   -- comment:table  - current comment
@@ -97,10 +97,10 @@ extract = (input="", language={}, options={}) ->
     ignore: false
   }
   -- options
-  options.patterns   = false if options.patterns?
-  options.ignore     = "///" if options.ignore?
-  options.merge      = true  if options.merge?
-  options.paragraphs = true  if options.paragraphs?
+  options.patterns   = false if options.patterns == nil
+  options.ignore     = "///" if options.ignore == nil
+  options.merge      = true  if options.merge == nil
+  options.paragraphs = true  if options.paragraphs == nil
   -- sanitize language
   igstring = options.patterns and options.ignore or sanitize options.ignore
   local single, multis, multie
@@ -189,5 +189,3 @@ extract = (input="", language={}, options={}) ->
 --   return content
 --print generate extract (readFile "fir/generic/backend.moon"), {single: "--"}, {}
 --///--
-
-{ :extract }

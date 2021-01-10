@@ -108,7 +108,7 @@ parseDescription = (desc) ->
 --- @function parse :: comments:[GenericComment], language:Language -> ast:GenericAST
 --- Parses a list of GenericComments into a GenericAST
 --///--
-parse = (comments, language) ->
+export parse = (comments, language) ->
   ast = {}
   -- get character for special comments
   lead = sanitize sub language.single, -1
@@ -138,14 +138,14 @@ parse = (comments, language) ->
         is:          "function"
         name:        [name for name in fn\gmatch "%S+"]
         type:        typ
-        summary:     match comment.content[2], "^-%s+(.+)"
+        summary:     match (comment.content[2] or ""), "^-%s+(.+)"
       }
       ast[tracking.section.id].contents[fn].description, ast[tracking.section.id].contents[fn].tags = parseDescription [l for l in *comment.content[3,]]
     elseif typ = match heading, "^#{lead}%s+@type%s+(.+)"
       ast[tracking.section.id].contents[typ] = {
         is:          "type"
         name:        [name for name in typ\gmatch "%S+"]
-        summary:     match comment.content[2], "^-%s+(.+)"
+        summary:     match (comment.content[2] or ""), "^-%s+(.+)"
       }
       ast[tracking.section.id].contents[typ].description, ast[tracking.section.id].contents[typ].tags = parseDescription [l for l in *comment.content[3,]]
     else
@@ -171,5 +171,3 @@ parse = (comments, language) ->
 -- import generate from require "tableview"
 -- print generate parse (extract (readFile "fir/generic/backend.moon"), {single: "--"}, {}), {single: "--"}
 --///--
-
-{ :parse }
