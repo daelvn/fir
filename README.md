@@ -1,5 +1,10 @@
 # Fir
 
+<a href="https://discord.gg/Y75ZXrD"><img src="https://img.shields.io/static/v1?label=discord&message=chat&color=brightgreen&style=flat-square"></a> 
+![GitHub stars](https://img.shields.io/github/stars/daelvn/fir?style=flat-square)
+![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/daelvn/fir?include_prereleases&label=release&style=flat-square)
+![LuaRocks](https://img.shields.io/luarocks/v/daelvn/fir?style=flat-square)
+
 Fir is a language-agnostic documentation generator framework. It is fully modular, which means you can mix a comment extractor with a different comment parser and emitter (but you aren't going to go through the hassle of writing anything). A set of generic modules for generating Markdown documentation is provided, don't expect much more (unless you press me to write more).
 
 ## Install
