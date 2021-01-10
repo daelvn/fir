@@ -3,11 +3,6 @@ config:
   format: "markdown" -- fir.generic.emit.markdown
   name:   "Fir"
 
-  -- backend options
-  --backend: {}
-  -- emit options
-  --emit: {}
-
   -- language (moon/mp)
   language: {single: "--"}
 
