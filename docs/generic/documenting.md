@@ -103,7 +103,8 @@ You can document a type with the following syntax:
 ```py
 ## @type name alias1 alias2
 ## Summary
-# Description
+#:type Format
+# Describe your type here
 ```
 
 #### **Lua/MoonScript**
@@ -118,6 +119,64 @@ You can document a type with the following syntax:
 <!-- tabs:end -->
 
 It is customary to describe your type within a [code block](#code-block). Everything else is mostly the same as functions.
+
+## Constants
+
+You can document a constant (does not need to be a constant, but...) using the following syntax:
+
+?> **Note:** You can also use `@const` instead of `@constant`.
+
+<!-- tabs:start -->
+
+#### **Python**
+
+```py
+## @constant name alias1 alias2 :: type
+## Summary
+# Description
+```
+
+#### **Lua/MoonScript**
+
+```lua
+--- @constant name alias1 alias2 :: type
+--- Summary
+-- Description
+```
+
+<!-- tabs:end -->
+
+The aliases must be separated by spaces and are not mandatory. The type is mandatory for a constant and will be copied verbatim. The summary will be placed in its own paragraph and will be used for the table of contents as well.
+
+The description can span as many lines as you wish as long as there is no empty line in the middle. If you want an empty line, just use an empty comment (this will also split the description into paragraphs).
+
+## Classes
+
+You can document classes with the following syntax:
+
+<!-- tabs:start -->
+
+#### **Python**
+
+```py
+## @class name alias1 alias2
+## Summary
+# Description
+```
+
+#### **Lua/MoonScript**
+
+```lua
+--- @class name alias1 alias2
+--- Summary
+-- Description
+```
+
+<!-- tabs:end -->
+
+The aliases must be separated by spaces and are not mandatory. The summary will be placed in its own paragraph and will be used for the table of contents as well.
+
+The description can span as many lines as you wish as long as there is no empty line in the middle. If you want an empty line, just use an empty comment (this will also split the description into paragraphs).
 
 ## Descriptions
 
