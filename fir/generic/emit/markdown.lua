@@ -131,7 +131,15 @@ emitSection = function(section, options)
 	for ty, elems in pairs(byis) do
 		md[#md + 1] = "| **" .. tostring(options.types[ty]) .. "** |  |"
 		for elemk, elemv in bkpairs(elems) do
-			md[#md + 1] = "| [" .. tostring(elemk) .. "](#" .. tostring(elemk) .. ") | " .. tostring(elemv.summary) .. " |"
+			if not ((function()
+				local _obj_0 = elemv.tags
+				if _obj_0 ~= nil then
+					return _obj_0.internal
+				end
+				return nil
+			end)() and not options.all) then
+				md[#md + 1] = "| [" .. tostring(elemk) .. "](#" .. tostring(elemk) .. ") | " .. tostring(elemv.summary) .. " |"
+			end
 		end
 	end
 	md[#md + 1] = ""

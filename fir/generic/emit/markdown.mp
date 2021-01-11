@@ -118,7 +118,7 @@ export emitSection = (section, options) ->
     -- subheaders
     md[#md+1] = "| **#{options.types[ty]}** |  |"
     for elemk, elemv in bkpairs elems
-      md[#md+1] = "| [#{elemk}](##{elemk}) | #{elemv.summary} |"
+      md[#md+1] = "| [#{elemk}](##{elemk}) | #{elemv.summary} |" unless elemv.tags?.internal and not options.all
   md[#md+1] = ""
   -- print types, functions, classes and constants
   for ty, elems in pairs byis
