@@ -172,10 +172,12 @@ if args.generate then
 		for node in fs.iglob(inp) do
 			if fs.isFile(node) then
 				local doIgnore = false
-				for _index_1 = 1, #ignore do
-					local ig = ignore[_index_1]
-					if node:match(ig) then
-						doIgnore = true
+				if project.ignore then
+					for _index_1 = 1, #ignore do
+						local ig = ignore[_index_1]
+						if node:match(ig) then
+							doIgnore = true
+						end
 					end
 				end
 				if not doIgnore then

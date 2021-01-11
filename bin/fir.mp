@@ -115,8 +115,9 @@ if args.generate
       if fs.isFile node
         -- take ignores into account
         doIgnore = false
-        for ig in *ignore
-          doIgnore = true if node\match ig
+        if project.ignore
+          for ig in *ignore
+            doIgnore = true if node\match ig
         -- add file
         unless doIgnore
           fname = node\match "#{cwd}/(.+)"
