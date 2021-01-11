@@ -8,10 +8,24 @@ Several functions that aid in the process of parsing.
 
 | Element | Summary |
 |---------|---------|
-| **Functions** |  |
-| [parseDescription](#parseDescription) | Parses codeblocks, tags, headers and normal text in descriptions. |
 | **Types** |  |
 | [DescriptionLine](#DescriptionLine) | A single element in a description returned by `parseDescription` |
+| **Functions** |  |
+| [parseDescription](#parseDescription) | Parses codeblocks, tags, headers and normal text in descriptions. |
+
+### DescriptionLine
+
+A single element in a description returned by `parseDescription`
+
+```moon
+DescriptionLine {
+  type      :: string (text|snippet|header)
+  content   :: [string]
+  language? :: string -- only when type is snippet
+  title?    :: string -- only when type is snippet
+  n?        :: number -- only when type is header
+}
+```
 
 ### parseDescription
 
@@ -28,20 +42,6 @@ Returns an array of DescriptionLines and an array of tags.
 #### Supported tags
 
 - `@internal` - Adds an `internal` true flag to the element.
-
-### DescriptionLine
-
-A single element in a description returned by `parseDescription`
-
-```moon
-DescriptionLine {
-  type      :: string (text|snippet|header)
-  content   :: [string]
-  language? :: string -- only when type is snippet
-  title?    :: string -- only when type is snippet
-  n?        :: number -- only when type is header
-}
-```
 
 ## API
 

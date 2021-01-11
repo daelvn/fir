@@ -24,8 +24,10 @@ with argparse!
   \group "Configuration", c, cl
 
   -- DOCUMENTATION
-  g = with \command "generate g"
+  g = with \command "generate gen g"
     \description "Generates documentation for a project"
+  d = with \command "dump d"
+    \description "Dumps AST to stdout using tableview (does not generate docs)"
   \group "Documentation", g
 
   -- FLAGS
@@ -97,7 +99,7 @@ mkdirFor = (path) ->
     fs.makeDir pStr
 
 -- Generate docs
-if args.generate
+if args.generate or args.dump
   printArrow "Generating docs#{project.name? and (' for ' .. project.name) or ''}"
   --- files ---
   -- check input
@@ -144,14 +146,18 @@ if args.generate
   for file in *files
     --printMini file
     parsed[file] = extracted[file] |> parse(_, project.language)
+  --- dump? ---
+  if args.dump
+    import generate from require "tableview"
+    for file in *files
+      print generate parsed[file]
+    os.exit!
   --- emit ---
   unless project.format?
     printError "No format specified."
     printError "Please set a 'format' field (string) in #{FILE}"
     os.exit 1
   import emit from require "fir.generic.emit.#{project.format}"
-  --printArrow "Emitting documentation"
-  --
   emitted = {}
   for file in *files
     --printMini file

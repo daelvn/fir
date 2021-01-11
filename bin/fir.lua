@@ -23,9 +23,15 @@ do
 	_with_0:group("Configuration", c, cl)
 	local g
 	do
-		local _with_1 = _with_0:command("generate g")
+		local _with_1 = _with_0:command("generate gen g")
 		_with_1:description("Generates documentation for a project")
 		g = _with_1
+	end
+	local d
+	do
+		local _with_1 = _with_0:command("dump d")
+		_with_1:description("Dumps AST to stdout using tableview (does not generate docs)")
+		d = _with_1
 	end
 	_with_0:group("Documentation", g)
 	local sl
@@ -143,7 +149,7 @@ mkdirFor = function(path)
 		fs.makeDir(pStr)
 	end
 end
-if args.generate then
+if args.generate or args.dump then
 	printArrow("Generating docs" .. tostring((project.name ~= nil) and (' for ' .. project.name) or ''))
 	if not (project.input ~= nil) then
 		printError("No input specified.")
@@ -212,6 +218,18 @@ if args.generate then
 	for _index_0 = 1, #files do
 		local file = files[_index_0]
 		parsed[file] = parse(extracted[file], project.language)
+	end
+	if args.dump then
+		local generate
+		do
+			local _obj_0 = require("tableview")
+			generate = _obj_0.generate
+		end
+		for _index_0 = 1, #files do
+			local file = files[_index_0]
+			print(generate(parsed[file]))
+		end
+		os.exit()
 	end
 	if not (project.format ~= nil) then
 		printError("No format specified.")
