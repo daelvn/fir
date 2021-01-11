@@ -234,30 +234,92 @@ parse = function(comments, language)
 											return _accum_0
 										end)())
 									else
-										local _exp_0 = tracking.editing
-										if "title" == _exp_0 then
-											ast.description[#ast.description + 1] = {
-												type = "text",
-												content = {
-													""
+										do
+											local cls = match(heading, "^" .. tostring(lead) .. "%s+@class%s+(.+)")
+											if cls then
+												ast[tracking.section.id].contents[cls] = {
+													is = "class",
+													name = (function()
+														local _accum_0 = { }
+														local _len_0 = 1
+														for name in cls:gmatch("%S+") do
+															_accum_0[_len_0] = name
+															_len_0 = _len_0 + 1
+														end
+														return _accum_0
+													end)(),
+													summary = match((comment.content[2] or ""), "^-%s+(.+)")
 												}
-											}
-											local _list_0 = (parseDescription(comment.content))
-											for _index_1 = 1, #_list_0 do
-												local l = _list_0[_index_1]
-												ast.description[#ast.description + 1] = l
-											end
-										elseif "section" == _exp_0 then
-											tracking.section.description[#tracking.section.description + 1] = {
-												type = "text",
-												content = {
-													""
-												}
-											}
-											local _list_0 = (parseDescription(comment.content))
-											for _index_1 = 1, #_list_0 do
-												local l = _list_0[_index_1]
-												tracking.section.description[#tracking.section.description + 1] = l
+												ast[tracking.section.id].contents[cls].description, ast[tracking.section.id].contents[cls].tags = parseDescription((function()
+													local _accum_0 = { }
+													local _len_0 = 1
+													local _list_0 = comment.content
+													for _index_1 = 3, #_list_0 do
+														local l = _list_0[_index_1]
+														_accum_0[_len_0] = l
+														_len_0 = _len_0 + 1
+													end
+													return _accum_0
+												end)())
+											else
+												do
+													local cst = match(heading, "^" .. tostring(lead) .. "%s+@consta?n?t?%s+(.+)%s+::(.+)")
+													if cst then
+														cst, typ = match(heading, "^" .. tostring(lead) .. "%s+@consta?n?t?%s+(.+)%s+::(.+)")
+														ast[tracking.section.id].contents[cst] = {
+															is = "constant",
+															name = (function()
+																local _accum_0 = { }
+																local _len_0 = 1
+																for name in cst:gmatch("%S+") do
+																	_accum_0[_len_0] = name
+																	_len_0 = _len_0 + 1
+																end
+																return _accum_0
+															end)(),
+															type = typ,
+															summary = match((comment.content[2] or ""), "^-%s+(.+)")
+														}
+														ast[tracking.section.id].contents[cst].description, ast[tracking.section.id].contents[cst].tags = parseDescription((function()
+															local _accum_0 = { }
+															local _len_0 = 1
+															local _list_0 = comment.content
+															for _index_1 = 3, #_list_0 do
+																local l = _list_0[_index_1]
+																_accum_0[_len_0] = l
+																_len_0 = _len_0 + 1
+															end
+															return _accum_0
+														end)())
+													else
+														local _exp_0 = tracking.editing
+														if "title" == _exp_0 then
+															ast.description[#ast.description + 1] = {
+																type = "text",
+																content = {
+																	""
+																}
+															}
+															local _list_0 = (parseDescription(comment.content))
+															for _index_1 = 1, #_list_0 do
+																local l = _list_0[_index_1]
+																ast.description[#ast.description + 1] = l
+															end
+														elseif "section" == _exp_0 then
+															tracking.section.description[#tracking.section.description + 1] = {
+																type = "text",
+																content = {
+																	""
+																}
+															}
+															local _list_0 = (parseDescription(comment.content))
+															for _index_1 = 1, #_list_0 do
+																local l = _list_0[_index_1]
+																tracking.section.description[#tracking.section.description + 1] = l
+															end
+														end
+													end
+												end
 											end
 										end
 									end

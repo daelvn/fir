@@ -95,7 +95,9 @@ emitSection = function(section, options)
 	if options.types == nil then
 		options.types = {
 			type = "Types",
-			["function"] = "Functions"
+			["function"] = "Functions",
+			constant = "Constants",
+			class = "Classes"
 		}
 	end
 	if section.section.tags.internal and not options.all then
@@ -149,7 +151,7 @@ emitSection = function(section, options)
 				end
 				md[#md + 1] = "### " .. tostring(elemk)
 				md[#md + 1] = ""
-				if ty == "function" then
+				if (ty == "function") or (ty == "constant") then
 					md[#md + 1] = "**Type:** `" .. tostring(trim(elemv.type)) .. "`  "
 				end
 				if #elemv.name > 1 then
@@ -165,7 +167,7 @@ emitSection = function(section, options)
 						return _accum_0
 					end)(), ', ')) .. "`"
 				end
-				if (ty == "function") or (#elemv.name > 1) then
+				if (ty == "function") or (ty == "constant") or (#elemv.name > 1) then
 					md[#md + 1] = ""
 				end
 				md[#md + 1] = elemv.summary
@@ -208,7 +210,9 @@ emit = function(ast, options)
 	if options.types == nil then
 		options.types = {
 			type = "Types",
-			["function"] = "Functions"
+			["function"] = "Functions",
+			constant = "Constants",
+			class = "Classes"
 		}
 	end
 	if (function()

@@ -1,6 +1,6 @@
 # fir.generic.parser
 
-A parser that works with the format provided by the [generic backend](#/generic/backend.md).
+A parser that works with the format provided by the [generic backend](generic/backend.md).
 
 ## Helpers
 
@@ -8,24 +8,10 @@ Several functions that aid in the process of parsing.
 
 | Element | Summary |
 |---------|---------|
-| **Types** |  |
-| [DescriptionLine](#DescriptionLine) | A single element in a description returned by `parseDescription` |
 | **Functions** |  |
 | [parseDescription](#parseDescription) | Parses codeblocks, tags, headers and normal text in descriptions. |
-
-### DescriptionLine
-
-A single element in a description returned by `parseDescription`
-
-```moon
-DescriptionLine {
-  type      :: string (text|snippet|header)
-  content   :: [string]
-  language? :: string -- only when type is snippet
-  title?    :: string -- only when type is snippet
-  n?        :: number -- only when type is header
-}
-```
+| **Types** |  |
+| [DescriptionLine](#DescriptionLine) | A single element in a description returned by `parseDescription` |
 
 ### parseDescription
 
@@ -42,6 +28,20 @@ Returns an array of DescriptionLines and an array of tags.
 #### Supported tags
 
 - `@internal` - Adds an `internal` true flag to the element.
+
+### DescriptionLine
+
+A single element in a description returned by `parseDescription`
+
+```moon
+DescriptionLine {
+  type      :: string (text|snippet|header)
+  content   :: [string]
+  language? :: string -- only when type is snippet
+  title?    :: string -- only when type is snippet
+  n?        :: number -- only when type is header
+}
+```
 
 ## API
 
@@ -70,11 +70,11 @@ GenericAST {
     }
     content :: GenericSectionContent {
       [name] :: GenericElement {
-        is          :: string (type|function)
+        is          :: string (type|function|constant|class)
         description :: [DescriptionLine]
         name        :: [string] -- an array, meant to also contain aliases
         summary     :: string
-        type        :: string -- only when is == function
+        type        :: string -- only when `is` is `"function"` or `"constant"`
       }
     }
   }

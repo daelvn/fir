@@ -95,11 +95,11 @@ parseDescription = (desc) ->
 --     }
 --     content :: GenericSectionContent {
 --       [name] :: GenericElement {
---         is          :: string (type|function)
+--         is          :: string (type|function|constant|class)
 --         description :: [DescriptionLine]
 --         name        :: [string] -- an array, meant to also contain aliases
 --         summary     :: string
---         type        :: string -- only when is == function
+--         type        :: string -- only when `is` is `"function"` or `"constant"`
 --       }
 --     }
 --   }
@@ -152,6 +152,24 @@ export parse = (comments, language) ->
         summary:     match (comment.content[2] or ""), "^-%s+(.+)"
       }
       ast[tracking.section.id].contents[typ].description, ast[tracking.section.id].contents[typ].tags = parseDescription [l for l in *comment.content[3,]]
+    -- class
+    elseif cls = match heading, "^#{lead}%s+@class%s+(.+)"
+      ast[tracking.section.id].contents[cls] = {
+        is:          "class"
+        name:        [name for name in cls\gmatch "%S+"]
+        summary:     match (comment.content[2] or ""), "^-%s+(.+)"
+      }
+      ast[tracking.section.id].contents[cls].description, ast[tracking.section.id].contents[cls].tags = parseDescription [l for l in *comment.content[3,]]
+    -- const/constant
+    elseif cst = match heading, "^#{lead}%s+@consta?n?t?%s+(.+)%s+::(.+)"
+      cst, typ = match heading, "^#{lead}%s+@consta?n?t?%s+(.+)%s+::(.+)"
+      ast[tracking.section.id].contents[cst] = {
+        is:          "constant"
+        name:        [name for name in cst\gmatch "%S+"]
+        type:        typ
+        summary:     match (comment.content[2] or ""), "^-%s+(.+)"
+      }
+      ast[tracking.section.id].contents[cst].description, ast[tracking.section.id].contents[cst].tags = parseDescription [l for l in *comment.content[3,]]
     -- text
     else
       switch tracking.editing

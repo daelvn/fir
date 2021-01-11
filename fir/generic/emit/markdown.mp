@@ -84,8 +84,10 @@ export emitSection = (section, options) ->
   options.all         = false        if options.all == nil
   options.columns     = {}           if options.columns == nil
   options.types       = {
-    type: "Types"
+    type:     "Types"
     function: "Functions"
+    constant: "Constants"
+    class:    "Classes"
   }                                  if options.types == nil
   -- exit if internal
   if section.section.tags.internal and not options.all
@@ -118,18 +120,17 @@ export emitSection = (section, options) ->
     for elemk, elemv in bkpairs elems
       md[#md+1] = "| [#{elemk}](##{elemk}) | #{elemv.summary} |"
   md[#md+1] = ""
-  -- print types and functions
+  -- print types, functions, classes and constants
   for ty, elems in pairs byis
     for elemk, elemv in bkpairs elems
       -- continue if internal
-      -- TODO missing existential operator, might not be fixed
       continue if elemv.tags?.internal and not options.all
       -- print
       md[#md+1] = "### #{elemk}"
       md[#md+1] = ""
-      md[#md+1] = "**Type:** `#{trim elemv.type}`  " if ty == "function"
+      md[#md+1] = "**Type:** `#{trim elemv.type}`  " if (ty == "function") or (ty == "constant")
       md[#md+1] = "**Aliases:** `#{table.concat [n for n in *elemv.name[2,]], ', '}`" if #elemv.name > 1
-      md[#md+1] = "" if (ty == "function") or (#elemv.name > 1)
+      md[#md+1] = "" if (ty == "function") or (ty == "constant") or (#elemv.name > 1)
       md[#md+1] = elemv.summary
       md[#md+1] = ""
       md[#md+1] = emitDescription elemv.description, {headerOffset: 3, tabs: options.tabs}
@@ -150,7 +151,7 @@ export emitSection = (section, options) ->
 --     - `[1]:string` (`"Element"`) - Left column
 --     - `[2]:string` (`"Summary"`) - Right column
 -- - `types:table` (): Aliases for types.
---   - `[type]:string` (): (where `type` can be any of the types supported by [GenericAST](generic/parser.md#GenericAST)). Default values include `type=Types` and `function=Functions`
+--   - `[type]:string` (): (where `type` can be any of the types supported by [GenericAST](generic/parser.md#GenericAST)). Default values include `type=Types` and `function=Functions` among others.
 --///-
 export emit = (ast, options={}) ->
   md = {}
@@ -160,11 +161,12 @@ export emit = (ast, options={}) ->
   options.all         = false        if options.all == nil
   options.columns     = {}           if options.columns == nil
   options.types       = {
-    type: "Types"
+    type:     "Types"
     function: "Functions"
+    constant: "Constants"
+    class:    "Classes"
   }                                  if options.types == nil
   -- exit if internal
-  -- TODO missing existential operator, might not be fixed
   if ast.tags?.internal and not options.all
     return nil, "(internal)"
   -- emit title and description
