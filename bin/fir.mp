@@ -8,6 +8,9 @@ import "argparse"
 import "filekit"       as fs
 import "ansikit.style" as {:style}
 
+--///--
+-- TODO Integrate this into alfons
+--///--
 local args
 with argparse!
   \name        "fir"
