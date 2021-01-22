@@ -14,10 +14,11 @@
 
 ## Parser
 
-- `generic` parser.
-  - Add `@table`
-  - Add `@field`
-  - Add `@variable`
+- ~~`generic` parser.~~
+  - ~~Add `@table`~~
+  - ~~Add `@field`~~
+  - ~~Add `@variable`~~
+  - ~~Add `@test`~~
 
 - `generic+` backend (iterative).
   - Reads using an iterator and is an iterator itself.
