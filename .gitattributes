@@ -1,0 +1,3 @@
+*.lua linguist-generated
+*.mp linguist-language=MoonScript
+docs/* linguist-documentation
