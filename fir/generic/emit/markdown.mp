@@ -140,7 +140,7 @@ export emitSection = (section, options) ->
 --///--
 
 --- @function emit :: ast:GenericAST, options:table -> markdown:string
---- Emits Markdown from a GenericAST
+--- Emits Markdown from a `GenericAST`
 --# Recognized options
 -- - `tabs:table` (`{use=false}`): Adds [docsify-tabs](https://jhildenbiddle.github.io/docsify-tabs/#/) comments for code snippets.
 --   - `header:string` (`"####"`): Headers to use for docsify-tabs.
