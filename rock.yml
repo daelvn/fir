@@ -18,6 +18,7 @@ build:
     fir.generic.backend:       fir/generic/backend.lua
     fir.generic.parser:        fir/generic/parser.lua
     fir.generic.emit.markdown: fir/generic/emit/markdown.lua
+    fir.generic.emit.tests:    fir/generic/emit/tests.lua
     fir.file:                  fir/file.lua
     fir.version:               fir/version.lua
   install:
