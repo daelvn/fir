@@ -88,6 +88,10 @@ export emitSection = (section, options) ->
     function: "Functions"
     constant: "Constants"
     class:    "Classes"
+    test:     "Tests"
+    table:    "Tables"
+    field:    "Fields"
+    variable: "Variables"
   }                                  if options.types == nil
   -- exit if internal
   if section.section.tags.internal and not options.all
@@ -128,9 +132,9 @@ export emitSection = (section, options) ->
       -- print
       md[#md+1] = "### #{elemk}"
       md[#md+1] = ""
-      md[#md+1] = "**Type:** `#{trim elemv.type}`  " if (ty == "function") or (ty == "constant")
+      md[#md+1] = "**Type:** `#{trim elemv.type}`  " if (ty == "function") or (ty == "constant") or (ty == "field") or (ty == "variable")
       md[#md+1] = "**Aliases:** `#{table.concat [n for n in *elemv.name[2,]], ', '}`" if #elemv.name > 1
-      md[#md+1] = "" if (ty == "function") or (ty == "constant") or (#elemv.name > 1)
+      md[#md+1] = "" if (ty == "function") or (ty == "constant") or (ty == "field") or (ty == "variable") or (#elemv.name > 1)
       md[#md+1] = elemv.summary
       md[#md+1] = ""
       md[#md+1] = emitDescription elemv.description, {headerOffset: 3, tabs: options.tabs}
@@ -165,6 +169,10 @@ export emit = (ast, options={}) ->
     function: "Functions"
     constant: "Constants"
     class:    "Classes"
+    test:     "Tests"
+    table:    "Tables"
+    field:    "Fields"
+    variable: "Variables"
   }                                  if options.types == nil
   -- exit if internal
   if ast.tags?.internal and not options.all

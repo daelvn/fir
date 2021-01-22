@@ -1,0 +1,180 @@
+---# fir.generic.emit.tests #---
+-- An emitter that works with a [GenericAST](/generic/parser.md#GenericAST) and turns it into runnable tests.
+{:rep, :find, :match} = string
+
+--# Utils #--
+-- @internal
+-- Utils to work internally.
+
+--- @function trim :: input:string -> trimmed:string, n:number
+--- Trims the whitespace at each end of a string.
+-- Taken from [Lua-users wiki's StringTrim (`trim11`)](http://lua-users.org/wiki/StringTrim).
+trim = (input) -> return if n = find input, "%S" then match input, ".*%S", n else ""
+
+--- @function fromMark :: mark:string, tag:string? -> func:string
+--- Returns a luassert function from a parser mark and maybe a tag
+fromMark = (mark, tag) -> switch mark
+  when "T" then "True"
+  when "t" then "truthy"
+  when "F" then "False"
+  when "f" then "falsy"
+  when "E" then "matches_error"
+  when "e" then "errors"
+  when "n" then "near"
+  when "u" then "unique"
+  when ":" then "matches"
+  when "=" then "equals"
+  when "~" then "same"
+  when "#"
+    error "No tag specified while trying to use a luassert type assert" unless "string" == type tag
+    return tag
+
+--- @constant KEYWORDS :: [string]
+--- Table of reserved keywords
+KEYWORDS = {
+  "and",       "break",     "do",        "else",      "elseif",    "end",
+  "false",     "for",       "function",  "goto",      "if",        "in",
+  "local",     "nil",       "not",       "or",        "repeat",    "return",
+  "then",      "true",      "until",     "while"
+}
+
+--- @function escapeName :: name:string -> escaped:string
+--- Escapes a variable name
+escapeName = (name) ->
+  -- check that name is valid
+  -- prepend underscore if starts with digit
+  name = "_" .. name if name\match "^%d"
+  -- avoid reserved keywords
+  for keyword in *KEYWORDS do name = name\gsub keyword, "_%0"
+  -- escape invalid characters
+  escaped = name\gsub "[^a-zA-Z0-9_]", "_"
+  return escaped
+
+--# API #--
+-- This is the API provided to work with the test emitter.
+
+--- @function emitTestHeader :: node:table, count:number, options:table, append:function, prepend:function, placement:string -> nil
+--- Emits test headers.
+-- @internal
+emitTestHeader = (node, count, options, append, prepend, placement) ->
+  unless options.testHeaders then return count + 1
+  append "--- @test #{placement}##{count}"
+  append "--- Test for element #{placement} ##{count}"
+  append "-- - **Type:** `#{node.type}`#{(node.type\match 'luassert') and (' ('..(fromMark node.mark)..')') or ''}"
+  append "-- - **Tag:** `#{node.tag}`" if node.tag
+  append "--:lua Test"
+  append "-- #{node.content[1]}"
+  append "print '    #{placement}##{count}'" if options.print
+  return count + 1
+
+--- @function emitInternal :: description:[DescriptionLine], options:table, append:function, prepend:function, placement:string -> nil
+--- Emits tests, as an internal function to be used in several parts.
+-- @internal
+emitInternal = (description, options, append, prepend, placement) ->
+  ctrim = options.trim and trim or (x)->x 
+  count = 1
+  for node in *description
+    switch node.type
+      when "test"
+        count = emitTestHeader node, count, options, append, prepend, placement
+        append "assert#{options.luassert and '.truthy' or ''}((#{ctrim node.content[1]}), '#{placement}: Test failed')"
+        append ""
+      when "tagged-test"
+        count = emitTestHeader node, count, options, append, prepend, placement
+        append "if tags['#{ctrim node.tag}'] then assert#{options.luassert and '.truthy' or ''}((#{ctrim node.content[1]}), '#{placement}: Test failed') end"
+        append ""
+      when "verbatim-test"
+        count = emitTestHeader node, count, options, append, prepend, placement
+        append ctrim node.content[1]
+        append ""
+      when "luassert-test"
+        count = emitTestHeader node, count, options, append, prepend, placement
+        append "assert#{node.negated and '.not' or ''}.#{fromMark node.mark}(#{ctrim node.content[1]})"
+        append ""
+      when "tagged-luassert-test"
+        count = emitTestHeader node, count, options, append, prepend, placement
+        if node.mark == "#" -- special type case
+          append "assert#{node.negated and '.not' or ''}.#{fromMark node.mark, node.tag}(#{ctrim node.content[1]})"
+        else
+          append "if tags['#{ctrim node.tag}'] then assert#{node.negated and '.not' or ''}.#{fromMark node.mark, node.tag}(#{ctrim node.content[1]}) end"
+        append ""
+
+--- @function emit :: ast:GenericAST, options:table -> lua:string
+--- Emits Lua tests from a `GenericAST` using `test` and `tagged-test` nodes.
+--///--
+export emit = (ast, options={}) ->
+  module = options.module or ast.title or error "Could not generate tests. Module name not found. Please set `options.module`."
+  -- file and utils
+  lua = {
+    "---# Tests for #{module} #---"
+    "-- This test suite was automatically generated from documentation comments,"
+    "-- the tests are embedded in the code itself. Do not edit this file."
+    "#{options.header or ''}"
+  }
+  clength = 4 -- where to start placing lines
+  append  = (x) ->
+    return if (not options.docs) and x\match "^%-%-"
+    lua[#lua+1] = tostring x
+  prepend = (x, offset=0) ->
+    return if (not options.docs) and x\match "^%-%-"
+    table.insert lua, clength+offset, tostring x
+    clength += 1
+  -- options
+  options.trim        = true if options.trim        == nil
+  options.luassert    = true if options.luassert    == nil
+  options.print       = true if options.print       == nil
+  options.testHeaders = true if options.testHeaders == nil
+  options.docs        = true if options.docs        == nil
+  -- list unpacked methods
+  if options.unpack
+    prepend "--"
+    prepend "-- **Unpacked methods**"
+    for name in *options.unpack
+      prepend "-- - [`#{name}`](##{name})"
+  -- then require
+  prepend "local assert = require('luassert')" if options.luassert
+  prepend "local M = require('#{module}')"
+  -- now unpack methods
+  if options.unpack
+    prepend ""
+    prepend "--///--"
+    prepend "-- unpack"
+    for name in *options.unpack
+      prepend "local #{escapeName name} = M['#{name}'] -- #{name}"
+    prepend "--///--"
+  -- add snippet
+  if options.snippet
+    prepend ""
+    prepend options.snippet
+  -- parse arguments into a tag table
+  prepend ""
+  prepend "--///--"
+  prepend "-- argument and tag initialization"
+  prepend "local args, tags = {...}, {}"
+  -- set metatable for options.all
+  prepend "setmetatable(tags, {__index=function() return true end})" if options.all
+  prepend "for _, v in ipairs(args) do tags[v] = true end"
+  prepend "--///--"
+  -- emit tests or tagged tests in description
+  if ast.description
+    append "--# #{options.subheader or 'General'} #--"
+    append "-- Tests for the whole file are placed here."
+    append "print '#{options.subheader or 'General'} ->'" if options.print
+    append ""
+    emitInternal ast.description, options, append, prepend, ast.title
+  -- iterate sections
+  for section in *ast
+    append "--# #{section.section.name} #--"
+    append "-- Tests for #{section.section.name}."
+    append "print '  #{section.section.name} ->'" if options.print
+    append ""
+    -- emit tests in description
+    emitInternal section.section.description, options, append, prepend, section.section.name
+    -- emit tests in every element
+    for name, element in pairs section.contents
+      append "--# `#{name}`"
+      append ""
+      emitInternal element.description, options, append, prepend, name
+  --
+  return table.concat lua, "\n"
+--///--

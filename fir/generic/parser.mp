@@ -62,6 +62,37 @@ parseDescription = (desc) ->
     elseif headern = match line, "^(%d)%s+(.+)"
       header, n = match line, "^(%d)%s+(.+)"
       ndesc[#ndesc+1] = {content: {trim header}, type: "header", :n}
+    -- tagged tests
+    elseif taggedt = match line, "^%s-%?%?%s-(.-)%s-:%s-(.+)"
+      tag, line = match line, "^%s-%?%?%s-(.-)%s-:%s-(.+)"
+      ndesc[#ndesc+1] = {content: {line}, :tag, type: "tagged-test"}
+    -- tests
+    elseif match line, "%s-%?%?%s-(.+)"
+      line = match line, "%s-%?%?%s-(.+)"
+      ndesc[#ndesc+1] = {content: {line}, type: "test"}
+    -- verbatim test lines (-- %?! .+)
+    elseif verbatimt = match line, "%s-%?!%s-(.+)"
+      ndesc[#ndesc+1] = {content: {verbatimt}, type: "verbatim-test"}
+    -- TODO luassert tests (-- %?^?[TtFfenu:=~] .+)
+    -- ^ - negates the assertion (optional)
+    -- T - true
+    -- t - truthy
+    -- F - false
+    -- f - falsy
+    -- E - match error message
+    -- e - errors
+    -- n - near (actual >= expected - tolerance and actual <= expected + tolerance)
+    -- u - unique
+    -- : - matches
+    -- = - equals
+    -- ~ - same
+    -- # - is <type> where <type> is the Tag (-- ?# string: "true")
+    elseif match line, "%s-%?(%^?)([TtFfenu:=~])%s-(.-)%s-:%s-(.+)" -- tagged
+      neg, mark, tag, line = match line, "%s-%?(%^?)([TtFfenu:=~])%s-(.-)%s-:%s-(.+)"
+      ndesc[#ndesc+1] = {content: {line}, :tag, :mark, negated: (neg != ""), type: "tagged-luassert-test"}
+    elseif match line, "%s-%?(%^?)([TtFfenu:=~])%s-(.+)" -- untagged
+      neg, mark, line = match line, "%s-%?(%^?)([TtFfenu:=~])%s-(.+)"
+      ndesc[#ndesc+1] = {content: {line}, :mark, negated: (neg != ""), type: "luassert-test"}
     -- snippets
     elseif snippet = match line, "^:(%w+)%s+(.+)"
       -- if there was a previous snippet open, close it
@@ -137,6 +168,8 @@ export parse = (comments, language) ->
     -- function
     elseif fn = match heading, "^#{lead}%s+@function%s+(.+)%s+::(.+)"
       fn, typ = match heading, "^#{lead}%s+@function%s+(.+)%s+::(.+)"
+      if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
+        error "@function #{fn}: Functions must be contained within a section."
       ast[tracking.section.id].contents[fn] = {
         is:          "function"
         name:        [name for name in fn\gmatch "%S+"]
@@ -146,6 +179,8 @@ export parse = (comments, language) ->
       ast[tracking.section.id].contents[fn].description, ast[tracking.section.id].contents[fn].tags = parseDescription [l for l in *comment.content[3,]]
     -- type
     elseif typ = match heading, "^#{lead}%s+@type%s+(.+)"
+      if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
+        error "@type #{typ}: Types must be contained within a section."
       ast[tracking.section.id].contents[typ] = {
         is:          "type"
         name:        [name for name in typ\gmatch "%S+"]
@@ -154,6 +189,8 @@ export parse = (comments, language) ->
       ast[tracking.section.id].contents[typ].description, ast[tracking.section.id].contents[typ].tags = parseDescription [l for l in *comment.content[3,]]
     -- class
     elseif cls = match heading, "^#{lead}%s+@class%s+(.+)"
+      if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
+        error "@class #{cls}: Classes must be contained within a section."
       ast[tracking.section.id].contents[cls] = {
         is:          "class"
         name:        [name for name in cls\gmatch "%S+"]
@@ -163,6 +200,8 @@ export parse = (comments, language) ->
     -- const/constant
     elseif cst = match heading, "^#{lead}%s+@consta?n?t?%s+(.+)%s+::(.+)"
       cst, typ = match heading, "^#{lead}%s+@consta?n?t?%s+(.+)%s+::(.+)"
+      if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
+        error "@const #{cst}: Classes must be contained within a section."
       ast[tracking.section.id].contents[cst] = {
         is:          "constant"
         name:        [name for name in cst\gmatch "%S+"]
@@ -170,6 +209,50 @@ export parse = (comments, language) ->
         summary:     match (comment.content[2] or ""), "^-%s+(.+)"
       }
       ast[tracking.section.id].contents[cst].description, ast[tracking.section.id].contents[cst].tags = parseDescription [l for l in *comment.content[3,]]
+    -- test
+    elseif test = match heading, "^#{lead}%s+@test%s+(.+)"
+      if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
+        error "@test #{test}: Tests must be contained within a section."
+      ast[tracking.section.id].contents[test] = {
+        is:          "test"
+        name:        [name for name in test\gmatch "%S+"]
+        summary:     match (comment.content[2] or ""), "^-%s+(.+)"
+      }
+      ast[tracking.section.id].contents[test].description, ast[tracking.section.id].contents[test].tags = parseDescription [l for l in *comment.content[3,]]
+    -- table
+    elseif tbl = match heading, "^#{lead}%s+@table%s+(.+)"
+      if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
+        error "@table #{tbl}: Tables must be contained within a section."
+      ast[tracking.section.id].contents[tbl] = {
+        is:          "table"
+        name:        [name for name in tbl\gmatch "%S+"]
+        summary:     match (comment.content[2] or ""), "^-%s+(.+)"
+      }
+      ast[tracking.section.id].contents[cls].description, ast[tracking.section.id].contents[cls].tags = parseDescription [l for l in *comment.content[3,]]
+    -- field
+    elseif field = match heading, "^#{lead}%s+@field%s+(.+)%s+::(.+)"
+      var, typ = match heading, "^#{lead}%s+@field%s+(.+)%s+::(.+)"
+      if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
+        error "@field #{field}: Fields must be contained within a section."
+      ast[tracking.section.id].contents[field] = {
+        is:          "field"
+        name:        [name for name in field\gmatch "%S+"]
+        type:        typ
+        summary:     match (comment.content[2] or ""), "^-%s+(.+)"
+      }
+      ast[tracking.section.id].contents[field].description, ast[tracking.section.id].contents[field].tags = parseDescription [l for l in *comment.content[3,]]
+    -- var/variable
+    elseif var = match heading, "^#{lead}%s+@vari?a?b?l?e?%s+(.+)%s+::(.+)"
+      var, typ = match heading, "^#{lead}%s+@vari?a?b?l?e?%s+(.+)%s+::(.+)"
+      if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
+        error "@var #{var}: Variables must be contained within a section."
+      ast[tracking.section.id].contents[var] = {
+        is:          "variable"
+        name:        [name for name in var\gmatch "%S+"]
+        type:        typ
+        summary:     match (comment.content[2] or ""), "^-%s+(.+)"
+      }
+      ast[tracking.section.id].contents[var].description, ast[tracking.section.id].contents[var].tags = parseDescription [l for l in *comment.content[3,]]
     -- text
     else
       switch tracking.editing

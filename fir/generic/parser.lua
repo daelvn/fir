@@ -83,26 +83,83 @@ parseDescription = function(desc)
 											}
 										else
 											do
-												local snippet = match(line, "^:(%w+)%s+(.+)")
-												if snippet then
-													if incode then
-														ndesc[#ndesc + 1] = code
-													end
-													local language, title = match(line, "^:(%w+)%s+(.+)")
-													code = {
-														language = language,
-														title = title,
-														content = { },
-														type = "snippet"
-													}
-													incode = true
-												else
+												local taggedt = match(line, "^%s-%?%?%s-(.-)%s-:%s-(.+)")
+												if taggedt then
+													tag, line = match(line, "^%s-%?%?%s-(.-)%s-:%s-(.+)")
 													ndesc[#ndesc + 1] = {
-														type = "text",
 														content = {
-															line:match(" ?(.+)")
-														}
+															line
+														},
+														tag = tag,
+														type = "tagged-test"
 													}
+												elseif match(line, "%s-%?%?%s-(.+)") then
+													line = match(line, "%s-%?%?%s-(.+)")
+													ndesc[#ndesc + 1] = {
+														content = {
+															line
+														},
+														type = "test"
+													}
+												else
+													do
+														local verbatimt = match(line, "%s-%?!%s-(.+)")
+														if verbatimt then
+															ndesc[#ndesc + 1] = {
+																content = {
+																	verbatimt
+																},
+																type = "verbatim-test"
+															}
+														elseif match(line, "%s-%?(%^?)([TtFfenu:=~])%s-(.-)%s-:%s-(.+)") then
+															local neg, mark
+															neg, mark, tag, line = match(line, "%s-%?(%^?)([TtFfenu:=~])%s-(.-)%s-:%s-(.+)")
+															ndesc[#ndesc + 1] = {
+																content = {
+																	line
+																},
+																tag = tag,
+																mark = mark,
+																negated = (neg ~= ""),
+																type = "tagged-luassert-test"
+															}
+														elseif match(line, "%s-%?(%^?)([TtFfenu:=~])%s-(.+)") then
+															local neg, mark
+															neg, mark, line = match(line, "%s-%?(%^?)([TtFfenu:=~])%s-(.+)")
+															ndesc[#ndesc + 1] = {
+																content = {
+																	line
+																},
+																mark = mark,
+																negated = (neg ~= ""),
+																type = "luassert-test"
+															}
+														else
+															do
+																local snippet = match(line, "^:(%w+)%s+(.+)")
+																if snippet then
+																	if incode then
+																		ndesc[#ndesc + 1] = code
+																	end
+																	local language, title = match(line, "^:(%w+)%s+(.+)")
+																	code = {
+																		language = language,
+																		title = title,
+																		content = { },
+																		type = "snippet"
+																	}
+																	incode = true
+																else
+																	ndesc[#ndesc + 1] = {
+																		type = "text",
+																		content = {
+																			line:match(" ?(.+)")
+																		}
+																	}
+																end
+															end
+														end
+													end
 												end
 											end
 										end
@@ -180,6 +237,9 @@ parse = function(comments, language)
 							if fn then
 								local typ
 								fn, typ = match(heading, "^" .. tostring(lead) .. "%s+@function%s+(.+)%s+::(.+)")
+								if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents) then
+									error("@function " .. tostring(fn) .. ": Functions must be contained within a section.")
+								end
 								ast[tracking.section.id].contents[fn] = {
 									is = "function",
 									name = (function()
@@ -209,6 +269,9 @@ parse = function(comments, language)
 								do
 									local typ = match(heading, "^" .. tostring(lead) .. "%s+@type%s+(.+)")
 									if typ then
+										if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents) then
+											error("@type " .. tostring(typ) .. ": Types must be contained within a section.")
+										end
 										ast[tracking.section.id].contents[typ] = {
 											is = "type",
 											name = (function()
@@ -237,6 +300,9 @@ parse = function(comments, language)
 										do
 											local cls = match(heading, "^" .. tostring(lead) .. "%s+@class%s+(.+)")
 											if cls then
+												if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents) then
+													error("@class " .. tostring(cls) .. ": Classes must be contained within a section.")
+												end
 												ast[tracking.section.id].contents[cls] = {
 													is = "class",
 													name = (function()
@@ -266,6 +332,9 @@ parse = function(comments, language)
 													local cst = match(heading, "^" .. tostring(lead) .. "%s+@consta?n?t?%s+(.+)%s+::(.+)")
 													if cst then
 														cst, typ = match(heading, "^" .. tostring(lead) .. "%s+@consta?n?t?%s+(.+)%s+::(.+)")
+														if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents) then
+															error("@const " .. tostring(cst) .. ": Classes must be contained within a section.")
+														end
 														ast[tracking.section.id].contents[cst] = {
 															is = "constant",
 															name = (function()
@@ -292,30 +361,167 @@ parse = function(comments, language)
 															return _accum_0
 														end)())
 													else
-														local _exp_0 = tracking.editing
-														if "title" == _exp_0 then
-															ast.description[#ast.description + 1] = {
-																type = "text",
-																content = {
-																	""
+														do
+															local test = match(heading, "^" .. tostring(lead) .. "%s+@test%s+(.+)")
+															if test then
+																if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents) then
+																	error("@test " .. tostring(test) .. ": Tests must be contained within a section.")
+																end
+																ast[tracking.section.id].contents[test] = {
+																	is = "test",
+																	name = (function()
+																		local _accum_0 = { }
+																		local _len_0 = 1
+																		for name in test:gmatch("%S+") do
+																			_accum_0[_len_0] = name
+																			_len_0 = _len_0 + 1
+																		end
+																		return _accum_0
+																	end)(),
+																	summary = match((comment.content[2] or ""), "^-%s+(.+)")
 																}
-															}
-															local _list_0 = (parseDescription(comment.content))
-															for _index_1 = 1, #_list_0 do
-																local l = _list_0[_index_1]
-																ast.description[#ast.description + 1] = l
-															end
-														elseif "section" == _exp_0 then
-															tracking.section.description[#tracking.section.description + 1] = {
-																type = "text",
-																content = {
-																	""
-																}
-															}
-															local _list_0 = (parseDescription(comment.content))
-															for _index_1 = 1, #_list_0 do
-																local l = _list_0[_index_1]
-																tracking.section.description[#tracking.section.description + 1] = l
+																ast[tracking.section.id].contents[test].description, ast[tracking.section.id].contents[test].tags = parseDescription((function()
+																	local _accum_0 = { }
+																	local _len_0 = 1
+																	local _list_0 = comment.content
+																	for _index_1 = 3, #_list_0 do
+																		local l = _list_0[_index_1]
+																		_accum_0[_len_0] = l
+																		_len_0 = _len_0 + 1
+																	end
+																	return _accum_0
+																end)())
+															else
+																do
+																	local tbl = match(heading, "^" .. tostring(lead) .. "%s+@table%s+(.+)")
+																	if tbl then
+																		if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents) then
+																			error("@table " .. tostring(tbl) .. ": Tables must be contained within a section.")
+																		end
+																		ast[tracking.section.id].contents[tbl] = {
+																			is = "table",
+																			name = (function()
+																				local _accum_0 = { }
+																				local _len_0 = 1
+																				for name in tbl:gmatch("%S+") do
+																					_accum_0[_len_0] = name
+																					_len_0 = _len_0 + 1
+																				end
+																				return _accum_0
+																			end)(),
+																			summary = match((comment.content[2] or ""), "^-%s+(.+)")
+																		}
+																		ast[tracking.section.id].contents[cls].description, ast[tracking.section.id].contents[cls].tags = parseDescription((function()
+																			local _accum_0 = { }
+																			local _len_0 = 1
+																			local _list_0 = comment.content
+																			for _index_1 = 3, #_list_0 do
+																				local l = _list_0[_index_1]
+																				_accum_0[_len_0] = l
+																				_len_0 = _len_0 + 1
+																			end
+																			return _accum_0
+																		end)())
+																	else
+																		do
+																			local field = match(heading, "^" .. tostring(lead) .. "%s+@field%s+(.+)%s+::(.+)")
+																			if field then
+																				local var
+																				var, typ = match(heading, "^" .. tostring(lead) .. "%s+@field%s+(.+)%s+::(.+)")
+																				if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents) then
+																					error("@field " .. tostring(field) .. ": Fields must be contained within a section.")
+																				end
+																				ast[tracking.section.id].contents[field] = {
+																					is = "field",
+																					name = (function()
+																						local _accum_0 = { }
+																						local _len_0 = 1
+																						for name in field:gmatch("%S+") do
+																							_accum_0[_len_0] = name
+																							_len_0 = _len_0 + 1
+																						end
+																						return _accum_0
+																					end)(),
+																					type = typ,
+																					summary = match((comment.content[2] or ""), "^-%s+(.+)")
+																				}
+																				ast[tracking.section.id].contents[field].description, ast[tracking.section.id].contents[field].tags = parseDescription((function()
+																					local _accum_0 = { }
+																					local _len_0 = 1
+																					local _list_0 = comment.content
+																					for _index_1 = 3, #_list_0 do
+																						local l = _list_0[_index_1]
+																						_accum_0[_len_0] = l
+																						_len_0 = _len_0 + 1
+																					end
+																					return _accum_0
+																				end)())
+																			else
+																				do
+																					local var = match(heading, "^" .. tostring(lead) .. "%s+@vari?a?b?l?e?%s+(.+)%s+::(.+)")
+																					if var then
+																						var, typ = match(heading, "^" .. tostring(lead) .. "%s+@vari?a?b?l?e?%s+(.+)%s+::(.+)")
+																						if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents) then
+																							error("@var " .. tostring(var) .. ": Variables must be contained within a section.")
+																						end
+																						ast[tracking.section.id].contents[var] = {
+																							is = "variable",
+																							name = (function()
+																								local _accum_0 = { }
+																								local _len_0 = 1
+																								for name in var:gmatch("%S+") do
+																									_accum_0[_len_0] = name
+																									_len_0 = _len_0 + 1
+																								end
+																								return _accum_0
+																							end)(),
+																							type = typ,
+																							summary = match((comment.content[2] or ""), "^-%s+(.+)")
+																						}
+																						ast[tracking.section.id].contents[var].description, ast[tracking.section.id].contents[var].tags = parseDescription((function()
+																							local _accum_0 = { }
+																							local _len_0 = 1
+																							local _list_0 = comment.content
+																							for _index_1 = 3, #_list_0 do
+																								local l = _list_0[_index_1]
+																								_accum_0[_len_0] = l
+																								_len_0 = _len_0 + 1
+																							end
+																							return _accum_0
+																						end)())
+																					else
+																						local _exp_0 = tracking.editing
+																						if "title" == _exp_0 then
+																							ast.description[#ast.description + 1] = {
+																								type = "text",
+																								content = {
+																									""
+																								}
+																							}
+																							local _list_0 = (parseDescription(comment.content))
+																							for _index_1 = 1, #_list_0 do
+																								local l = _list_0[_index_1]
+																								ast.description[#ast.description + 1] = l
+																							end
+																						elseif "section" == _exp_0 then
+																							tracking.section.description[#tracking.section.description + 1] = {
+																								type = "text",
+																								content = {
+																									""
+																								}
+																							}
+																							local _list_0 = (parseDescription(comment.content))
+																							for _index_1 = 1, #_list_0 do
+																								local l = _list_0[_index_1]
+																								tracking.section.description[#tracking.section.description + 1] = l
+																							end
+																						end
+																					end
+																				end
+																			end
+																		end
+																	end
+																end
 															end
 														end
 													end

@@ -97,7 +97,11 @@ emitSection = function(section, options)
 			type = "Types",
 			["function"] = "Functions",
 			constant = "Constants",
-			class = "Classes"
+			class = "Classes",
+			test = "Tests",
+			table = "Tables",
+			field = "Fields",
+			variable = "Variables"
 		}
 	end
 	if section.section.tags.internal and not options.all then
@@ -159,7 +163,7 @@ emitSection = function(section, options)
 				end
 				md[#md + 1] = "### " .. tostring(elemk)
 				md[#md + 1] = ""
-				if (ty == "function") or (ty == "constant") then
+				if (ty == "function") or (ty == "constant") or (ty == "field") or (ty == "variable") then
 					md[#md + 1] = "**Type:** `" .. tostring(trim(elemv.type)) .. "`  "
 				end
 				if #elemv.name > 1 then
@@ -175,7 +179,7 @@ emitSection = function(section, options)
 						return _accum_0
 					end)(), ', ')) .. "`"
 				end
-				if (ty == "function") or (ty == "constant") or (#elemv.name > 1) then
+				if (ty == "function") or (ty == "constant") or (ty == "field") or (ty == "variable") or (#elemv.name > 1) then
 					md[#md + 1] = ""
 				end
 				md[#md + 1] = elemv.summary
@@ -220,7 +224,11 @@ emit = function(ast, options)
 			type = "Types",
 			["function"] = "Functions",
 			constant = "Constants",
-			class = "Classes"
+			class = "Classes",
+			test = "Tests",
+			table = "Tables",
+			field = "Fields",
+			variable = "Variables"
 		}
 	end
 	if (function()
