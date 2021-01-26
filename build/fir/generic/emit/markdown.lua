@@ -101,7 +101,8 @@ emitSection = function(section, options)
 			test = "Tests",
 			table = "Tables",
 			field = "Fields",
-			variable = "Variables"
+			variable = "Variables",
+			task = "Tasks"
 		}
 	end
 	if section.section.tags.internal and not options.all then
@@ -228,7 +229,8 @@ emit = function(ast, options)
 			test = "Tests",
 			table = "Tables",
 			field = "Fields",
-			variable = "Variables"
+			variable = "Variables",
+			task = "Tasks"
 		}
 	end
 	if (function()

@@ -219,6 +219,16 @@ export parse = (comments, language) ->
         summary:     match (comment.content[2] or ""), "^-%s+(.+)"
       }
       ast[tracking.section.id].contents[test].description, ast[tracking.section.id].contents[test].tags = parseDescription [l for l in *comment.content[3,]]
+    -- task
+    elseif task = match heading, "^#{lead}%s+@task%s+(.+)"
+      if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
+        error "@task #{task}: Tasks must be contained within a section."
+      ast[tracking.section.id].contents[test] = {
+        is:          "task"
+        name:        [name for name in test\gmatch "%S+"]
+        summary:     match (comment.content[2] or ""), "^-%s+(.+)"
+      }
+      ast[tracking.section.id].contents[task].description, ast[tracking.section.id].contents[task].tags = parseDescription [l for l in *comment.content[3,]]
     -- table
     elseif tbl = match heading, "^#{lead}%s+@table%s+(.+)"
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)

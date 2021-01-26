@@ -178,6 +178,14 @@ The aliases must be separated by spaces and are not mandatory. The summary will 
 
 The description can span as many lines as you wish as long as there is no empty line in the middle. If you want an empty line, just use an empty comment (this will also split the description into paragraphs).
 
+## Other tags
+
+- `@test`
+- `@table`
+- `@field` (takes a type)
+- `@variable`/`@var` (takes a type)
+- `@task`
+
 ## Descriptions
 
 There are several tricks to make your descriptions look better.

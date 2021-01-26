@@ -92,6 +92,7 @@ export emitSection = (section, options) ->
     table:    "Tables"
     field:    "Fields"
     variable: "Variables"
+    task:     "Tasks"
   }                                  if options.types == nil
   -- exit if internal
   if section.section.tags.internal and not options.all
@@ -173,6 +174,7 @@ export emit = (ast, options={}) ->
     table:    "Tables"
     field:    "Fields"
     variable: "Variables"
+    task:     "Tasks"
   }                                  if options.types == nil
   -- exit if internal
   if ast.tags?.internal and not options.all
