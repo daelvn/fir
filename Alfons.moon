@@ -1,6 +1,6 @@
 tasks:
-  make:    => sh "rockbuild -m --delete #{@v}" if @v
-  release: => sh "rockbuild -m -t #{@v} u"     if @v
+  make:    => sh "rockbuild -f rock-local.yml -m --delete #{@v}" if @v
+  release: => sh "rockbuild -f rock-local.yml -m -t #{@v} u"     if @v
   docs:    => sh "docsify serve docs"          if uses "serve"
   -- compile everything
   compile: => sh "moonp . -t build"
