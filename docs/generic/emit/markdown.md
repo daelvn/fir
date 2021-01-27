@@ -11,7 +11,7 @@ This is the API provided to work with the generic markdown emitter.
 | Element | Summary |
 |---------|---------|
 | **Functions** |  |
-| [emit](#emit) | Emits Markdown from a GenericAST |
+| [emit](#emit) | Emits Markdown from a `GenericAST` |
 | [emitDescription](#emitDescription) | Emits Markdown from the description of an element. |
 | [emitSection](#emitSection) | Emits Markdown from a GenericSection |
 
@@ -19,7 +19,7 @@ This is the API provided to work with the generic markdown emitter.
 
 **Type:** `ast:GenericAST, options:table -> markdown:string`  
 
-Emits Markdown from a GenericAST
+Emits Markdown from a `GenericAST`
 
 
 #### Recognized options

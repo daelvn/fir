@@ -1,6 +1,14 @@
 local argparse = require("argparse")
 local fs = require("filekit")
 local style = require("ansikit.style").style
+local sanitize
+sanitize = function(input)
+	if "string" == type(input) then
+		return input:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0")
+	else
+		return input
+	end
+end
 local args
 do
 	local _with_0 = argparse()
@@ -170,7 +178,7 @@ if args.generate or args.dump then
 			ignore = _accum_0
 		end
 	end
-	local cwd = fs.currentDir()
+	local cwd = sanitize(fs.currentDir())
 	local files = { }
 	local _list_0 = project.input
 	for _index_0 = 1, #_list_0 do

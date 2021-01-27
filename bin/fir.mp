@@ -4,9 +4,12 @@
 -- It only works with the `generic` pipeline. If you wish to
 -- use your custom functions that are not in `fir.generic.*`
 -- you need to roll out your own script.
+--///--
 import "argparse"
 import "filekit"       as fs
 import "ansikit.style" as {:style}
+
+sanitize = (input) -> if "string" == type input then return input\gsub "[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0" else return input
 
 local args
 with argparse!
@@ -110,11 +113,15 @@ if args.generate or args.dump
   -- compile ignore list
   ignore = [fs.fromGlob ig for ig in *project.ignore] if project.ignore
   -- iterate files
-  cwd   = fs.currentDir!
+  cwd   = sanitize fs.currentDir!
   files = {}
   for inp in *project.input
+    --print "INP", inp, (fs.fromGlob inp), (require "inspect") fs.glob inp
+    -- FIXME daelvn/filekit: some nasty bug is stopping fs.iglob from working when there is no globbing to do
     for node in fs.iglob inp
+      --print "NODE", node
       if fs.isFile node
+        --print "ISFILE", node
         -- take ignores into account
         doIgnore = false
         if project.ignore
@@ -123,6 +130,7 @@ if args.generate or args.dump
         -- add file
         unless doIgnore
           fname = node\match "#{cwd}/(.+)"
+          --print "FNAME", fname, node, cwd
           files[#files+1] = fname
           printPlus fname
   --- check language ---
