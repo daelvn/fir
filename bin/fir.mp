@@ -129,7 +129,7 @@ if args.generate or args.dump
             doIgnore = true if node\match ig
         -- add file
         unless doIgnore
-          fname = node\match "#{cwd}/(.+)"
+          fname = node\match "#{sanitize cwd}/(.+)"
           --print "FNAME", fname, node, cwd
           files[#files+1] = fname
           printPlus fname
