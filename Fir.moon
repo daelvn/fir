@@ -3,14 +3,14 @@ config:
   format: "markdown" -- fir.generic.emit.markdown
   name:   "Fir"
 
-  -- language (moon/mp)
+  -- language (moon/yue)
   language: {single: "--"}
 
   -- files
-  input:     {"fir/**.mp"} -- formatted for filekit.iglob
-  transform: (path) -> (path\match "fir/(.+)%.mp") .. ".md"
+  input:     {"fir/**.yue"} -- formatted for filekit.iglob
+  transform: (path) -> (path\match "fir/(.+)%.yue") .. ".md"
   output:    "docs"
   ignore: {  -- formatted for filekit.fromGlob
-    "fir/version.mp"
-    "fir/file.mp"
+    "fir/version.yue"
+    "fir/file.yue"
   }

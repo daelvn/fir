@@ -13,7 +13,7 @@ sanitize = (input) -> input\gsub "[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0" if "string
 --- @function trim :: input:string -> trimmed:string, n:number
 --- Trims the whitespace at each end of a string.
 -- Taken from [Lua-users wiki's StringTrim (`trim11`)](http://lua-users.org/wiki/StringTrim).
-trim = (input) -> return if n = find input, "%S" then match input, ".*%S", n else ""
+trim = (input) -> return if n := find input, "%S" then match input, ".*%S", n else ""
 
 --# Helpers #--
 -- Several functions that aid in the process of parsing.
@@ -49,21 +49,21 @@ parseDescription = (desc) ->
     elseif incode
       code.content[#code.content+1] = sub line, 2
     -- tags
-    elseif tag = match line, "^%s-@(%w+)(.-)"
+    elseif tag := match line, "^%s-@(%w+)(.-)"
       tag, value = match line, "^%s-@(%w+)(.-)"
       tags[tag] = (value == "") and true or value
     -- headers
-    elseif header = match line, "^###%s+(.+)"
+    elseif header := match line, "^###%s+(.+)"
       ndesc[#ndesc+1] = {content: {trim header}, type: "header", n: 3}
-    elseif header = match line, "^##%s+(.+)"
+    elseif header := match line, "^##%s+(.+)"
       ndesc[#ndesc+1] = {content: {trim header}, type: "header", n: 2}
-    elseif header = match line, "^#%s+(.+)"
+    elseif header := match line, "^#%s+(.+)"
       ndesc[#ndesc+1] = {content: {trim header}, type: "header", n: 1}
-    elseif headern = match line, "^(%d)%s+(.+)"
+    elseif headern := match line, "^(%d)%s+(.+)"
       header, n = match line, "^(%d)%s+(.+)"
       ndesc[#ndesc+1] = {content: {trim header}, type: "header", :n}
     -- tagged tests
-    elseif taggedt = match line, "^%s-%?%?%s-(.-)%s-:%s-(.+)"
+    elseif taggedt := match line, "^%s-%?%?%s-(.-)%s-:%s-(.+)"
       tag, line = match line, "^%s-%?%?%s-(.-)%s-:%s-(.+)"
       ndesc[#ndesc+1] = {content: {line}, :tag, type: "tagged-test"}
     -- tests
@@ -71,7 +71,7 @@ parseDescription = (desc) ->
       line = match line, "%s-%?%?%s-(.+)"
       ndesc[#ndesc+1] = {content: {line}, type: "test"}
     -- verbatim test lines (-- %?! .+)
-    elseif verbatimt = match line, "%s-%?!%s-(.+)"
+    elseif verbatimt := match line, "%s-%?!%s-(.+)"
       ndesc[#ndesc+1] = {content: {verbatimt}, type: "verbatim-test"}
     -- TODO luassert tests (-- %?^?[TtFfenu:=~] .+)
     -- ^ - negates the assertion (optional)
@@ -94,7 +94,7 @@ parseDescription = (desc) ->
       neg, mark, line = match line, "%s-%?(%^?)([TtFfenu:=~])%s-(.+)"
       ndesc[#ndesc+1] = {content: {line}, :mark, negated: (neg != ""), type: "luassert-test"}
     -- snippets
-    elseif snippet = match line, "^:(%w+)%s+(.+)"
+    elseif snippet := match line, "^:(%w+)%s+(.+)"
       -- if there was a previous snippet open, close it
       ndesc[#ndesc+1] = code if incode
       -- init snippet
@@ -152,12 +152,12 @@ export parse = (comments, language) ->
   for comment in *comments
     heading = comment.content[1]
     -- top header
-    if title = match heading, "^#{lead}#(.+)##{lead}.+"
+    if title := match heading, "^#{lead}#(.+)##{lead}.+"
       tracking.editing          = "title"
       ast.title                 = trim title
       ast.description, ast.tags = parseDescription [l for l in *comment.content[2,]]
     -- section
-    elseif section = match heading, "^#(.+)#.+"
+    elseif section := match heading, "^#(.+)#.+"
       tracking.editing             = "section"
       tracking.section             = {
         id:          tracking.section.id+1
@@ -166,7 +166,7 @@ export parse = (comments, language) ->
       tracking.section.description, tracking.section.tags = parseDescription [l for l in *comment.content[2,]]
       ast[tracking.section.id] = {section: tracking.section, contents: {}}
     -- function
-    elseif fn = match heading, "^#{lead}%s+@function%s+(.+)%s+::(.+)"
+    elseif fn := match heading, "^#{lead}%s+@function%s+(.+)%s+::(.+)"
       fn, typ = match heading, "^#{lead}%s+@function%s+(.+)%s+::(.+)"
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
         error "@function #{fn}: Functions must be contained within a section."
@@ -178,7 +178,7 @@ export parse = (comments, language) ->
       }
       ast[tracking.section.id].contents[fn].description, ast[tracking.section.id].contents[fn].tags = parseDescription [l for l in *comment.content[3,]]
     -- type
-    elseif typ = match heading, "^#{lead}%s+@type%s+(.+)"
+    elseif typ := match heading, "^#{lead}%s+@type%s+(.+)"
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
         error "@type #{typ}: Types must be contained within a section."
       ast[tracking.section.id].contents[typ] = {
@@ -188,7 +188,7 @@ export parse = (comments, language) ->
       }
       ast[tracking.section.id].contents[typ].description, ast[tracking.section.id].contents[typ].tags = parseDescription [l for l in *comment.content[3,]]
     -- class
-    elseif cls = match heading, "^#{lead}%s+@class%s+(.+)"
+    elseif cls := match heading, "^#{lead}%s+@class%s+(.+)"
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
         error "@class #{cls}: Classes must be contained within a section."
       ast[tracking.section.id].contents[cls] = {
@@ -198,7 +198,7 @@ export parse = (comments, language) ->
       }
       ast[tracking.section.id].contents[cls].description, ast[tracking.section.id].contents[cls].tags = parseDescription [l for l in *comment.content[3,]]
     -- const/constant
-    elseif cst = match heading, "^#{lead}%s+@consta?n?t?%s+(.+)%s+::(.+)"
+    elseif cst := match heading, "^#{lead}%s+@consta?n?t?%s+(.+)%s+::(.+)"
       cst, typ = match heading, "^#{lead}%s+@consta?n?t?%s+(.+)%s+::(.+)"
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
         error "@const #{cst}: Classes must be contained within a section."
@@ -210,7 +210,7 @@ export parse = (comments, language) ->
       }
       ast[tracking.section.id].contents[cst].description, ast[tracking.section.id].contents[cst].tags = parseDescription [l for l in *comment.content[3,]]
     -- test
-    elseif test = match heading, "^#{lead}%s+@test%s+(.+)"
+    elseif test := match heading, "^#{lead}%s+@test%s+(.+)"
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
         error "@test #{test}: Tests must be contained within a section."
       ast[tracking.section.id].contents[test] = {
@@ -220,7 +220,7 @@ export parse = (comments, language) ->
       }
       ast[tracking.section.id].contents[test].description, ast[tracking.section.id].contents[test].tags = parseDescription [l for l in *comment.content[3,]]
     -- table
-    elseif tbl = match heading, "^#{lead}%s+@table%s+(.+)"
+    elseif tbl := match heading, "^#{lead}%s+@table%s+(.+)"
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
         error "@table #{tbl}: Tables must be contained within a section."
       ast[tracking.section.id].contents[tbl] = {
@@ -230,7 +230,7 @@ export parse = (comments, language) ->
       }
       ast[tracking.section.id].contents[cls].description, ast[tracking.section.id].contents[cls].tags = parseDescription [l for l in *comment.content[3,]]
     -- field
-    elseif field = match heading, "^#{lead}%s+@field%s+(.+)%s+::(.+)"
+    elseif field := match heading, "^#{lead}%s+@field%s+(.+)%s+::(.+)"
       var, typ = match heading, "^#{lead}%s+@field%s+(.+)%s+::(.+)"
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
         error "@field #{field}: Fields must be contained within a section."
@@ -242,7 +242,7 @@ export parse = (comments, language) ->
       }
       ast[tracking.section.id].contents[field].description, ast[tracking.section.id].contents[field].tags = parseDescription [l for l in *comment.content[3,]]
     -- var/variable
-    elseif var = match heading, "^#{lead}%s+@vari?a?b?l?e?%s+(.+)%s+::(.+)"
+    elseif var := match heading, "^#{lead}%s+@vari?a?b?l?e?%s+(.+)%s+::(.+)"
       var, typ = match heading, "^#{lead}%s+@vari?a?b?l?e?%s+(.+)%s+::(.+)"
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
         error "@var #{var}: Variables must be contained within a section."

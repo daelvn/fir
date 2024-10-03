@@ -19,7 +19,7 @@ sanitize = (input) -> if "string" == type input then return input\gsub "[%(%)%.%
 --- @function trim :: input:string -> trimmed:string, n:number
 --- Trims the whitespace at each end of a string.
 -- Taken from [Lua-users wiki's StringTrim (`trim11`)](http://lua-users.org/wiki/StringTrim).
-trim = (input) -> return if n = find input, "%S" then match input, ".*%S", n else ""
+trim = (input) -> return if n := find input, "%S" then match input, ".*%S", n else ""
 
 --- @function lines :: input:string -> lines:table
 --- Splits a table into lines.

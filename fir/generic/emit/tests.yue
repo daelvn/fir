@@ -9,7 +9,7 @@
 --- @function trim :: input:string -> trimmed:string, n:number
 --- Trims the whitespace at each end of a string.
 -- Taken from [Lua-users wiki's StringTrim (`trim11`)](http://lua-users.org/wiki/StringTrim).
-trim = (input) -> return if n = find input, "%S" then match input, ".*%S", n else ""
+trim = (input) -> return if n := find input, "%S" then match input, ".*%S", n else ""
 
 --- @function fromMark :: mark:string, tag:string? -> func:string
 --- Returns a luassert function from a parser mark and maybe a tag
