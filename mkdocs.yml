@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+site_name: Fir
+site_url: https://daelvn.github.io/fir
+
+repo_url: https://github.com/daelvn/fir
+repo_name: daelvn/fir
+
+extra_css:
+  - stylesheets/extra.css
+
+theme:
+  name: material
+  palette: 
+    primary: custom
+  icon:
+    logo: material/pine-tree
+  features:
+    - navigation.tabs
