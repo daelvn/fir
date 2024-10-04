@@ -2,34 +2,23 @@
 
 A parser that works with the format provided by the [generic backend](/fir/generic/backend).
 
+You can see an example of parser output [here](/fir/examples/generic-parser.html).
+
 ## Helpers
 
 Several functions that aid in the process of parsing.
 
 | Element | Summary |
 |---------|---------|
-| **Functions** |  |
-| [parseDescription](#parseDescription) | Parses codeblocks, tags, headers and normal text in descriptions. |
 | **Types** |  |
 | [DescriptionLine](#DescriptionLine) | A single element in a description returned by `parseDescription` |
+| **Functions** |  |
+| [determineSummaryBoundary](#determineSummaryBoundary) | Gets the boundary line where a summary ends and the description begins |
+| [parseDescription](#parseDescription) | Parses codeblocks, tags, headers and normal text in descriptions. |
 
-### parseDescription
-
-**Type:** `description:[string] -> description:[DescriptionLine], tags:[string]`  
-
-Parses codeblocks, tags, headers and normal text in descriptions.
-
-Returns an array of DescriptionLines and an array of tags.
-
-#### Notes
-
-- In a codeblock, the first character of every line is removed (for a space).
-
-#### Supported tags
-
-- `@internal` - Adds an `internal` true flag to the element.
-
-### DescriptionLine
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>DescriptionLine</strong>&nbsp;
+</div>
 
 A single element in a description returned by `parseDescription`
 
@@ -47,6 +36,33 @@ A single element in a description returned by `parseDescription`
     ```
 
 
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>determineSummaryBoundary</strong>&nbsp;
+<span class='annotate'>:: content:GenericComment.content, lead:string -> boundary:number</span>
+</div>
+
+
+Gets the boundary line where a summary ends and the description begins
+
+- Gets the boundary line where a summary ends and the description begins
+
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>parseDescription</strong>&nbsp;
+<span class='annotate'>:: description:[string] -> description:[DescriptionLine], tags:[string]</span>
+</div>
+
+
+Parses codeblocks, tags, headers and normal text in descriptions.
+
+
+#### Notes
+
+- In a codeblock, the first character of every line is removed (for a space).
+
+#### Supported tags
+
+- `@internal` - Adds an `internal` true flag to the element.
+
 ## API
 
 This is the API provided to work with the generic parser.
@@ -58,15 +74,21 @@ This is the API provided to work with the generic parser.
 | **Types** |  |
 | [GenericAST](#GenericAST) | The AST produced by `parse`. |
 
-### parse
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>parse</strong>&nbsp;
+<span class='annotate'>:: comments:[GenericComment], language:Language -> ast:GenericAST</span>
+</div>
 
-**Type:** `comments:[GenericComment], language:Language -> ast:GenericAST`  
 
 Parses a list of GenericComments into a GenericAST
 
+- Parses a list of GenericComments into a GenericAST
 
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>GenericAST</strong>&nbsp;
+</div>
 
-### GenericAST
+**Aliases:** `GenericSection, GenericSectionContent, GenericElement`
 
 The AST produced by `parse`.
 

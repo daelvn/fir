@@ -43,6 +43,13 @@ Here follows a complete description of all the options that the Fir CLI accepts.
         variable = "Variables"
       }
     }
+    --- Backend options
+    backend = {
+      patterns = false,   -- Whether to use patterns for the language strings
+      ignore = "///",     -- String used to determine when to start or stop ignoring comments
+      merge = true,       -- Whether to merge adjacent single-line comments
+      paragraphs = true,  -- Whether to split multi-line comments by empty strings
+    }
     --- Language
     -- defines the way comments should be extracted
     -- with support for single-line and multiline comments.
@@ -110,6 +117,13 @@ Here follows a complete description of all the options that the Fir CLI accepts.
           field:  "Fields",
           variable:  "Variables"
         }
+      }
+      --- Backend options
+      backend:  {
+        patterns:  false,   -- Whether to use patterns for the language strings
+        ignore:  "///",     -- String used to determine when to start or stop ignoring comments
+        merge:  true,       -- Whether to merge adjacent single-line comments
+        paragraphs:  true,  -- Whether to split multi-line comments by empty strings
       }
       --- Language
       -- defines the way comments should be extracted

@@ -3,6 +3,8 @@ config:
   -- general config
   format: "markdown" -- fir.generic.emit.markdown
   emit:
+    symbols_in_code: true
+    inline_type: true
     tabs:
       use: "pymdownx"
 

@@ -11,10 +11,13 @@ extra_css:
 markdown_extensions:
   - toc:
       permalink: true
+      permalink_leading: true
       slugify: !!python/object/apply:pymdownx.slugs.slugify {}
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - attr_list
+  - md_in_html
   - pymdownx.tabbed:
       alternate_style: true
 
@@ -24,7 +27,10 @@ theme:
     primary: custom
   icon:
     logo: material/pine-tree
+    annotation: material/star-four-points-circle-outline
   features:
     - navigation.tabs
     - navigation.indexes
     - content.tabs.link
+    - content.code.annotate
+    - toc.integrate

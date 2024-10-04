@@ -20,21 +20,22 @@ This is the API provided to work with the generic backend.
 | [GenericComment](#GenericComment) | Comment returned by [`extract`](#extract). |
 | [Language](#Language) | Language type accepted by [`extract`](#extract). |
 
-### extract
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>extract</strong>&nbsp;
+<span class='annotate'>:: input:string, language?:Language, options?:table -> comments:[GenericComment]</span>
+</div>
 
-**Type:** `input:string, language?:Language, options?:table -> comments:[GenericComment]`  
 
 Extracts comment from a string separated by newlines.
-
-
-#### Available options
 
 - `patterns:boolean` (`false`): Whether to use patterns for the language fields and ignore string or not.
 - `ignore:string` (`"///"`): String used to determine when to start or stop ignoring comments.
 - `merge:boolean` (`true`): Whether to merge adjacent single-line comments.
 - `paragraphs:boolean` (`true`): Whether to split multi-line comments by empty strings (`""`).
 
-### GenericComment
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>GenericComment</strong>&nbsp;
+</div>
 
 Comment returned by [`extract`](#extract).
 
@@ -50,7 +51,9 @@ Comment returned by [`extract`](#extract).
     ```
 
 
-### Language
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>Language</strong>&nbsp;
+</div>
 
 Language type accepted by [`extract`](#extract).
 
