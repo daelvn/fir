@@ -1,27 +1,24 @@
 tasks:
+  --- @task make Install a local version
+  --- @option make [v] <version:string> Version to make
   make:    => sh "rockbuild -m --delete #{@v}" if @v
+  --- @task release Create and upload a release of Alfons using %{magenta}`rockbuild`%{reset}.
+  --- @option release [v] <version:string> Version to release
   release: => sh "rockbuild -m -t #{@v} u"     if @v
-  docs:    => sh "docsify serve docs"          if uses "serve"
-  -- compile everything
+  --- @task compile Compile all MoonScript and Yuescript
   compile: =>
     sh "moonc #{file}" for file in wildcard "fir/**.moon"
     sh "yue fir"
-  -- clean everything
+  --- @task clean Clean all generated Lua files
   clean: =>
     show "Cleaning files"
     for file in wildcard "**.lua"
-      continue if (file\match "alfons.lua") and not (file\match "bin")
-      continue if (file\match "tasks")
       fs.remove file
-  -- use amalg to pack Alfons
-  pack: =>
-    show "Packing using amalg.lua"
-    @o    or= @output or "alfons.lua"
-    @s    or= @entry or "bin/alfons.lua"
-    modules = for file in wildcard "alfons/*.moon" do "alfons.#{filename file}" 
-    sh "amalg.lua -o #{@o} -s #{@s} #{table.concat modules, ' '}"
-  -- generate only alfons.lua
-  produce: =>
-    tasks.compile!
-    tasks.pack!
-    tasks.clean!
+  --- @task docs Manage documentation
+  --- @option docs [serve] Open a preview of the documentation
+  --- @option docs [build] Builds a static site from the documentation
+  docs: =>
+    if @serve
+      sh "mkdocs serve"
+    if @build
+      sh "mkdocs build"
