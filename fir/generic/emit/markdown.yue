@@ -35,7 +35,7 @@ bkpairs = (t) ->
 --:md Symbol syntax
 -- @@@<symbol>@@@
 --:
-export replaceSymbols = (str, symbols, no_backtick=false) -> Pcre.gsub str, "(`[^`]*?`)|@@@(.+)@@@", (in_b, sym) ->
+export replaceSymbols = (str, symbols, no_backtick=false) -> Pcre.gsub str, "(`[^`]*?`)|@@@(.+?)@@@", (in_b, sym) ->
   in_b or (
     symbols[sym] and "[#{no_backtick and "" or "`"}#{sym}#{no_backtick and "" or "`"}](#{symbols[sym]})" or "#{no_backtick and "" or "`"}#{sym}#{no_backtick and "" or "`"}"
   )
