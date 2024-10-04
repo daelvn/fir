@@ -130,7 +130,6 @@ if args.generate or args.dump
     os.exit 1
   -- compile ignore list
   ignore = flatten [fromGlob globCompat ig for ig in *project.ignore] if project.ignore
-  print 'ignorelist', (require 'inspect') ignore
   -- iterate files
   cwd   = fspath.cwd!
   files = {}
@@ -143,7 +142,6 @@ if args.generate or args.dump
         doIgnore = false
         if project.ignore
           for ig in *ignore
-            print 'ignore', (require 'inspect') :node, :ig
             doIgnore = true if node\match ig
         -- add file
         unless doIgnore
