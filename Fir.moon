@@ -1,13 +1,16 @@
 config:
+  name:   "Fir"
   -- general config
   format: "markdown" -- fir.generic.emit.markdown
-  name:   "Fir"
+  emit:
+    tabs:
+      use: "pymdownx"
 
   -- language (moon/yue)
   language: {single: "--"}
 
   -- files
-  input:     {
+  input: {
     "fir/**.yue"
     { "fir/**.md", verbatim: true }
   } -- formatted for filekit.iglob
@@ -18,9 +21,9 @@ config:
     else
       path\match "fir/(.+)"
 
-  output:    "docs"
+  output: "docs"
 
-  ignore: {  -- formatted for filekit.fromGlob
+  ignore: {
     "fir/version.yue"
     "fir/file.yue"
   }

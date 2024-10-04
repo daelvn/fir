@@ -8,6 +8,16 @@ repo_name: daelvn/fir
 extra_css:
   - stylesheets/extra.css
 
+markdown_extensions:
+  - toc:
+      permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {}
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
 theme:
   name: material
   palette: 
@@ -16,3 +26,5 @@ theme:
     logo: material/pine-tree
   features:
     - navigation.tabs
+    - navigation.indexes
+    - content.tabs.link
