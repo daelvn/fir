@@ -118,8 +118,6 @@ reduce = (array, callback, initial) ->
 flatten = (arr) -> arr |> reduce ((acc, val) -> [ ...acc, ...val ]), []
 -- makes a glob pattern filekit-compatible
 globCompat = (pattern) -> pattern\gsub "%*%*([^#{fsinfo.sep}])", "**#{fsinfo.sep}*%1"
--- checks quickly if a table is an array or not
-fastIsArray = (t) -> ('table' == type t) and tbl[1] != nil
 
 -- Generate docs
 if args.generate or args.dump
@@ -136,8 +134,9 @@ if args.generate or args.dump
   -- iterate files
   cwd   = fspath.cwd!
   files = {}
+  emitted = {}
   for inp in *project.input
-    nodes = fromGlob globCompat inp
+    nodes = fromGlob globCompat (inp.verbatim and inp[1] or inp)
     for node in *nodes
       if fs.isfile node
         -- take ignores into account
@@ -149,7 +148,10 @@ if args.generate or args.dump
         -- add file
         unless doIgnore
           fname = (fspath.abs node)\match "#{cwd}#{fsinfo.sep}(.+)"
-          files[#files+1] = fname
+          if inp.verbatim
+            emitted[fname] = readFile fname
+          else
+            files[] = fname
           printPlus fname
   --- check language ---
   unless project.language?
@@ -184,7 +186,6 @@ if args.generate or args.dump
     printError "Please set a 'format' field (string) in #{FILE}"
     os.exit 1
   import emit from require "fir.generic.emit.#{project.format}"
-  emitted = {}
   for file in *files
     --printMini file
     emitted[file] = parsed[file] |> emit _, project.emit or {}
@@ -193,16 +194,16 @@ if args.generate or args.dump
     printError "No output folder specified."
     printError "Please set an 'output' field (string) in #{FILE}"
     os.exit 1
-  --printArrow "Writing documentation..."
+  -- printArrow "Writing documentation..."
   -- make docs dir
   fs.mkdir project.output unless fs.isdir project.output
   -- write
-  for file in *files
+  for oldfile, content in pairs emitted
     -- transform if exists
-    oldfile = file
+    file = oldfile
     if project.transform
-      file = fspath project.output, project.transform file
+      file = fspath project.output, project.transform oldfile
     --printMini file
     --
     mkdirFor file
-    writeFile file, emitted[oldfile]
+    writeFile file, content
