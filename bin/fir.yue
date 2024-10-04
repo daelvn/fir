@@ -183,10 +183,19 @@ if args.generate or args.dump
     printError "No format specified."
     printError "Please set a 'format' field (string) in #{FILE}"
     os.exit 1
+  -- option to collect symbols
+  symbols = []
+  if project.format == 'markdown'
+    import listAllSymbols from require "fir.generic.emit.markdown"
+    for file, parsed in pairs parsed
+      this_symbols = listAllSymbols parsed, {url_prefix: project.url_prefix}
+      symbols = {...symbols, ...this_symbols}
+    -- printMini "Symbols: #{(require 'inspect') symbols}"
+  -- actual emitting
   import emit from require "fir.generic.emit.#{project.format}"
   for file in *files
     --printMini file
-    emitted[file] = parsed[file] |> emit _, project.emit or {}
+    emitted[file] = parsed[file] |> emit _, {...(project.emit or {}), :symbols}
   --- write ---
   unless project.output?
     printError "No output folder specified."
