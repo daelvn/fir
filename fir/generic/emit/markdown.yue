@@ -1,6 +1,7 @@
 ---# fir.generic.emit.markdown #---
--- An emitter that works with a [GenericAST](/generic/parser.md#GenericAST) and turns it into markdown.
+-- An emitter that works with a @@@GenericAST@@@ and turns it into markdown.
 {:rep, :find, :match} = string
+Pcre = require "rex_pcre2"
 
 --# Utils #--
 -- @internal
@@ -29,12 +30,27 @@ bkpairs = (t) ->
 --# API #--
 -- This is the API provided to work with the generic markdown emitter.
 
---- @function emitDescription :: desc:[DescriptionLine], options:table -> markdown:string
+--- @function replaceSymbols :: str:string, symbols:{string:string} -> str:string
+--- Returns a string with the symbol syntax replaced with its documentation location
+--:md Symbol syntax
+-- @@@<symbol>@@@
+--:
+export replaceSymbols = (str, symbols, no_backtick=false) -> Pcre.gsub str, "(`[^`]*?`)|@@@(.+)@@@", (in_b, sym) ->
+  in_b or (
+    symbols[sym] and "[#{no_backtick and "" or "`"}#{sym}#{no_backtick and "" or "`"}](#{symbols[sym]})" or "#{no_backtick and "" or "`"}#{sym}#{no_backtick and "" or "`"}"
+  )
+
+replaceNewlines = (str) -> str\gsub "\n", "<br/>"
+newlinesIntoParagraphs = (str) -> str\gsub "\n", "\n\n"
+
+--- @function emitDescription :: desc:[@@@DescriptionLine@@@], options:table -> markdown:string
 --- Emits Markdown from the description of an element.
 --# Inherited options
 -- - `tabs:table`: Adds tabbed syntax to the final output.
 --     - `use:boolean|"docsify"|"pymdownx"` (`false`): Outputs tab syntax, either  [docsify-tabs](https://jhildenbiddle.github.io/docsify-tabs/#/) or [pymdownx.tabbed](https://facelessuser.github.io/pymdown-extensions/extensions/tabbed/#syntax).
 --     - `docsify_header:string` (`"####"`): Headers to use for docsify-tabs.
+-- - `symbols:{string:string}`: Map of symbols to their documentation location
+-- - `symbols_in_code:boolean|'mkdocs'` (false): Whether to link symbols inside code. Only supports MkDocs.
 --# Recognized options
 -- - `headerOffset:number` (`1`): Offsets the header levels by n
 --///--
@@ -47,7 +63,7 @@ export emitDescription = (desc, options={}) ->
     switch line.type
       when "header"
         md[] = ""
-        md[] = (rep "#", line.n + options.headerOffset) .. " " .. line.content[1]
+        md[] = (rep "#", line.n + options.headerOffset) .. " " .. replaceSymbols line.content[1], options.symbols
         md[] = ""
       when "snippet"
         if options.tabs.use == 'docsify'
@@ -72,23 +88,25 @@ export emitDescription = (desc, options={}) ->
         elseif options.tabs.use == 'pymdownx'
           md[] = ""
       when "text"
-        md[] = line.content[1]
+        md[] = replaceSymbols line.content[1], options.symbols
   -- return
   return table.concat md, "\n"
 --///--
 
---- @function emitSection :: section:GenericSection, options:table -> markdown:string
---- Emits Markdown from a GenericSection
+--- @function emitSection :: section:@@@GenericSection@@@, options:table -> markdown:string
+--- Emits Markdown from a @@@GenericSection@@@
 -- This function takes the same options than [emit](#emit)
 --///--
 export emitSection = (section, options) ->
   md = {}
   -- failsafe option checking
-  options.tabs        = {use: false} if options.tabs == nil
-  options.tabs.header = "####"       if options.tabs.header == nil
-  options.all         = false        if options.all == nil
-  options.columns     = {}           if options.columns == nil
-  options.types       = {
+  options.tabs                ??= { use: false }
+  options.tabs.docsify_header ??= "####"
+  options.all                 ??= false
+  options.columns             ??= {}
+  options.symbols             ??= []
+  options.inline_type         ??= false
+  options.types               ??= {
     type:     "Types"
     function: "Functions"
     constant: "Constants"
@@ -97,7 +115,7 @@ export emitSection = (section, options) ->
     table:    "Tables"
     field:    "Fields"
     variable: "Variables"
-  }                                  if options.types == nil
+  }
   -- exit if internal
   if section.section.tags.internal and not options.all
     return table.concat md, "\n"
@@ -106,7 +124,7 @@ export emitSection = (section, options) ->
     md[#md+1] = "## #{section.section.name}"
     md[#md+1] = ""
   if section.section.description
-    md[#md+1] = emitDescription section.section.description, {headerOffset: 2, tabs: options.tabs}
+    md[#md+1] = emitDescription section.section.description, {headerOffset: 2, tabs: options.tabs, symbols: options.symbols}
   -- sort content
   byis = {}
   for k, v in pairs section.contents
@@ -127,29 +145,52 @@ export emitSection = (section, options) ->
     -- subheaders
     md[#md+1] = "| **#{options.types[ty]}** |  |"
     for elemk, elemv in bkpairs elems
-      md[#md+1] = "| [#{elemk}](##{elemk}) | #{elemv.summary} |" unless elemv.tags?.internal and not options.all
+      md[#md+1] = "| [#{elemk}](##{elemk}) | #{replaceNewlines replaceSymbols elemv.summary, options.symbols} |" unless elemv.tags?.internal and not options.all
   md[#md+1] = ""
   -- print types, functions, classes and constants
   for ty, elems in pairs byis
     for elemk, elemv in bkpairs elems
       -- continue if internal
       continue if elemv.tags?.internal and not options.all
+      has_type = (ty == 'function') or (ty == 'constant') or (ty == 'field') or (ty == 'variable')
       -- print
-      md[#md+1] = "### #{elemk}"
-      md[#md+1] = ""
-      md[#md+1] = "**Type:** `#{trim elemv.type}`  " if (ty == "function") or (ty == "constant") or (ty == "field") or (ty == "variable")
-      md[#md+1] = "**Aliases:** `#{table.concat [n for n in *elemv.name[2,]], ', '}`" if #elemv.name > 1
-      md[#md+1] = "" if (ty == "function") or (ty == "constant") or (ty == "field") or (ty == "variable") or (#elemv.name > 1)
-      md[#md+1] = elemv.summary
-      md[#md+1] = ""
-      md[#md+1] = emitDescription elemv.description, {headerOffset: 3, tabs: options.tabs}
-      md[#md+1] = ""
+      md[] = "<div markdown class='fir-symbol fancy-scrollbar'>" if options.inline_type
+      md[] = "### #{options.inline_type and "<strong>#{elemk}</strong>&nbsp;" or elemk}"
+      md[] = "<span class='annotate'>:: #{replaceSymbols (trim elemv.type), options.symbols, true}</span>" if has_type and options.inline_type
+      md[] = "</div>" if options.inline_type
+      md[] = ""
+      md[] = "**Type:** `#{trim elemv.type}`{ .annotate }  " if has_type and not options.inline_type
+      md[] = "**Aliases:** `#{table.concat [n for n in *elemv.name[2,]], ', '}`" if #elemv.name > 1
+      md[] = "" if (ty == "function") or (ty == "constant") or (ty == "field") or (ty == "variable") or (#elemv.name > 1)
+      md[] = newlinesIntoParagraphs replaceSymbols elemv.summary, options.symbols
+      md[] = ""
+      md[] = emitDescription elemv.description, {headerOffset: 3, tabs: options.tabs, symbols: options.symbols}
+      md[] = ""
   --
   return table.concat md, "\n"
 --///--
 
---- @function emit :: ast:GenericAST, options:table -> markdown:string
---- Emits Markdown from a `GenericAST`
+--- @function listAllSymbols :: ast:@@@GenericAST@@@ -> {[symbol: string]: location:string}
+--- Locates all symbols in an AST
+--# Recognized options
+-- - `module:string`: Module string to use
+-- - `url_prefix:string`: Prefix of all documentation urls
+export listAllSymbols = (ast, options={}) ->
+  base = options.module or ast.title
+  prefix = (options.url_prefix or '/') .. base\gsub "%.", '/'
+  prefix_parts = [part for part in base\gmatch "[^%.]+"]
+  symbols = {}
+  -- go into sections
+  for i=1, #ast
+    section = ast[i]
+    for symbol_key, symbol_value in pairs section.contents
+      for symbol_name in *symbol_value.name
+        symbols[symbol_name] = "#{prefix}##{symbol_key}"
+        symbols["#{prefix_parts[#prefix_parts]}.#{symbol_name}"] = "#{prefix}##{symbol_key}"
+  return symbols
+
+--- @function emit :: ast:@@@GenericAST@@@, options:table -> markdown:string
+--- Emits Markdown from a @@@GenericAST@@@
 --# Recognized options
 -- - `tabs:table`: Adds tabbed syntax to the final output.
 --     - `use:boolean|"docsify"|"pymdownx"` (`false`): Outputs tab syntax, either  [docsify-tabs](https://jhildenbiddle.github.io/docsify-tabs/#/) or [pymdownx.tabbed](https://facelessuser.github.io/pymdown-extensions/extensions/tabbed/#syntax).
@@ -162,15 +203,19 @@ export emitSection = (section, options) ->
 --         - `[2]:string` (`"Summary"`) - Right column
 -- - `types:table`: Aliases for types.
 --     - `[type]:string`: (where `type` can be any of the types supported by [GenericAST](generic/parser.md#GenericAST)). Default values include `type=Types` and `function=Functions` among others.
+-- - `symbols:{string:string}`: Map of symbols to their documentation locations
+-- - `symbols_in_code:boolean|'mkdocs'` (false): Whether to link symbols inside code. Only supports MkDocs.
 --///-
 export emit = (ast, options={}) ->
   md = {}
   -- options
-  options.tabs        = {use: false} if options.tabs == nil
-  options.tabs.header = "####"       if options.tabs.header == nil
-  options.all         = false        if options.all == nil
-  options.columns     = {}           if options.columns == nil
-  options.types       = {
+  options.tabs                ??= { use: false }
+  options.tabs.docsify_header ??= "####"
+  options.all                 ??= false
+  options.columns             ??= {}
+  options.symbols             ??= {}
+  options.symbols_in_code     ??= false
+  options.types               ??= {
     type:     "Types"
     function: "Functions"
     constant: "Constants"
@@ -179,7 +224,7 @@ export emit = (ast, options={}) ->
     table:    "Tables"
     field:    "Fields"
     variable: "Variables"
-  }                                  if options.types == nil
+  }
   -- exit if internal
   if ast.tags?.internal and not options.all
     return nil, "(internal)"
@@ -188,7 +233,7 @@ export emit = (ast, options={}) ->
     md[#md+1] = "# #{ast.title}"
     md[#md+1] = ""
   if ast.description
-    md[#md+1] = emitDescription ast.description, {headerOffset: 1, tabs: options.tabs}
+    md[#md+1] = emitDescription ast.description, {headerOffset: 1, tabs: options.tabs, symbols: options.symbols}
   -- emit sections
   for i=1, #ast
     md[#md+1] = emitSection ast[i], options
