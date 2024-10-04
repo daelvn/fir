@@ -5,11 +5,16 @@
 -- use your custom functions that are not in `fir.generic.*`
 -- you need to roll out your own script.
 import "argparse"
-import "filekit"       as fs
+-- import "filekit"       as fs
+import "path.fs"       as fs
+import "path"          as fspath
+import "path.info"     as fsinfo
 import "ansikit.style" as {:style}
 
 --///--
 -- TODO Integrate this into alfons
+--
+-- wtf did old me mean by this?
 --///--
 local args
 with argparse!
@@ -99,7 +104,22 @@ mkdirFor = (path) ->
   sep, pStr = (package.config\sub 1, 1), ""
   for dir in path\gmatch "[^" .. sep .. "]+" do
     pStr = pStr .. dir .. sep
-    fs.makeDir pStr
+    fs.mkdir pStr
+-- fromGlob reimplementation
+fromGlob = (pattern) -> [node for node in fs.glob pattern]
+-- reduce
+reduce = (array, callback, initial) ->
+  accumulator = initial and initial or array[1]
+  start = initial and 1 or 2
+  for i = start, #array
+    accumulator = callback accumulator, array[i]
+  return accumulator
+-- flatten
+flatten = (arr) -> arr |> reduce ((acc, val) -> [ ...acc, ...val ]), []
+-- makes a glob pattern filekit-compatible
+globCompat = (pattern) -> pattern\gsub "%*%*([^#{fsinfo.sep}])", "**#{fsinfo.sep}*%1"
+-- checks quickly if a table is an array or not
+fastIsArray = (t) -> ('table' == type t) and tbl[1] != nil
 
 -- Generate docs
 if args.generate or args.dump
@@ -111,21 +131,24 @@ if args.generate or args.dump
     printError "Please set an 'input' field (table) in #{FILE}"
     os.exit 1
   -- compile ignore list
-  ignore = [fs.fromGlob ig for ig in *project.ignore] if project.ignore
+  ignore = flatten [fromGlob globCompat ig for ig in *project.ignore] if project.ignore
+  print 'ignorelist', (require 'inspect') ignore
   -- iterate files
-  cwd   = fs.currentDir!
+  cwd   = fspath.cwd!
   files = {}
   for inp in *project.input
-    for node in fs.iglob inp
-      if fs.isFile node
+    nodes = fromGlob globCompat inp
+    for node in *nodes
+      if fs.isfile node
         -- take ignores into account
         doIgnore = false
         if project.ignore
           for ig in *ignore
+            print 'ignore', (require 'inspect') :node, :ig
             doIgnore = true if node\match ig
         -- add file
         unless doIgnore
-          fname = node\match "#{cwd}/(.+)"
+          fname = (fspath.abs node)\match "#{cwd}#{fsinfo.sep}(.+)"
           files[#files+1] = fname
           printPlus fname
   --- check language ---
@@ -140,7 +163,7 @@ if args.generate or args.dump
   extracted = {}
   for file in *files
     --printMini file
-    extracted[file] = (readFile file) |> extract(_, project.language, project.backend or {})
+    extracted[file] = (readFile file) |> extract _, project.language, project.backend or {}
   --- parse comments ---
   import parse from require "fir.generic.parser"
   --printArrow "Parsing comments"
@@ -148,10 +171,10 @@ if args.generate or args.dump
   parsed = {}
   for file in *files
     --printMini file
-    parsed[file] = extracted[file] |> parse(_, project.language)
+    parsed[file] = extracted[file] |> parse _, project.language 
   --- dump? ---
   if args.dump
-    import generate from require "tableview"
+    import generate from "tableview"
     for file in *files
       print generate parsed[file]
     os.exit!
@@ -164,7 +187,7 @@ if args.generate or args.dump
   emitted = {}
   for file in *files
     --printMini file
-    emitted[file] = parsed[file] |> emit(_, project.emit or {})
+    emitted[file] = parsed[file] |> emit _, project.emit or {}
   --- write ---
   unless project.output?
     printError "No output folder specified."
@@ -172,13 +195,13 @@ if args.generate or args.dump
     os.exit 1
   --printArrow "Writing documentation..."
   -- make docs dir
-  fs.makeDir project.output unless fs.isDir project.output
+  fs.mkdir project.output unless fs.isdir project.output
   -- write
   for file in *files
     -- transform if exists
     oldfile = file
     if project.transform
-      file = fs.combine project.output, project.transform file
+      file = fspath project.output, project.transform file
     --printMini file
     --
     mkdirFor file

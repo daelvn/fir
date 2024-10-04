@@ -11,7 +11,7 @@ dependencies:
   - lua >= 5.1
   - argparse
   - ansikit
-  - filekit
+  - lpath
 build:
   type: builtin
   modules:
