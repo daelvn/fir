@@ -69,7 +69,7 @@ lconcat = (ta, tb) ->
 -- }
 --:
 
---- @function extract :: input:string, language?:Language, options?:table -> comments:[GenericComment]
+--- @function extract :: input:string, language?:Language, options?:table -> comments:[@@@GenericComment@@@]
 --- Extracts comment from a string separated by newlines.
 --# Available options
 -- - `patterns:boolean` (`false`): Whether to use patterns for the language fields and ignore string or not.

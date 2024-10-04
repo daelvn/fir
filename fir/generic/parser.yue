@@ -31,9 +31,9 @@ trim = (input) -> return if n := find input, "%S" then match input, ".*%S", n el
 --   n?        :: number -- only when type is header
 -- }
 
---- @function parseDescription :: description:[string] -> description:[DescriptionLine], tags:[string]
+--- @function parseDescription :: description:[string] -> description:[@@@DescriptionLine@@@], tags:[string]
 --- Parses codeblocks, tags, headers and normal text in descriptions.
--- Returns an array of DescriptionLines and an array of tags.
+-- Returns an array of @@@DescriptionLine@@@s and an array of tags.
 --# Notes
 -- - In a codeblock, the first character of every line is removed (for a space).
 --# Supported tags
@@ -111,7 +111,7 @@ parseDescription = (desc) ->
   return ndesc, tags
 --///--
 
---- @function determineSummaryBoundary :: content:GenericComment.content, lead:string -> boundary:number
+--- @function determineSummaryBoundary :: content:@@@GenericComment@@@.content, lead:string -> boundary:number
 --- Gets the boundary line where a summary ends and the description begins
 export determineSummaryBoundary = (content, lead) ->
   for i = 1, #content
@@ -149,7 +149,7 @@ export determineSummaryBoundary = (content, lead) ->
 --   }
 -- }
 
---- @function parse :: comments:[GenericComment], language:Language -> ast:GenericAST
+--- @function parse :: comments:[@@@GenericComment@@@], language:Language -> ast:@@@GenericAST@@@
 --- Parses a list of GenericComments into a GenericAST
 --///--
 export parse = (comments, language) ->

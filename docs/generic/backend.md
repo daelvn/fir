@@ -22,7 +22,7 @@ This is the API provided to work with the generic backend.
 
 <div markdown class='fir-symbol fancy-scrollbar'>
 ### <strong>extract</strong>&nbsp;
-<span class='annotate'>:: input:string, language?:Language, options?:table -> comments:[GenericComment]</span>
+<span class='annotate'>:: input:string, language?:Language, options?:table -> comments:[[GenericComment](/fir/generic/backend#GenericComment)]</span>
 </div>
 
 

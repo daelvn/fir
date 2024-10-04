@@ -10,11 +10,38 @@ Several functions that aid in the process of parsing.
 
 | Element | Summary |
 |---------|---------|
-| **Types** |  |
-| [DescriptionLine](#DescriptionLine) | A single element in a description returned by `parseDescription` |
 | **Functions** |  |
 | [determineSummaryBoundary](#determineSummaryBoundary) | Gets the boundary line where a summary ends and the description begins |
 | [parseDescription](#parseDescription) | Parses codeblocks, tags, headers and normal text in descriptions. |
+| **Types** |  |
+| [DescriptionLine](#DescriptionLine) | A single element in a description returned by `parseDescription` |
+
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>determineSummaryBoundary</strong>&nbsp;
+<span class='annotate'>:: content:[GenericComment](/fir/generic/backend#GenericComment).content, lead:string -> boundary:number</span>
+</div>
+
+
+Gets the boundary line where a summary ends and the description begins
+
+- Gets the boundary line where a summary ends and the description begins
+
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>parseDescription</strong>&nbsp;
+<span class='annotate'>:: description:[string] -> description:[[DescriptionLine](/fir/generic/parser#DescriptionLine)], tags:[string]</span>
+</div>
+
+
+Parses codeblocks, tags, headers and normal text in descriptions.
+
+
+#### Notes
+
+- In a codeblock, the first character of every line is removed (for a space).
+
+#### Supported tags
+
+- `@internal` - Adds an `internal` true flag to the element.
 
 <div markdown class='fir-symbol fancy-scrollbar'>
 ### <strong>DescriptionLine</strong>&nbsp;
@@ -36,33 +63,6 @@ A single element in a description returned by `parseDescription`
     ```
 
 
-<div markdown class='fir-symbol fancy-scrollbar'>
-### <strong>determineSummaryBoundary</strong>&nbsp;
-<span class='annotate'>:: content:GenericComment.content, lead:string -> boundary:number</span>
-</div>
-
-
-Gets the boundary line where a summary ends and the description begins
-
-- Gets the boundary line where a summary ends and the description begins
-
-<div markdown class='fir-symbol fancy-scrollbar'>
-### <strong>parseDescription</strong>&nbsp;
-<span class='annotate'>:: description:[string] -> description:[DescriptionLine], tags:[string]</span>
-</div>
-
-
-Parses codeblocks, tags, headers and normal text in descriptions.
-
-
-#### Notes
-
-- In a codeblock, the first character of every line is removed (for a space).
-
-#### Supported tags
-
-- `@internal` - Adds an `internal` true flag to the element.
-
 ## API
 
 This is the API provided to work with the generic parser.
@@ -76,7 +76,7 @@ This is the API provided to work with the generic parser.
 
 <div markdown class='fir-symbol fancy-scrollbar'>
 ### <strong>parse</strong>&nbsp;
-<span class='annotate'>:: comments:[GenericComment], language:Language -> ast:GenericAST</span>
+<span class='annotate'>:: comments:[[GenericComment](/fir/generic/backend#GenericComment)], language:Language -> ast:[GenericAST](/fir/generic/parser#GenericAST)</span>
 </div>
 
 
