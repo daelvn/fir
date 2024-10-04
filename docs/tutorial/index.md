@@ -217,6 +217,12 @@ You can ignore a set of comments by placing `(single)///(single)` (like `#///#` 
 
 These comments will not be extracted at all. You can use this to document within your functions without the results actually being in the output (in fact, this is recommended).
 
+## Linking to symbols
+
+You can use `@@@symbol@@@` outside of inline code or a code block to automatically link to a symbol in the project. Symbols are collected by taking all the names and aliases of all exported documentation.
+
+If there is a name conflict, you can prefix it with its parent module, like `@@@parent.symbol@@@`.
+
 ## Languages
 
 The language table passed to `extract` and `parse` define the comments that the Fir generic pipeline will look for.

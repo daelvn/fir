@@ -33,4 +33,4 @@ theme:
     - navigation.indexes
     - content.tabs.link
     - content.code.annotate
-    - toc.integrate
+    # - toc.integrate
