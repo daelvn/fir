@@ -1,4 +1,5 @@
-# Fir
+# Fir 2
+
 
 ![Discord](https://img.shields.io/discord/454435414044966913?style=for-the-badge&logo=discord)
 ![GitHub Repo stars](https://img.shields.io/github/stars/daelvn/fir?style=for-the-badge&logo=github)
@@ -6,6 +7,22 @@
 ![LuaRocks](https://img.shields.io/luarocks/v/daelvn/fir?style=for-the-badge&logo=lua)
 
 Fir is a language-agnostic documentation generator framework. It is fully modular, which means you can mix a comment extractor with a different comment parser and emitter (but you aren't going to go through the hassle of writing anything). A set of generic modules for generating Markdown documentation is provided, don't expect much more (unless you press me to write more).
+
+> [!TIP]
+> Check out the new Fir 2 update! Renewed, with symbol support, verbatim inputs, and a little more. [Changelog below](#2).
+
+## Table of contents
+
+<!--toc:start-->
+- [Fir 2](#fir-2)
+  - [Table of contents](#table-of-contents)
+  - [Install](#install)
+    - [Compiling from source](#compiling-from-source)
+  - [Changelog](#changelog)
+  - [Documentation](#documentation)
+  - [Extra features](#extra-features)
+  - [License](#license)
+<!--toc:end-->
 
 ## Install
 
@@ -27,6 +44,24 @@ If you want to compile from source, you will need to install the following depen
 - `rockbuild` (Compiling)
 
 Then, simply run `alfons compile make -v 1.0`. To clean the project, simply `alfons clean`.
+
+## Changelog
+
+### 2
+
+- **2.0.0** (04.10.)
+
+Fir 2 is being released! Out of the necessity to use a more modern documentation for my other, better project, [Alfons](https://github.com/daelvn/alfons), I decided to update this project. Here's the main changes:
+
+- **Symbol linking.** Fir CLI using the Generic backend will now collect all symbols and let you link to them with `@@@` syntax.
+- **Verbatim inputs.** Those inputs will be copied over directly to the output folder.
+- **Symbol summaries can now be longer than one line.** The summary ends on the first line that does not begin with a \<lead> character.
+- **Aliases are deranked.** Now (under the Generic backend) aliases are not put beside the name.
+- **Output for MkDocs.** The Generic Markdown emitter now has specific MkDocs options.
+- **Updated documentation.** It's easier to understand how the fuck to use this.
+- **Documentation now uses [Material for MkDocs](https://squidfunk.github.io/mkdocs-material).** For a more clean, updated and powerful look and feel.
+- **Switched to more robust libraries.** [lpath](https://github.com/starwing/lpath) for FS operations, [lrexlib on PCRE2 backend](https://github.com/rrthomas/lrexlib) for symbol syntax.
+- **Updated from MoonPlus to Yuescript.** MoonPlus has not been a thing for years and instead transitioned into being [Yuescript](https://yuescript.org).
 
 ## Documentation
 

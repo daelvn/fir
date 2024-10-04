@@ -14,12 +14,15 @@ config:
   -- files
   input: {
     "fir/**.yue"
+    { "README.md", verbatim: true }
     { "fir/**.md", verbatim: true }
   } -- formatted for filekit.iglob
 
   transform: (path) ->
     if path\match "yue$"
       (path\match "fir/(.+)%.yue") .. ".md"
+    elseif path\match "README.md"
+      "index.md"
     else
       path\match "fir/(.+)"
 

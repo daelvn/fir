@@ -10,11 +10,31 @@ Several functions that aid in the process of parsing.
 
 | Element | Summary |
 |---------|---------|
+| **Types** |  |
+| [DescriptionLine](#DescriptionLine) | A single element in a description returned by `parseDescription` |
 | **Functions** |  |
 | [determineSummaryBoundary](#determineSummaryBoundary) | Gets the boundary line where a summary ends and the description begins |
 | [parseDescription](#parseDescription) | Parses codeblocks, tags, headers and normal text in descriptions. |
-| **Types** |  |
-| [DescriptionLine](#DescriptionLine) | A single element in a description returned by `parseDescription` |
+
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>DescriptionLine</strong>&nbsp;
+</div>
+
+A single element in a description returned by `parseDescription`
+
+
+=== "Format"
+
+    ```moon
+    DescriptionLine {
+      type      :: string (text|snippet|header)
+      content   :: [string]
+      language? :: string -- only when type is snippet
+      title?    :: string -- only when type is snippet
+      n?        :: number -- only when type is header
+    }
+    ```
+
 
 <div markdown class='fir-symbol fancy-scrollbar'>
 ### <strong>determineSummaryBoundary</strong>&nbsp;
@@ -43,46 +63,16 @@ Parses codeblocks, tags, headers and normal text in descriptions.
 
 - `@internal` - Adds an `internal` true flag to the element.
 
-<div markdown class='fir-symbol fancy-scrollbar'>
-### <strong>DescriptionLine</strong>&nbsp;
-</div>
-
-A single element in a description returned by `parseDescription`
-
-
-=== "Format"
-
-    ```moon
-    DescriptionLine {
-      type      :: string (text|snippet|header)
-      content   :: [string]
-      language? :: string -- only when type is snippet
-      title?    :: string -- only when type is snippet
-      n?        :: number -- only when type is header
-    }
-    ```
-
-
 ## API
 
 This is the API provided to work with the generic parser.
 
 | Element | Summary |
 |---------|---------|
-| **Functions** |  |
-| [parse](#parse) | Parses a list of GenericComments into a GenericAST |
 | **Types** |  |
 | [GenericAST](#GenericAST) | The AST produced by `parse`. |
-
-<div markdown class='fir-symbol fancy-scrollbar'>
-### <strong>parse</strong>&nbsp;
-<span class='annotate'>:: comments:[[GenericComment](/fir/generic/backend#GenericComment)], language:Language -> ast:[GenericAST](/fir/generic/parser#GenericAST)</span>
-</div>
-
-
-Parses a list of GenericComments into a GenericAST
-
-- Parses a list of GenericComments into a GenericAST
+| **Functions** |  |
+| [parse](#parse) | Parses a list of GenericComments into a GenericAST |
 
 <div markdown class='fir-symbol fancy-scrollbar'>
 ### <strong>GenericAST</strong>&nbsp;
@@ -118,3 +108,13 @@ The AST produced by `parse`.
     }
     ```
 
+
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>parse</strong>&nbsp;
+<span class='annotate'>:: comments:[[GenericComment](/fir/generic/backend#GenericComment)], language:Language -> ast:[GenericAST](/fir/generic/parser#GenericAST)</span>
+</div>
+
+
+Parses a list of GenericComments into a GenericAST
+
+- Parses a list of GenericComments into a GenericAST
