@@ -3,6 +3,7 @@
 --
 -- You can see an example of parser output [here](/fir/examples/generic-parser.html).
 {:match, :find, :gsub, :sub} = string
+import errorOut from 'fir.error'
 
 --# Utils #--
 -- @internal
@@ -10,6 +11,7 @@
 
 --- @function sanitize :: input:string -> escaped:string
 --- Takes any string and escapes it to work with patterns.
+-- @internal
 sanitize = (input) -> input\gsub "[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%0" if "string" == type input
 
 --- @function trim :: input:string -> trimmed:string, n:number
@@ -40,74 +42,69 @@ trim = (input) -> return if n := find input, "%S" then match input, ".*%S", n el
 -- - `@internal` - Adds an `internal` true flag to the element.
 --///--
 parseDescription = (desc) ->
-  incode      = false
+  incode = false
   ndesc, code, tags = {}, {}, {}
   for line in *desc
     -- close snippet
     if line == ":"
-      ndesc[#ndesc+1] = code if incode
+      ndesc[] = code if incode
       incode = false
     -- add to snippet
     elseif incode
-      code.content[#code.content+1] = sub line, 2
+      code.content[] = sub line, 2
     -- tags
     elseif tag := match line, "^%s-@(%w+)(.-)"
       tag, value = match line, "^%s-@(%w+)(.-)"
       tags[tag] = (value == "") and true or value
     -- headers
     elseif header := match line, "^###%s+(.+)"
-      ndesc[#ndesc+1] = {content: {trim header}, type: "header", n: 3}
+      ndesc[] = {content: {trim header}, type: "header", n: 3}
     elseif header := match line, "^##%s+(.+)"
-      ndesc[#ndesc+1] = {content: {trim header}, type: "header", n: 2}
+      ndesc[] = {content: {trim header}, type: "header", n: 2}
     elseif header := match line, "^#%s+(.+)"
-      ndesc[#ndesc+1] = {content: {trim header}, type: "header", n: 1}
+      ndesc[] = {content: {trim header}, type: "header", n: 1}
     elseif headern := match line, "^(%d)%s+(.+)"
       header, n = match line, "^(%d)%s+(.+)"
-      ndesc[#ndesc+1] = {content: {trim header}, type: "header", :n}
-    -- tagged tests
-    elseif taggedt := match line, "^%s-%?%?%s-(.-)%s-:%s-(.+)"
-      tag, line = match line, "^%s-%?%?%s-(.-)%s-:%s-(.+)"
-      ndesc[#ndesc+1] = {content: {line}, :tag, type: "tagged-test"}
-    -- tests
-    elseif match line, "%s-%?%?%s-(.+)"
-      line = match line, "%s-%?%?%s-(.+)"
-      ndesc[#ndesc+1] = {content: {line}, type: "test"}
-    -- verbatim test lines (-- %?! .+)
-    elseif verbatimt := match line, "%s-%?!%s-(.+)"
-      ndesc[#ndesc+1] = {content: {verbatimt}, type: "verbatim-test"}
-    -- TODO luassert tests (-- %?^?[TtFfenu:=~] .+)
-    -- ^ - negates the assertion (optional)
-    -- T - true
-    -- t - truthy
-    -- F - false
-    -- f - falsy
-    -- E - match error message
-    -- e - errors
-    -- n - near (actual >= expected - tolerance and actual <= expected + tolerance)
-    -- u - unique
-    -- : - matches
-    -- = - equals
-    -- ~ - same
-    -- # - is <type> where <type> is the Tag (-- ?# string: "true")
+      ndesc[] = {content: {trim header}, type: "header", :n}
+    -- tagged luassert tests (??x tag: .+)
     elseif match line, "%s-%?(%^?)([TtFfenu:=~])%s-(.-)%s-:%s-(.+)" -- tagged
       neg, mark, tag, line = match line, "%s-%?(%^?)([TtFfenu:=~])%s-(.-)%s-:%s-(.+)"
-      ndesc[#ndesc+1] = {content: {line}, :tag, :mark, negated: (neg != ""), type: "tagged-luassert-test"}
+      ndesc[] = {content: {line}, :tag, :mark, negated: (neg != ""), type: "tagged-luassert-test"}
+    -- luassert tests (??x .+)
     elseif match line, "%s-%?(%^?)([TtFfenu:=~])%s-(.+)" -- untagged
       neg, mark, line = match line, "%s-%?(%^?)([TtFfenu:=~])%s-(.+)"
-      ndesc[#ndesc+1] = {content: {line}, :mark, negated: (neg != ""), type: "luassert-test"}
+      ndesc[] = {content: {line}, :mark, negated: (neg != ""), type: "luassert-test"}
+    -- tagged tests (?? tag: .+)
+    elseif taggedt := match line, "^%s-%?%?%s-(.-)%s-:%s-(.+)"
+      tag, line = match line, "^%s-%?%?%s-(.-)%s-:%s-(.+)"
+      ndesc[] = {content: {line}, :tag, type: "tagged-test"}
+    -- test configuration (?$ .+)
+    elseif match line, "%s-%?%$%s-(.+)"
+      line = match line, "%s-%?%$%s-(.+)"
+      ndesc[] = {content: {line}, type: "test-configuration"}
+    -- tests (?? .+)
+    elseif match line, "%s-%?%?%s-(.+)"
+      line = match line, "%s-%?%?%s-(.+)"
+      ndesc[] = {content: {line}, type: "test"}
+    -- verbatim test lines (?! .+)
+    elseif verbatimt := match line, "%s-%?!%s+(.+)"
+      ndesc[] = {content: {verbatimt}, type: "verbatim-test"}
+    -- verbatim test setup lines (!! .+)
+    elseif verbatims := match line, "%s-!!%s+(.+)"
+      ndesc[] = {content: {verbatims}, type: "verbatim-setup"}
     -- snippets
     elseif snippet := match line, "^:(%w+)%s+(.+)"
       -- if there was a previous snippet open, close it
-      ndesc[#ndesc+1] = code if incode
+      ndesc[] = code if incode
       -- init snippet
       language, title = match line, "^:(%w+)%s+(.+)"
       code            = {:language, :title, content: {}, type: "snippet"}
       incode          = true
     -- add line
     else
-      ndesc[#ndesc+1] = {type: "text", content: {line\match " ?(.+)"}}
+      ndesc[] = {type: "text", content: {line\match " ?(.+)"}}
   -- add last and return
-  ndesc[#ndesc+1] = code if incode
+  ndesc[] = code if incode
   return ndesc, tags
 --///--
 
@@ -161,6 +158,7 @@ export parse = (comments, language) ->
     editing: false             -- keep track of the part currently being edited, for fallbacks
     section: {id: 0, name: ""} -- keep track of the section being modified
   }
+  context = { source: 'parser' }
   -- strip lead function
   stripLead = (str) -> match (str or ""), "^#{lead}+%s+(.+)"
   -- iterate comments
@@ -172,6 +170,7 @@ export parse = (comments, language) ->
       tracking.editing          = "title"
       ast.title                 = trim title
       ast.description, ast.tags = parseDescription [l for l in *comment.content[2,]]
+      context                   = { ...context, tree: ast.title }
     -- section
     elseif section := match heading, "^#(.+)#.+"
       tracking.editing             = "section"
@@ -187,7 +186,8 @@ export parse = (comments, language) ->
       names = [name for name in fn\gmatch "%S+"]
       main = names[1]
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
-        error "@function #{main}: Functions must be contained within a section."
+        errorOut "Functions must be contained within a section.",
+          { ...context, tag_type: '@function', tag: main }
       ast[tracking.section.id].contents[main] = {
         is:          "function"
         name:        names
@@ -200,7 +200,8 @@ export parse = (comments, language) ->
       names = [name for name in typ\gmatch "%S+"]
       main = names[1]
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
-        error "@type #{main}: Types must be contained within a section."
+        errorOut "Types must be contained within a section.",
+          { ...context, tag_type: '@type', tag: main }
       ast[tracking.section.id].contents[main] = {
         is:          "type"
         name:        names
@@ -212,7 +213,8 @@ export parse = (comments, language) ->
       names = [name for name in cls\gmatch "%S+"]
       main = names[1]
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
-        error "@class #{main}: Classes must be contained within a section."
+        errorOut "Classes must be contained within a section.",
+          { ...context, tag_type: '@class', tag: main }
       ast[tracking.section.id].contents[main] = {
         is:          "class"
         name:        names
@@ -225,7 +227,8 @@ export parse = (comments, language) ->
       names = [name for name in cst\gmatch "%S+"]
       main = names[1]
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
-        error "@const #{main}: Classes must be contained within a section."
+        errorOut "Constants must be contained within a section.",
+          { ...context, tag_type: '@constant', tag: main }
       ast[tracking.section.id].contents[main] = {
         is:          "constant"
         name:        names
@@ -238,7 +241,8 @@ export parse = (comments, language) ->
       names = [name for name in test\gmatch "%S+"]
       main = names[1]
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
-        error "@test #{main}: Tests must be contained within a section."
+        errorOut "Tests must be contained within a section.",
+          { ...context, tag_type: '@test', tag: main }
       ast[tracking.section.id].contents[main] = {
         is:          "test"
         name:        names
@@ -250,7 +254,8 @@ export parse = (comments, language) ->
       names = [name for name in tbl\gmatch "%S+"]
       main = names[1]
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
-        error "@table #{main}: Tables must be contained within a section."
+        errorOut "Tables must be contained within a section.",
+          { ...context, tag_type: '@table', tag: main }
       ast[tracking.section.id].contents[main] = {
         is:          "table"
         name:        names
@@ -263,7 +268,8 @@ export parse = (comments, language) ->
       names = [name for name in fld\gmatch "%S+"]
       main = names[1]
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
-        error "@field #{main}: Fields must be contained within a section."
+        errorOut "Fields must be contained within a section.",
+          { ...context, tag_type: '@field', tag: main }
       ast[tracking.section.id].contents[main] = {
         is:          "field"
         name:        names
@@ -277,7 +283,8 @@ export parse = (comments, language) ->
       names = [name for name in var\gmatch "%S+"]
       main = names[1]
       if (not ast[tracking.section.id]) or (not ast[tracking.section.id].contents)
-        error "@var #{main}: Variables must be contained within a section."
+        errorOut "Variables must be contained within a section.",
+          { ...context, tag_type: '@variable', tag: main }
       ast[tracking.section.id].contents[main] = {
         is:          "variable"
         name:        names

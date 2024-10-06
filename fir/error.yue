@@ -1,0 +1,38 @@
+---# fir.error #---
+-- @internal
+-- Error reporting utilities
+import style from 'ansikit.style'
+
+--# main #--
+
+--- @type Context
+--- All context that can be used to build a context message
+--:moon Context
+-- Context {
+--   source: string?
+--   tag: string?
+--   tag_type: string?
+--   section: string?
+--   tree: GenericAST.title?
+--   extra: [string]?
+-- }
+
+--- @function buildContext :: context:@@@Context@@@
+--- Builds a context array out of a context object
+export buildContext = =>
+  lines = {
+    (@tag and @tag_type and "in #{@tag_type}: %{magenta}#{@tag}%{reset}" or false)
+    (@section and "in section: %{magenta}#{@section}%{reset}" or false)
+    (@tree and "in tree: %{magenta}#{@tree}%{reset}" or false)
+    ...(@extra or {})
+  }
+  return [a for a in *lines when a] -- filter
+
+--- @function errorOut :: msg:string, context:[string]
+--- Prints an error and exits the program with an error code
+export errorOut = (msg, context) ->
+  print style "%{red}!!! #{context.source}: #{msg}"
+  -- XXX: Yuescript currently eliminates the function call when results are not assigned.
+  -- `_=` is a workaround while I check if this is intended behavior.
+  do _= [print style "%{red}      #{ctx_line}" for ctx_line in *buildContext context]
+  os.exit 1

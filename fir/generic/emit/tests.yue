@@ -1,6 +1,7 @@
 ---# fir.generic.emit.tests #---
 -- An emitter that works with a [GenericAST](/generic/parser.md#GenericAST) and turns it into runnable tests.
 {:rep, :find, :match} = string
+import errorOut, buildContext from 'fir.error'
 
 --# Utils #--
 -- @internal
@@ -13,12 +14,12 @@ trim = (input) -> return if n := find input, "%S" then match input, ".*%S", n el
 
 --- @function fromMark :: mark:string, tag:string? -> func:string
 --- Returns a luassert function from a parser mark and maybe a tag
-fromMark = (mark, tag) -> switch mark
-  when "T" then "True"
+fromMark = (mark, tag, context) -> switch mark
+  when "T" then "is_true"
   when "t" then "truthy"
-  when "F" then "False"
+  when "F" then "is_false"
   when "f" then "falsy"
-  when "E" then "matches_error"
+  when "E" then "has_no.errors"
   when "e" then "errors"
   when "n" then "near"
   when "u" then "unique"
@@ -26,6 +27,9 @@ fromMark = (mark, tag) -> switch mark
   when "=" then "equals"
   when "~" then "same"
   when "#"
+    unless "string" == type tag
+      errorOut "No tag specified while trying to use a luassert type assertion",
+        buildContext context
     error "No tag specified while trying to use a luassert type assert" unless "string" == type tag
     return tag
 
@@ -53,6 +57,90 @@ escapeName = (name) ->
 --# API #--
 -- This is the API provided to work with the test emitter.
 
+--- @function emitString estring :: content:string
+--- Emits a string across languages
+-- @internal
+emitString = estring = (content) -> "'#{content}'"
+
+--- @function emitParentheses eparen :: content:string
+--- Emits an expression in parentheses across langauges
+-- @internal
+emitParentheses = eparen = (content) -> "(#{content})"
+
+--- @function emitLocalDeclaration elocal :: name:string, lhs:string, options:table
+--- Emits a local declaration across languages
+-- @internal
+emitLocalDeclaration = elocal = (name, lhs, options) ->
+  switch options.language
+    when 'moon'
+      return "#{name} = #{lhs}"
+    when 'lua'
+      return "local #{name} = #{lhs}"
+    else
+      return "local #{name} = #{lhs}"
+
+--- @function emitTableIndex eindex :: table:string, index:string
+--- Emits a table index across languages
+emitTableIndex = eindex = (tbl, index) -> "#{tbl}[#{index}]"
+
+--- @function emitFunctionCall efn :: fn:string, args:[string], options:table
+--- Emits a function call across languages
+-- @internal
+emitFunctionCall = efn = (fn, args=[], options) ->
+  switch options.language
+    when 'moon', 'yue'
+      return "#{fn}#{(#args > 0) and (' ' .. table.concat args, ', ') or '!'}"
+    when 'lua'
+      return "#{fn}(#{table.concat args, ', '})"
+    else
+      return "#{fn}(#{table.concat args, ', '})"
+
+--- @function emitInlineFunctionDefinition eidef :: args:[string], body:string, options:table
+--- Emits an inline function declaration across languages
+-- @internal
+emitInlineFunctionDefinition = eidef = (args, body, options) ->
+  switch options.language
+    when 'moon', 'yue'
+      return "(#{table.concat args, ', '}) -> #{body}"
+    when 'lua'
+      return "function(#{table.concat args, ', '}) #{body} end"
+    else
+      return "function(#{table.concat args, ', '}) #{body} end"
+
+--- @function emitTableLiteral etable :: tbl:table, options:table
+--- Emits a table literal across languages
+-- @internal
+emitTableLiteral = etable = (tbl, options) ->
+  switch options.language
+    when 'moon', 'yue'
+      return '{' .. (table.concat [ "[#{rhs}]: #{lhs}" for rhs, lhs in pairs tbl ], ', ') .. '}'
+    when 'lua'
+      return '{' .. (table.concat [ "[#{rhs}] = #{lhs}" for rhs, lhs in pairs tbl ], ', ') .. '}'
+    else
+      return '{' .. (table.concat [ "[#{rhs}] = #{lhs}" for rhs, lhs in pairs tbl ], ', ') .. '}'
+
+--- @function emitIfStatement eif :: condition:string, block:[string], options:table
+--- Emits an if statement across languages
+emitIfStatement = eif =  (condition, block=[], options) ->
+  switch options.language
+    when 'moon', 'yue'
+      return table.concat ["if #{condition}", ...["  " .. block_line for block_line in *block]], '\n'
+    when 'lua'
+      return table.concat ["if #{condition} then", ...["  " .. block_line for block_line in *block], 'end'], '\n'
+    else
+      return table.concat ["if #{condition} then", ...["  " .. block_line for block_line in *block], 'end'], '\n'
+
+--- @function emitPairsForStatement eforp :: k:string, v:string, iterator:string, body:string, options:string
+--- Emits a for statement across languages
+emitPairsForStatement = eforp = (k, v, iterator, body, options) ->
+  switch options.language
+    when 'moon', 'yue'
+      return "for #{k}, #{v} in #{iterator} do #{body}"
+    when 'lua'
+      return "for #{k}, #{v} in #{iterator} do #{body} end"
+    else
+      return "for #{k}, #{v} in #{iterator} do #{body} end"
+
 --- @function emitTestHeader :: node:table, count:number, options:table, append:function, prepend:function, placement:string -> nil
 --- Emits test headers.
 -- @internal
@@ -62,48 +150,105 @@ emitTestHeader = (node, count, options, append, prepend, placement) ->
   append "--- Test for element #{placement} ##{count}"
   append "-- - **Type:** `#{node.type}`#{(node.type\match 'luassert') and (' ('..(fromMark node.mark)..')') or ''}"
   append "-- - **Tag:** `#{node.tag}`" if node.tag
-  append "--:lua Test"
+  append "--:#{options.language ?? 'moon'} Test"
   append "-- #{node.content[1]}"
-  append "print '    #{placement}##{count}'" if options.print
   return count + 1
+
+--- @function emitTestWrapper ewrap :: name:string, count:number, body:string, options:table -> code:string
+--- Wraps a test line in counters and error protectors
+emitTestWrapper = ewrap = (name, count, body, options) ->
+  return table.concat {
+    efn "xpcall",
+      {
+        eparen (eidef {}, (table.concat {
+            '',
+            '  ' .. (eif 'FIR_NEXT_PENDING', {
+                '  ' .. efn 'FIR_PINCR', {}, options
+                '  ' .. 'FIR_NEXT_PENDING = false'
+                '  ' .. efn 'FIR_PEND', {(estring name), (estring tostring count)}, options
+                '  ' .. 'return'
+              }, options)
+            '  ' .. body
+            '  ' .. efn "FIR_SUCCEED", {(estring name), (estring tostring count)}, options
+            '  ' .. efn "FIR_SINCR", {}, options
+            '',
+          }, options.newline),
+          options
+        ),
+        eparen (eidef {'err'}, (table.concat {
+            '',
+            '  ' .. efn "FIR_FAIL", {(estring name), (estring tostring count), 'err'}, options
+            '  ' .. efn "FIR_FINCR", {}, options
+            '',
+          }, options.newline),
+          options
+        ),
+      },
+      options
+  }, options.newline
 
 --- @function emitInternal :: description:[DescriptionLine], options:table, append:function, prepend:function, placement:string -> nil
 --- Emits tests, as an internal function to be used in several parts.
 -- @internal
 emitInternal = (description, options, append, prepend, placement) ->
-  ctrim = options.trim and trim or (x)->x 
+  ctrim = options.trim and trim or (x) -> x 
   count = 1
+  assert_fn = "assert#{options.luassert and '.truthy' or ''}"
   for node in *description
     switch node.type
+      when "test-configuration"
+        switch ctrim node.content[1]
+          when "pending"
+            append "FIR_NEXT_PENDING = true"
       when "test"
         count = emitTestHeader node, count, options, append, prepend, placement
-        append "assert#{options.luassert and '.truthy' or ''}((#{ctrim node.content[1]}), '#{placement}: Test failed')"
+        append ewrap "#{placement}##{count - 1}", count - 1, (efn assert_fn,
+          { (ctrim node.content[1]) },
+          options), options
         append ""
       when "tagged-test"
         count = emitTestHeader node, count, options, append, prepend, placement
-        append "if tags['#{ctrim node.tag}'] then assert#{options.luassert and '.truthy' or ''}((#{ctrim node.content[1]}), '#{placement}: Test failed') end"
+        append eif "tags['#{ctrim node.tag}']",
+          { ewrap "#{placement}##{count - 1}", count - 1, (efn assert_fn, { (ctrim node.content[1]) }, options), options },
+          options
         append ""
       when "verbatim-test"
         count = emitTestHeader node, count, options, append, prepend, placement
         append ctrim node.content[1]
         append ""
+      when "verbatim-setup"
+        append ctrim node.content[1]
       when "luassert-test"
         count = emitTestHeader node, count, options, append, prepend, placement
-        append "assert#{node.negated and '.not' or ''}.#{fromMark node.mark}(#{ctrim node.content[1]})"
+        append ewrap "#{placement}##{count - 1}", count - 1, (efn "assert#{node.negated and '.not' or ''}.#{fromMark node.mark}",
+          { ctrim node.content[1] },
+          options), options
         append ""
       when "tagged-luassert-test"
         count = emitTestHeader node, count, options, append, prepend, placement
         if node.mark == "#" -- special type case
-          append "assert#{node.negated and '.not' or ''}.#{fromMark node.mark, node.tag}(#{ctrim node.content[1]})"
+          append ewrap "#{placement}##{count - 1}", count - 1, (efn "assert#{node.negated and '.not' or ''}.#{fromMark node.mark, node.tag}",
+            { ctrim node.content[1] },
+            options), options
         else
-          append "if tags['#{ctrim node.tag}'] then assert#{node.negated and '.not' or ''}.#{fromMark node.mark, node.tag}(#{ctrim node.content[1]}) end"
+          append eif (eindex 'tags', ctrim node.tag),
+            {
+              (ewrap "#{placement}##{count - 1}", count - 1,
+                (efn "assert#{node.negated and '.not' or ''}.#{fromMark node.mark, node.tag}",
+                  { ctrim node.content[1] },
+                  options),
+                options)
+            }, options
         append ""
 
---- @function emit :: ast:GenericAST, options:table -> lua:string
+--- @function emit :: ast:GenericAST, options:table -> code:string
 --- Emits Lua tests from a `GenericAST` using `test` and `tagged-test` nodes.
 --///--
 export emit = (ast, options={}) ->
-  module = options.module or ast.title or error "Could not generate tests. Module name not found. Please set `options.module`."
+  module = options.module or
+    ast.title or
+    errorOut "Could not generate tests. Module name not found. Please set %{green}`options.module`%{red}.",
+      { source: 'emit.tests' }
   -- file and utils
   lua = {
     "---# Tests for #{module} #---"
@@ -114,33 +259,35 @@ export emit = (ast, options={}) ->
   clength = 4 -- where to start placing lines
   append  = (x) ->
     return if (not options.docs) and x\match "^%-%-"
-    lua[#lua+1] = tostring x
+    lua[] = tostring x
   prepend = (x, offset=0) ->
     return if (not options.docs) and x\match "^%-%-"
     table.insert lua, clength+offset, tostring x
     clength += 1
   -- options
-  options.trim        = true if options.trim        == nil
-  options.luassert    = true if options.luassert    == nil
-  options.print       = true if options.print       == nil
-  options.testHeaders = true if options.testHeaders == nil
-  options.docs        = true if options.docs        == nil
-  -- list unpacked methods
-  if options.unpack
-    prepend "--"
-    prepend "-- **Unpacked methods**"
-    for name in *options.unpack
-      prepend "-- - [`#{name}`](##{name})"
+  options.trim        ??= true
+  options.newline     ??= "\n"
+  options.luassert    ??= true
+  options.print       ??= 'pretty' -- | 'pretty-verbose' | 'plain' | 'plain-verbose' | 'tap' | false
+  options.testHeaders ??= true
+  options.docs        ??= true
+  options.language    ??= 'moon'
+  options.auto_unpack ??= false
   -- then require
-  prepend "local assert = require('luassert')" if options.luassert
-  prepend "local M = require('#{module}')"
+  if options.luassert
+    prepend elocal 'assert', (efn 'require', { estring 'luassert' }, options), options
+  if (options.print == 'pretty') or (options.print == 'pretty-verbose')
+    prepend elocal 'S', (efn 'require', { estring 'ansikit.style' }, options), options
+  prepend elocal 'M', (efn 'require', { estring module }, options), options
   -- now unpack methods
+  if options.auto_unpack
+    prepend efn 'setmetatable', {'_ENV', (etable {[estring '__index']: 'M'}, options)}, options
   if options.unpack
     prepend ""
     prepend "--///--"
     prepend "-- unpack"
     for name in *options.unpack
-      prepend "local #{escapeName name} = M['#{name}'] -- #{name}"
+      prepend elocal (escapeName name), (eindex 'M', estring name), options
     prepend "--///--"
   -- add snippet
   if options.snippet
@@ -150,23 +297,163 @@ export emit = (ast, options={}) ->
   prepend ""
   prepend "--///--"
   prepend "-- argument and tag initialization"
-  prepend "local args, tags = {...}, {}"
+  prepend elocal "args, tags", "{...}, {}", options
   -- set metatable for options.all
-  prepend "setmetatable(tags, {__index=function() return true end})" if options.all
-  prepend "for _, v in ipairs(args) do tags[v] = true end"
+  if options.all
+    prepend efn 'setmetatable',
+      {
+        'tags',
+        (etable {
+          [estring '__index']: (eidef {}, 'return true', options)
+        }, options)
+      },
+      options
+  prepend eforp '_', 'v', (efn 'ipairs', {'args'}, options), 'tags[v] = true', options
+  prepend "--///--"
+  -- preemptively count all tests
+  pre_count = 0
+  for node in *ast.description
+    switch node.type
+      when "test", "tagged-test", "verbatim-test", "luassert-test", "tagged-luassert-test"
+        pre_count += 1
+  for section in *ast
+    for node in *section.section.description
+      switch node.type
+        when "test", "tagged-test", "verbatim-test", "luassert-test", "tagged-luassert-test"
+          pre_count += 1
+    for name, element in pairs section.contents
+      for node in *element.description
+        switch node.type
+          when "test", "tagged-test", "verbatim-test", "luassert-test", "tagged-luassert-test"
+            pre_count += 1
+  -- if tap output, print header
+  if options.print == 'tap'
+    prepend efn 'print', {estring "TAP version 14"}, options
+    prepend efn 'print', {estring "1..#{pre_count}"}, options
+  -- setup counters and other metadata
+  prepend "--///--"
+  prepend "-- counters"
+  prepend elocal "FIR_SUCCESSES, FIR_FAILURES, FIR_PENDINGS", "0, 0, 0", options
+  prepend "-- incrementing functions"
+  prepend elocal "FIR_SINCR, FIR_FINCR, FIR_PINCR", (
+    table.concat {
+      "(" .. (eidef {}, 'FIR_SUCCESSES = FIR_SUCCESSES + 1', options) .. ")",
+      "(" .. (eidef {}, 'FIR_FAILURES = FIR_FAILURES + 1', options) .. ")",
+      "(" .. (eidef {}, 'FIR_PENDINGS = FIR_PENDINGS + 1', options) .. ")"
+    }, ", "
+  ), options
+  prepend "-- other functions"
+  prepend elocal "FIR_SUCCEED", (eidef {'current', 'count'}, (
+    switch options.print
+      when false, 'plain', 'pretty'
+        ''
+      when 'tap'
+        efn 'print', { "#{estring 'ok '} .. count .. ' - ' .. current" }, options
+      when 'plain-verbose'
+        efn 'print', {
+          "#{estring "Success → "} .. current"
+        }, options
+      when 'pretty-verbose'
+        efn 'print', {
+          efn 'S.style', {
+            "#{estring "%{green}Success%{reset} → "} .. current"
+          }, options
+        }, options
+  ), options), options
+  prepend elocal "FIR_FAIL", (eidef {'current', 'count', 'err'}, (
+    switch options.print
+      when false
+        ''
+      when 'tap'
+        efn 'print', { "#{estring 'not ok '} .. count .. ' - ' .. current .. ': ' .. #{eparen (efn 'string.gsub', {'err', (estring '[\\r\\n]+'), (estring '')}, options)}" }, options
+      when 'plain', 'plain-verbose'
+        efn 'print', {
+          "#{estring "Failure → "} .. current .. #{estring "\\n  "} .. err"
+        }, options
+      when 'pretty', 'pretty-verbose'
+        efn 'print', {
+          efn 'S.style', {
+            "#{estring "%{red}Failure%{reset} → "} .. current .. #{estring "\\n  %{white}"} .. err"
+          }, options
+        }, options
+  ), options), options
+  prepend elocal "FIR_PEND", (eidef {'current', 'count'}, (
+    switch options.print
+      when false
+        ''
+      when 'tap'
+        efn 'print', { "#{estring 'not ok '} .. count .. ' - ' .. current .. ' # SKIP'" }, options
+      when 'plain', 'plain-verbose'
+        efn 'print', {
+          "#{estring "Pending → "} .. current"
+        }, options
+      when 'pretty', 'pretty-verbose'
+        efn 'print', {
+          efn 'S.style', {
+            "#{estring "%{yellow}Pending%{reset} → "} .. current"
+          }, options
+        }, options
+  ), options), options
+  prepend elocal "FIR_RESULT", (eidef {'current'}, (
+    switch options.print
+      when false, 'tap'
+        ''
+      when 'plain', 'plain-verbose'
+        table.concat {
+          ''
+          '  ' .. (elocal 'total_successes', (
+              (efn 'string.rep', {(estring '+'), 'FIR_SUCCESSES'}, options)
+            ), options)
+          '  ' .. (elocal 'total_pendings', (
+              (efn 'string.rep', {(estring '?'), 'FIR_PENDINGS'}, options)
+            ), options)
+          '  ' .. (elocal 'total_failures', (
+              (efn 'string.rep', {(estring '-'), 'FIR_FAILURES'}, options)
+            ), options)
+          '  ' .. efn 'print', {}, options
+          '  ' .. efn 'print', { "total_successes .. total_pendings .. total_failures" }, options
+          '  ' .. efn 'print', { "#{estring '%{green}'} .. FIR_SUCCESSES .. #{estring '%{white} successes, %{yellow}'} .. FIR_PENDINGS .. #{estring '%{white} pending, %{red}'} .. FIR_FAILURES .. #{estring '%{white} errors.'}" }, options
+          ''
+        }, '\n'
+      when 'pretty', 'pretty-verbose'
+        table.concat {
+          ''
+          '  ' .. (elocal 'total_successes', (
+              efn 'S.style', {
+                "#{estring "%{green}"} .. " .. (efn 'string.rep', {(estring '+'), 'FIR_SUCCESSES'}, options)
+              }, options
+            ), options)
+          '  ' .. (elocal 'total_pendings', (
+              efn 'S.style', {
+                "#{estring "%{yellow}"} .. " .. (efn 'string.rep', {(estring '?'), 'FIR_PENDINGS'}, options)
+              }, options
+            ), options)
+          '  ' .. (elocal 'total_failures', (
+              efn 'S.style', {
+                "#{estring "%{red}"} .. " .. (efn 'string.rep', {(estring '-'), 'FIR_FAILURES'}, options)
+              }, options
+            ), options)
+          '  ' .. efn 'print', {}, options
+          '  ' .. efn 'print', { "total_successes .. total_pendings .. total_failures" }, options
+          '  ' .. efn 'print', { efn 'S.style', {"#{estring '%{green}'} .. FIR_SUCCESSES .. #{estring '%{white} successes, %{yellow}'} .. FIR_PENDINGS .. #{estring '%{white} pending, %{red}'} .. FIR_FAILURES .. #{estring '%{white} errors.'}" }, options }, options
+          ''
+        }, '\n'
+  ), options), options
+  prepend "-- marker for pending tests"
+  prepend elocal "FIR_NEXT_PENDING", "false", options
   prepend "--///--"
   -- emit tests or tagged tests in description
   if ast.description
     append "--# #{options.subheader or 'General'} #--"
     append "-- Tests for the whole file are placed here."
-    append "print '#{options.subheader or 'General'} ->'" if options.print
+    -- append efn 'print', {(estring "#{options.subheader or 'General'} ->")}, options if options.print
     append ""
     emitInternal ast.description, options, append, prepend, ast.title
   -- iterate sections
   for section in *ast
     append "--# #{section.section.name} #--"
     append "-- Tests for #{section.section.name}."
-    append "print '  #{section.section.name} ->'" if options.print
+    -- append efn 'print', {(estring "  #{section.section.name} ->")}, options if options.print
     append ""
     -- emit tests in description
     emitInternal section.section.description, options, append, prepend, section.section.name
@@ -176,5 +463,6 @@ export emit = (ast, options={}) ->
       append ""
       emitInternal element.description, options, append, prepend, name
   --
+  append efn 'FIR_RESULT', {}, options
   return table.concat lua, "\n"
 --///--

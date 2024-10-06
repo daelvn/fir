@@ -1,14 +1,17 @@
 config:
   -- general config
-  format: "tests" -- fir.generic.emit.markdown
+  format: "tests" -- 
   name:   "Fir/tests"
+  emit:
+    print: 'tap'
+    auto_unpack: true
 
-  -- language (moon/mp)
+  -- language (moon/yue)
   language: {single: "--"}
 
   -- files
-  input:     {"examples/*.lua"} -- formatted for filekit.iglob
-  transform: (path) -> (path\match "examples/(.+)%.lua") .. ".test.lua"
+  input:     {"examples/testable.moon"}
+  transform: (path) -> (path\match "examples/(.+)%.moon") .. ".test.moon"
   output:    "examples"
   ignore: {  -- formatted for filekit.fromGlob
     "*.test.lua"
@@ -16,7 +19,6 @@ config:
   }
 
   -- tests
-  emit:
-    unpack: {"field"}
-    docs: false
-    --print: false
+  -- emit:
+    -- unpack: { "field" }
+    -- docs: false
