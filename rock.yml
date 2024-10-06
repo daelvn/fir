@@ -21,6 +21,8 @@ build:
     fir.generic.emit.tests:    fir/generic/emit/tests.lua
     fir.file:                  fir/file.lua
     fir.version:               fir/version.lua
+    fir.error:                 fir/error.lua
+    alfons.tasks.fir:          alfons/tasks/fir.lua
   install:
     bin:
       fir: bin/fir.lua

@@ -1,4 +1,5 @@
 tasks:
+  always: => load 'fir'
   --- @task make Install a local version
   --- @option make [v] <version:string> Version to make
   make:    => sh "rockbuild -m --delete #{@v}" if @v
@@ -8,12 +9,16 @@ tasks:
   --- @task compile Compile all MoonScript and Yuescript
   compile: =>
     sh "moonc #{file}" for file in wildcard "fir/**.moon"
+    sh "yue bin"
     sh "yue fir"
+    sh "yue alfons/tasks"
   --- @task clean Clean all generated Lua files
   clean: =>
     show "Cleaning files"
     for file in wildcard "**.lua"
       fs.remove file
+  use_fir: =>
+    tasks.fir dump: true, config: {}
   --- @task docs Manage documentation
   --- @option docs [serve] Open a preview of the documentation
   --- @option docs [build] Builds a static site from the documentation

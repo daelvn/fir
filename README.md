@@ -49,14 +49,17 @@ Then, simply run `alfons compile make -v 1.0`. To clean the project, simply `alf
 
 ### 2
 
-- **2.0.0** (04.10.)
+- **2.0.0** (04.10.2024)
 
 Fir 2 is being released! Out of the necessity to use a more modern documentation for my other, better project, [Alfons](https://github.com/daelvn/alfons), I decided to update this project. Here's the main changes:
 
+- **Revamped test suite generator.** The `tests` format now actually works, and generates robust tests from your documentation that can check for many conditions. It's even [TAP](https://testanything.org/tap-version-14-specification.html) compliant for your CI needs!
 - **Symbol linking.** Fir CLI using the Generic backend will now collect all symbols and let you link to them with `@@@` syntax.
 - **Verbatim inputs.** Those inputs will be copied over directly to the output folder.
+- **Alfons integration.** Fir automatically installs a loadable [Alfons](https://github.com/daelvn/alfons) task, so you can integrate it into your Alfons workflows. Use `load 'fir'` to load it.
 - **Symbol summaries can now be longer than one line.** The summary ends on the first line that does not begin with a \<lead> character.
 - **Aliases are deranked.** Now (under the Generic backend) aliases are not put beside the name.
+- **Better error reporting.** No more unparsable errors.
 - **Output for MkDocs.** The Generic Markdown emitter now has specific MkDocs options.
 - **Updated documentation.** It's easier to understand how the fuck to use this.
 - **Documentation now uses [Material for MkDocs](https://squidfunk.github.io/mkdocs-material).** For a more clean, updated and powerful look and feel.

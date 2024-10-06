@@ -1,0 +1,124 @@
+tasks:
+  fir: =>
+    import 'fir.version' as FIR_VERSION
+    prints "%{bold blue}Fir #{FIR_VERSION} (in Alfons mode)"
+    -- arrow
+    printArrow = (txt) -> prints "%{blue}==>%{white} #{txt}" unless @s or @silent
+    printError = (txt) -> prints "%{red}#{txt}"              unless @s or @silent
+    printPlus  = (txt) -> prints "%{green}+ #{txt}"          unless @s or @silent
+    printMini  = (txt) -> prints "%{yellow}-> #{txt}"        unless @s or @silent
+
+    -- mkdir
+    mkdirFor = (path) ->
+      _path = _path\match "(.+)/.-"
+      sep, pStr = fsinfo.sep, ""
+      for dir in path\gmatch "[^" .. sep .. "]+" do
+        pStr = pStr .. dir .. sep
+        fs.mkdir pStr
+    -- fromGlob reimplementation
+    fromGlob = (pattern) -> [node for node in fs.glob pattern]
+    -- reduce
+    reduce = (array, callback, initial) ->
+      accumulator = initial and initial or array[1]
+      start = initial and 1 or 2
+      for i = start, #array
+        accumulator = callback accumulator, array[i]
+      return accumulator
+    -- flatten
+    flatten = (arr) -> arr |> reduce ((acc, val) -> [ ...acc, ...val ]), []
+    -- makes a glob pattern filekit-compatible
+    globCompat = (pattern) -> pattern\gsub "%*%*([^#{fsinfo.sep}])", "**#{fsinfo.sep}*%1"
+
+    -- Generate docs
+    if @generate or @dump
+      printArrow "Generating docs#{@config?.name and (' for ' .. @config.name) or ''}"
+      --- files ---
+      -- check input
+      unless @config.input?
+        printError "No input specified."
+        printError "Please set an 'input' field (table) in #{FILE}"
+        os.exit 1
+      -- compile ignore list
+      ignore = flatten [fromGlob globCompat ig for ig in *@config.ignore] if @config.ignore
+      -- iterate files
+      cwd   = path.cwd!
+      files = {}
+      emitted = {}
+      for inp in *@config.input
+        nodes = fromGlob globCompat (inp.verbatim and inp[1] or inp)
+        for node in *nodes
+          if fs.isfile node
+            -- take ignores into account
+            doIgnore = false
+            if @config.ignore
+              for ig in *ignore
+                doIgnore = true if node\match ig
+            -- add file
+            unless doIgnore
+              fname = (fspath.abs node)\match "#{cwd}#{fsinfo.sep}(.+)"
+              if inp.verbatim
+                emitted[fname] = readfile fname
+              else
+                files[] = fname
+              printPlus fname
+      --- check language ---
+      unless @config.language?
+        printError "No language specified."
+        printError "Please set a 'language' field (table) in your Taskfile"
+        os.exit 1
+      --- extract comments ---
+      import extract from require "fir.generic.backend"
+      extracted = {}
+      for file in *files
+        --printMini file
+        extracted[file] = (readfile file) |> extract _, @config.language, @config.backend or {}
+      --- parse comments ---
+      import parse from require "fir.generic.parser"
+      --printArrow "Parsing comments"
+      --
+      parsed = {}
+      for file in *files
+        --printMini file
+        parsed[file] = extracted[file] |> parse _, @config.language 
+      --- dump? ---
+      if args.dump
+        import generate from "tableview"
+        for file in *files
+          print generate parsed[file]
+        os.exit!
+      --- emit ---
+      unless @config.format?
+        printError "No format specified."
+        printError "Please set a 'format' field (string) in #{FILE}"
+        os.exit 1
+      -- option to collect symbols
+      symbols = []
+      if @config.format == 'markdown'
+        import listAllSymbols from require "fir.generic.emit.markdown"
+        for file, parsed in pairs parsed
+          this_symbols = listAllSymbols parsed, {url_prefix: @config.url_prefix}
+          symbols = {...symbols, ...this_symbols}
+        -- printMini "Symbols: #{(require 'inspect') symbols}"
+      -- actual emitting
+      import emit from require "fir.generic.emit.#{@config.format}"
+      for file in *files
+        --printMini file
+        emitted[file] = parsed[file] |> emit _, {...(@config.emit or {}), :symbols}
+      --- write ---
+      unless @config.output?
+        printError "No output folder specified."
+        printError "Please set an 'output' field (string) in #{FILE}"
+        os.exit 1
+      -- printArrow "Writing documentation..."
+      -- make docs dir
+      fs.mkdir @config.output unless fs.isdir @config.output
+      -- write
+      for oldfile, content in pairs emitted
+        -- transform if exists
+        file = oldfile
+        if @config.transform
+          file = path @config.output, @config.transform oldfile
+        --printMini file
+        --
+        mkdirFor file
+        writefile file, content
