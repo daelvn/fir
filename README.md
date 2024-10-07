@@ -50,7 +50,7 @@ Then, simply run `alfons compile make -v 1.0`. To clean the project, simply `alf
 
 ## Changelog
 
-### 2
+### 2.x
 
 - **2.0.0** (04.10.2024)
 

@@ -1,6 +1,5 @@
 # Fir 2
 
-
 ![Discord](https://img.shields.io/discord/454435414044966913?style=for-the-badge&logo=discord)
 ![GitHub Repo stars](https://img.shields.io/github/stars/daelvn/fir?style=for-the-badge&logo=github)
 ![GitHub Tag](https://img.shields.io/github/v/tag/daelvn/fir?style=for-the-badge&logo=github)
@@ -11,6 +10,7 @@
 Fir is a language-agnostic documentation generator framework. It is fully modular, which means you can mix a comment extractor with a different comment parser and emitter (but you aren't going to go through the hassle of writing anything). A set of generic modules for generating Markdown documentation is provided, don't expect much more (unless you press me to write more).
 
 <br/>
+
 !!! tip
     Check out the new Fir 2 update! Renewed, with symbol support, verbatim inputs, and a little more. [Changelog below](#2).
 
@@ -50,7 +50,7 @@ Then, simply run `alfons compile make -v 1.0`. To clean the project, simply `alf
 
 ## Changelog
 
-### 2
+### 2.x
 
 - **2.0.0** (04.10.2024)
 

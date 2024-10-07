@@ -13,6 +13,7 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/daelvn
 
+# FIXME: https://github.com/squidfunk/mkdocs-material/issues/7599
 plugins:
   - search
   - social
