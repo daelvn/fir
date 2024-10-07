@@ -16,7 +16,7 @@ config:
     "fir/**.yue"
     { "README.md", verbatim: true }
     { "fir/**.md", verbatim: true }
-  } -- formatted for filekit.iglob
+  } -- formatted for lpath.fs.glob
 
   transform: (path) ->
     if path\match "yue$"

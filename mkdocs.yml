@@ -8,6 +8,15 @@ repo_name: daelvn/fir
 extra_css:
   - stylesheets/extra.css
 
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/daelvn
+
+plugins:
+  - search
+  - social
+
 markdown_extensions:
   - toc:
       permalink: true
@@ -31,6 +40,7 @@ theme:
   features:
     - navigation.tabs
     - navigation.indexes
+    - navigation.footer
     - content.tabs.link
     - content.code.annotate
     # - toc.integrate

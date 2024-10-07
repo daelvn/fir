@@ -17,12 +17,56 @@ tasks:
     show "Cleaning files"
     for file in wildcard "**.lua"
       fs.remove file
-  use_fir: =>
-    tasks.fir dump: true, config: {}
   --- @task docs Manage documentation
   --- @option docs [serve] Open a preview of the documentation
   --- @option docs [build] Builds a static site from the documentation
   docs: =>
+    logo_path = '/fir/fir-logo.png'
+    if @generate
+      tasks.fir
+        generate: true
+        writer: (_path, content) ->
+          if _path\match 'docs/index.md'
+            writefile _path, content
+              \gsub '> %[!TIP%]\n> ', '!!! tip\n    '
+              \gsub '%]%(#([a-z])(.-)%)', (initial, rest) -> "](##{initial\upper!}#{rest})"
+              \gsub '<img(.-)>', "![Fir Logo](#{logo_path}){ width=128 height=128 align=left }"
+          else
+            writefile _path, content
+        config:
+          name:   "Fir"
+          -- general config
+          format: "markdown"
+          emit:
+            symbols_in_code: true
+            inline_type: true
+            tabs:
+              use: "pymdownx"
+
+          -- language (moon/yue)
+          language: {single: "--"}
+
+          -- files
+          input: {
+            "fir/**.yue"
+            { "README.md", verbatim: true }
+            { "fir/**.md", verbatim: true }
+          }
+
+          transform: (path) ->
+            if path\match "yue$"
+              (path\match "fir/(.+)%.yue") .. ".md"
+            elseif path\match "README.md"
+              "index.md"
+            else
+              path\match "fir/(.+)"
+
+          output: "docs"
+
+          ignore: {
+            "fir/version.yue"
+            "fir/file.yue"
+          }
     if @serve
       sh "mkdocs serve"
     if @build

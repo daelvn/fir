@@ -69,10 +69,20 @@ This is the API provided to work with the generic parser.
 
 | Element | Summary |
 |---------|---------|
-| **Types** |  |
-| [GenericAST](#GenericAST) | The AST produced by `parse`. |
 | **Functions** |  |
 | [parse](#parse) | Parses a list of GenericComments into a GenericAST |
+| **Types** |  |
+| [GenericAST](#GenericAST) | The AST produced by `parse`. |
+
+<div markdown class='fir-symbol fancy-scrollbar'>
+### <strong>parse</strong>&nbsp;
+<span class='annotate'>:: comments:[[GenericComment](/fir/generic/backend#GenericComment)], language:Language -> ast:[GenericAST](/fir/generic/parser#GenericAST)</span>
+</div>
+
+
+Parses a list of GenericComments into a GenericAST
+
+- Parses a list of GenericComments into a GenericAST
 
 <div markdown class='fir-symbol fancy-scrollbar'>
 ### <strong>GenericAST</strong>&nbsp;
@@ -108,13 +118,3 @@ The AST produced by `parse`.
     }
     ```
 
-
-<div markdown class='fir-symbol fancy-scrollbar'>
-### <strong>parse</strong>&nbsp;
-<span class='annotate'>:: comments:[[GenericComment](/fir/generic/backend#GenericComment)], language:Language -> ast:[GenericAST](/fir/generic/parser#GenericAST)</span>
-</div>
-
-
-Parses a list of GenericComments into a GenericAST
-
-- Parses a list of GenericComments into a GenericAST
