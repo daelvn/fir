@@ -16,7 +16,9 @@ extra:
 # FIXME: https://github.com/squidfunk/mkdocs-material/issues/7599
 plugins:
   - search
-  - social
+  - social:
+      cards_layout_options:
+        background_color: "#2d6934"
 
 markdown_extensions:
   - toc:
