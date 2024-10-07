@@ -1,0 +1,1151 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://daelvn.github.io/fir/tutorial/CLI/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../alfons/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
+    
+    
+      
+        <title>CLI - Fir</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+  
+  
+  
+  
+  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 17 1.56-3.42L17 12l-3.44-1.56L12 7l-1.57 3.44L7 12l3.43 1.58zM8.17 2.76A10.1 10.1 0 0 1 12 2c1.31 0 2.61.26 3.83.76 1.21.5 2.31 1.24 3.24 2.17s1.67 2.03 2.17 3.24c.5 1.22.76 2.52.76 3.83 0 2.65-1.05 5.2-2.93 7.07A9.97 9.97 0 0 1 12 22a10.1 10.1 0 0 1-3.83-.76 10 10 0 0 1-3.24-2.17A9.97 9.97 0 0 1 2 12c0-2.65 1.05-5.2 2.93-7.07.93-.93 2.03-1.67 3.24-2.17m-1.83 14.9C7.84 19.16 9.88 20 12 20s4.16-.84 5.66-2.34S20 14.12 20 12s-.84-4.16-2.34-5.66A8 8 0 0 0 12 4c-2.12 0-4.16.84-5.66 2.34A8 8 0 0 0 4 12c0 2.12.84 4.16 2.34 5.66"/></svg>');}</style>
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="CLI - Fir" >
+      
+        <meta  property="og:description"  content="None" >
+      
+        <meta  property="og:image"  content="https://daelvn.github.io/fir/assets/images/social/tutorial/CLI.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="https://daelvn.github.io/fir/tutorial/CLI/" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="CLI - Fir" >
+      
+        <meta  name="twitter:description"  content="None" >
+      
+        <meta  name="twitter:image"  content="https://daelvn.github.io/fir/assets/images/social/tutorial/CLI.png" >
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#CLI" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Fir" class="md-header__button md-logo" aria-label="Fir" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 21v-3H3l5-5H5l5-5H7l5-5 5 5h-3l5 5h-3l5 5h-7v3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fir
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CLI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/daelvn/fir" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daelvn/fir
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../generic/" class="md-tabs__link">
+          
+  
+    
+  
+  Generic
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  Tutorial
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fir" class="md-nav__button md-logo" aria-label="Fir" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 21v-3H3l5-5H5l5-5H7l5-5 5 5h-3l5 5h-3l5 5h-7v3z"/></svg>
+
+    </a>
+    Fir
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/daelvn/fir" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    daelvn/fir
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../generic/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Generic
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Generic
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../generic/backend/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Backend
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../generic/parser/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Parser
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Emit
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Emit
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../generic/emit/markdown/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Markdown
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../generic/emit/tests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Tutorial
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Tutorial
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    CLI
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    CLI
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#Installing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#Configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wildcards
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#Generating" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#Viewing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Viewing
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../alfons/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Alfons
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#Installing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#Configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wildcards
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#Generating" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#Viewing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Viewing
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="CLI"><a class="headerlink" href="#CLI" title="Permanent link">&para;</a>CLI</h1>
+<p>This page describes the CLI to the Fir framework. It can only use the <a href="generic/documenting.md">generic</a> documentation format (but it can use different output formats).</p>
+<h2 id="Installing"><a class="headerlink" href="#Installing" title="Permanent link">&para;</a>Installing</h2>
+<p>The Fir CLI comes with the Fir framework via LuaRocks automatically.</p>
+<h2 id="Configuration"><a class="headerlink" href="#Configuration" title="Permanent link">&para;</a>Configuration</h2>
+<p>The most important part to maintaining the documentation of a project with Fir is the configuration. The configuration takes form as a Lua or MoonScript file and it defines the inputs, outputs, formats and other things related to documentation.</p>
+<p>The file must be named <code>Fir.lua</code> or <code>Fir.moon</code> for it to be detected automatically, but you can also use <code>-c</code> or <code>--config</code> to change the configuration file, and <code>--config-language</code> to set the language it should be loaded as (only supports <code>lua</code> and <code>moon</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">About MoonScript</p>
+<p><strong>Note:</strong> To use a Fir.moon configuration file, or any configuration file written in MoonScript, you need to install MoonScript via LuaRocks with the following command: <code>luarocks install moonscript</code></p>
+</div>
+<p>Here follows a complete description of all the options that the Fir CLI accepts.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Lua</label><label for="__tabbed_1_2">MoonScript</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1">--- General config</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Fir&quot;</span>      <span class="c1">-- name of your project, not mandatory</span>
+<span class="c1">--- Format</span>
+<span class="c1">-- turns into fir.generic.emit.&lt;format&gt;</span>
+<span class="n">format</span> <span class="o">=</span> <span class="s2">&quot;markdown&quot;</span> <span class="c1">-- only markdown is included by default</span>
+<span class="c1">--- Emit options</span>
+<span class="n">emit</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="n">tabs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">use</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>            <span class="c1">-- Whether to use Tab syntax in Markdown or not</span>
+    <span class="n">docsify_header</span> <span class="o">=</span> <span class="s2">&quot;####&quot;</span> <span class="c1">-- Header to use in the Docsify Tab syntax</span>
+  <span class="p">},</span>
+  <span class="n">all</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">-- Also emit `@internal` sections</span>
+  <span class="n">columns</span> <span class="o">=</span> <span class="p">{},</span> <span class="c1">-- Modify the TOC</span>
+  <span class="n">types</span> <span class="o">=</span> <span class="p">{</span>     <span class="c1">-- TOC section titles</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;Types&quot;</span><span class="p">,</span>
+    <span class="kr">function</span> <span class="err">=</span> <span class="err">&quot;</span><span class="nf">Functions</span><span class="s2">&quot;,</span>
+<span class="s2">    constant = &quot;</span><span class="n">Constants</span><span class="s2">&quot;,</span>
+<span class="s2">    class = &quot;</span><span class="n">Classes</span><span class="s2">&quot;,</span>
+<span class="s2">    test = &quot;</span><span class="n">Tests</span><span class="s2">&quot;,</span>
+<span class="s2">    table = &quot;</span><span class="n">Tables</span><span class="s2">&quot;,</span>
+<span class="s2">    field = &quot;</span><span class="n">Fields</span><span class="s2">&quot;,</span>
+<span class="s2">    variable = &quot;</span><span class="n">Variables</span><span class="s2">&quot;</span>
+<span class="s2">  }</span>
+<span class="s2">}</span>
+<span class="s2">--- Backend options</span>
+<span class="s2">backend = {</span>
+<span class="s2">  patterns = false,   -- Whether to use patterns for the language strings</span>
+<span class="s2">  ignore = &quot;</span><span class="o">///</span><span class="s2">&quot;,     -- String used to determine when to start or stop ignoring comments</span>
+<span class="s2">  merge = true,       -- Whether to merge adjacent single-line comments</span>
+<span class="s2">  paragraphs = true,  -- Whether to split multi-line comments by empty strings</span>
+<span class="s2">}</span>
+<span class="s2">--- Language</span>
+<span class="s2">-- defines the way comments should be extracted</span>
+<span class="s2">-- with support for single-line and multiline comments.</span>
+<span class="s2">language = {</span>
+<span class="s2">  single = &quot;</span><span class="c1">--&quot;,</span>
+  <span class="n">multi</span>  <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;--[[&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;]]--&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">--- Files</span>
+<span class="c1">-- Input</span>
+<span class="c1">-- Every entry is passed through lpath.fs.glob, so you can use</span>
+<span class="c1">-- wildcards. Reference below.</span>
+<span class="n">input</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;fir/**.yue&quot;</span><span class="p">,</span>
+  <span class="c1">-- Verbatim files will be placed in the output folder as they</span>
+  <span class="c1">-- are.</span>
+  <span class="p">{</span> <span class="s2">&quot;fir/**.md&quot;</span><span class="p">,</span> <span class="n">verbatim</span><span class="p">:</span> <span class="kc">true</span> <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">-- Transform</span>
+<span class="c1">-- Function that changes the filepath to be written.</span>
+<span class="c1">-- If the input is fir/generic/emit/markdown.yue, this function</span>
+<span class="c1">-- will transform it into `generic/emit/markdown.md`, for example.</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="kr">function</span> <span class="p">(</span><span class="n">path</span><span class="p">)</span>
+  <span class="kr">if</span> <span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="n">match</span> <span class="s2">&quot;yue$&quot;</span><span class="p">)</span> <span class="kr">then</span>
+    <span class="kr">return</span> <span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="n">match</span> <span class="s2">&quot;fir/(.+)%.yue&quot;</span><span class="p">)</span> <span class="o">..</span> <span class="s2">&quot;.md&quot;</span>
+  <span class="kr">else</span>
+    <span class="kr">return</span> <span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="n">match</span> <span class="s2">&quot;fir/(.+)&quot;</span><span class="p">)</span>
+  <span class="kr">end</span>
+<span class="kr">end</span>
+<span class="c1">-- Output folder</span>
+<span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;docs&quot;</span>
+<span class="c1">-- Ignore</span>
+<span class="c1">-- List of files to ignore. Also supports wildcards (reference below).</span>
+<span class="n">ignore</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;fir/version.mp&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;fir/file.mp&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nv">config:</span>
+  <span class="c1">--- General config</span>
+  <span class="nv">name:</span> <span class="s2">&quot;</span><span class="s">Fir</span><span class="s2">&quot;</span>      <span class="c1">-- name of your project, not mandatory</span>
+  <span class="c1">--- Format</span>
+  <span class="c1">-- turns into fir.generic.emit.&lt;format&gt;</span>
+  <span class="nv">format:</span> <span class="s2">&quot;</span><span class="s">markdown</span><span class="s2">&quot;</span> <span class="c1">-- only markdown is included by default</span>
+  <span class="c1">--- Emit options</span>
+  <span class="nv">emit:</span> <span class="kt">{</span>
+    <span class="nv">tabs:</span> <span class="kt">{</span>
+      <span class="nv">use:</span>  <span class="kc">false</span><span class="p">,</span>            <span class="c1">-- Whether to use Tab syntax in Markdown or not</span>
+      <span class="nv">docsify_header:</span>  <span class="s2">&quot;</span><span class="s">####</span><span class="s2">&quot;</span> <span class="c1">-- Header to use in the Docsify Tab syntax</span>
+    <span class="kt">}</span><span class="p">,</span>
+    <span class="nv">all:</span>  <span class="kc">false</span><span class="p">,</span>  <span class="c1">-- Also emit `@internal` sections</span>
+    <span class="nv">columns:</span>  <span class="kt">{}</span><span class="p">,</span> <span class="c1">-- Modify the TOC</span>
+    <span class="nv">types:</span>  <span class="kt">{</span>     <span class="c1">-- TOC section titles</span>
+      <span class="nv">type:</span>  <span class="s2">&quot;</span><span class="s">Types</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="nv">function:</span>  <span class="s2">&quot;</span><span class="s">Functions</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="nv">constant:</span>  <span class="s2">&quot;</span><span class="s">Constants</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="nv">class:</span>  <span class="s2">&quot;</span><span class="s">Classes</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="nv">test:</span>  <span class="s2">&quot;</span><span class="s">Tests</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="nv">table:</span>  <span class="s2">&quot;</span><span class="s">Tables</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="nv">field:</span>  <span class="s2">&quot;</span><span class="s">Fields</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="nv">variable:</span>  <span class="s2">&quot;</span><span class="s">Variables</span><span class="s2">&quot;</span>
+    <span class="kt">}</span>
+  <span class="kt">}</span>
+  <span class="c1">--- Backend options</span>
+  <span class="nv">backend:</span>  <span class="kt">{</span>
+    <span class="nv">patterns:</span>  <span class="kc">false</span><span class="p">,</span>   <span class="c1">-- Whether to use patterns for the language strings</span>
+    <span class="nv">ignore:</span>  <span class="s2">&quot;</span><span class="s">///</span><span class="s2">&quot;</span><span class="p">,</span>     <span class="c1">-- String used to determine when to start or stop ignoring comments</span>
+    <span class="nv">merge:</span>  <span class="kc">true</span><span class="p">,</span>       <span class="c1">-- Whether to merge adjacent single-line comments</span>
+    <span class="nv">paragraphs:</span>  <span class="kc">true</span><span class="p">,</span>  <span class="c1">-- Whether to split multi-line comments by empty strings</span>
+  <span class="kt">}</span>
+  <span class="c1">--- Language</span>
+  <span class="c1">-- defines the way comments should be extracted</span>
+  <span class="c1">-- with support for single-line and multiline comments.</span>
+  <span class="nv">language:</span>
+    <span class="nv">single:</span> <span class="s2">&quot;</span><span class="s">--</span><span class="s2">&quot;</span>
+    <span class="nv">multi:</span> <span class="kt">{</span>
+      <span class="s2">&quot;</span><span class="s">--[[</span><span class="s2">&quot;</span>
+      <span class="s2">&quot;</span><span class="s">]]--</span><span class="s2">&quot;</span>
+    <span class="kt">}</span>
+  <span class="kt">}</span>
+  <span class="c1">-- Verbatim files will be placed in the output folder as they</span>
+  <span class="c1">-- are.</span>
+  <span class="c1">--- Files</span>
+  <span class="c1">-- Input</span>
+  <span class="c1">-- Every entry is passed through lpath.fs.glob (reference below),</span>
+  <span class="c1">-- so you can use wildcards.</span>
+  <span class="nv">input:</span> <span class="kt">{</span>
+    <span class="s2">&quot;</span><span class="s">fir/**.yue</span><span class="s2">&quot;</span>
+    <span class="c1">-- Verbatim files will be placed in the output folder as they</span>
+    <span class="c1">-- are.</span>
+    <span class="kt">{</span> <span class="s2">&quot;</span><span class="s">fir/**.md</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nv">verbatim:</span> <span class="kc">true</span> <span class="kt">}</span>
+  <span class="kt">}</span>
+  <span class="c1">-- Transform</span>
+  <span class="c1">-- Function that changes the filepath to be written.</span>
+  <span class="c1">-- If the input is fir/generic/emit/markdown.yue, this function</span>
+  <span class="c1">-- will transform it into `generic/emit/markdown.md`</span>
+  <span class="nv">transform:</span> <span class="kt">(</span><span class="n">path</span><span class="kt">)</span> <span class="nf">-&gt;</span>
+    <span class="k">if</span> <span class="n">path</span><span class="o">\</span><span class="n">match</span> <span class="s2">&quot;</span><span class="s">yue$</span><span class="s2">&quot;</span>
+      <span class="kt">(</span><span class="n">path</span><span class="o">\</span><span class="n">match</span> <span class="s2">&quot;</span><span class="s">fir/(.+)%.mp</span><span class="s2">&quot;</span><span class="kt">)</span> <span class="o">..</span> <span class="s2">&quot;</span><span class="s">.md</span><span class="s2">&quot;</span>
+    <span class="k">else</span>
+      <span class="n">path</span><span class="o">\</span><span class="n">match</span> <span class="s2">&quot;</span><span class="s">fir/(.+)</span><span class="s2">&quot;</span>
+  <span class="c1">-- Output folder</span>
+  <span class="nv">output:</span> <span class="s2">&quot;</span><span class="s">docs</span><span class="s2">&quot;</span>
+  <span class="c1">-- Ignore</span>
+  <span class="c1">-- List of files to ignore. Also supports wildcards (reference below).</span>
+  <span class="nv">ignore:</span> <span class="kt">{</span>
+    <span class="s2">&quot;</span><span class="s">fir/version.mp</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;</span><span class="s">fir/file.mp</span><span class="s2">&quot;</span>
+  <span class="kt">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="Wildcards"><a class="headerlink" href="#Wildcards" title="Permanent link">&para;</a>Wildcards</h3>
+<p>Wildcards work as described in the <a href="https://github.com/starwing/lpath#fsdirfsscandirfsglob">lpath <code>fs.glob</code></a> function documentation, with a modification that has been made by Fir.</p>
+<p><code>**</code> not followed by the path separator will be turned into <code>**/*</code>. This is because <code>fs.glob</code> does not work with <code>**.txt</code> directly, but needs to have <code>**/*.txt</code>.</p>
+<h2 id="Generating"><a class="headerlink" href="#Generating" title="Permanent link">&para;</a>Generating</h2>
+<p>Then you can simply generate your docs with <code>fir generate</code> (or <code>fir g</code> for shory). This will automatically create all folders and files necessary.</p>
+<h2 id="Viewing"><a class="headerlink" href="#Viewing" title="Permanent link">&para;</a>Viewing</h2>
+<p>You may only want the Markdown files, but I recommend using a project like <a href="https://docsify.js.org/#/">Docsify</a> or <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a> to make your documentation look better as a webpage. The Markdown generic emitter has some facilities to integrate with both Docsify (like comments for the <a href="https://jhildenbiddle.github.io/docsify-tabs/#/"><code>docsify-tabs</code> plugin</a>) and MkDocs.</p>
+<p>This page is currently using Material for MkDocs.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Index">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Index
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../alfons/" class="md-footer__link md-footer__link--next" aria-label="Next: Alfons">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Alfons
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/daelvn" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.indexes", "navigation.footer", "content.tabs.link", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
+      
+    
+  </body>
+</html>
