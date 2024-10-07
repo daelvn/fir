@@ -10,6 +10,7 @@
 Fir is a language-agnostic documentation generator framework. It is fully modular, which means you can mix a comment extractor with a different comment parser and emitter (but you aren't going to go through the hassle of writing anything). A set of generic modules for generating Markdown documentation is provided, don't expect much more (unless you press me to write more).
 
 <br/>
+
 > [!TIP]
 > Check out the new Fir 2 update! Renewed, with symbol support, verbatim inputs, and a little more. [Changelog below](#2).
 
