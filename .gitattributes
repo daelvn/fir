@@ -1,4 +1,4 @@
 *.lua linguist-generated
 *.rockspec linguist-generated
-*.mp linguist-language=MoonScript
+*.yue linguist-language=MoonScript
 docs/* linguist-documentation

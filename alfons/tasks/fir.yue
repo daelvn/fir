@@ -2,6 +2,11 @@ tasks:
   fir: =>
     import 'fir.version' as FIR_VERSION
     prints "%{bold blue}Fir #{FIR_VERSION} (in Alfons mode)"
+
+    -- set reader/writer
+    @reader or= readfile
+    @writer or= writefile
+
     -- arrow
     printArrow = (txt) -> prints "%{blue}==>%{white} #{txt}" unless @s or @silent
     printError = (txt) -> prints "%{red}#{txt}"              unless @s or @silent
@@ -9,10 +14,10 @@ tasks:
     printMini  = (txt) -> prints "%{yellow}-> #{txt}"        unless @s or @silent
 
     -- mkdir
-    mkdirFor = (path) ->
+    mkdirFor = (_path) ->
       _path = _path\match "(.+)/.-"
       sep, pStr = fsinfo.sep, ""
-      for dir in path\gmatch "[^" .. sep .. "]+" do
+      for dir in _path\gmatch "[^" .. sep .. "]+" do
         pStr = pStr .. dir .. sep
         fs.mkdir pStr
     -- fromGlob reimplementation
@@ -55,9 +60,9 @@ tasks:
                 doIgnore = true if node\match ig
             -- add file
             unless doIgnore
-              fname = (fspath.abs node)\match "#{cwd}#{fsinfo.sep}(.+)"
+              fname = (path.abs node)\match "#{cwd}#{fsinfo.sep}(.+)"
               if inp.verbatim
-                emitted[fname] = readfile fname
+                emitted[fname] = @.reader fname
               else
                 files[] = fname
               printPlus fname
@@ -71,7 +76,7 @@ tasks:
       extracted = {}
       for file in *files
         --printMini file
-        extracted[file] = (readfile file) |> extract _, @config.language, @config.backend or {}
+        extracted[file] = (@.reader file) |> extract _, @config.language, @config.backend or {}
       --- parse comments ---
       import parse from require "fir.generic.parser"
       --printArrow "Parsing comments"
@@ -121,4 +126,4 @@ tasks:
         --printMini file
         --
         mkdirFor file
-        writefile file, content
+        @.writer file, content
