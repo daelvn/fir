@@ -1,6 +1,5 @@
 # Fir 2
 
-
 ![Discord](https://img.shields.io/discord/454435414044966913?style=for-the-badge&logo=discord)
 ![GitHub Repo stars](https://img.shields.io/github/stars/daelvn/fir?style=for-the-badge&logo=github)
 ![GitHub Tag](https://img.shields.io/github/v/tag/daelvn/fir?style=for-the-badge&logo=github)

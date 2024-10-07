@@ -12,6 +12,7 @@ dependencies:
   - argparse
   - ansikit
   - lpath
+  - lrexlib-pcre2
 build:
   type: builtin
   modules:
