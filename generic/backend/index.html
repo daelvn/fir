@@ -468,6 +468,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#extract" class="md-nav__link">
+    <span class="md-ellipsis">
+      extract&nbsp;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#GenericComment" class="md-nav__link">
     <span class="md-ellipsis">
       GenericComment&nbsp;
@@ -480,15 +489,6 @@
   <a href="#Language" class="md-nav__link">
     <span class="md-ellipsis">
       Language&nbsp;
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#extract" class="md-nav__link">
-    <span class="md-ellipsis">
-      extract&nbsp;
     </span>
   </a>
   
@@ -797,6 +797,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#extract" class="md-nav__link">
+    <span class="md-ellipsis">
+      extract&nbsp;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#GenericComment" class="md-nav__link">
     <span class="md-ellipsis">
       GenericComment&nbsp;
@@ -809,15 +818,6 @@
   <a href="#Language" class="md-nav__link">
     <span class="md-ellipsis">
       Language&nbsp;
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#extract" class="md-nav__link">
-    <span class="md-ellipsis">
-      extract&nbsp;
     </span>
   </a>
   
@@ -863,6 +863,14 @@ parse comments from any file.</p>
 </thead>
 <tbody>
 <tr>
+<td><strong>Functions</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#extract">extract</a></td>
+<td>Extracts comment from a string separated by newlines.</td>
+</tr>
+<tr>
 <td><strong>Types</strong></td>
 <td></td>
 </tr>
@@ -874,16 +882,19 @@ parse comments from any file.</p>
 <td><a href="#Language">Language</a></td>
 <td>Language type accepted by <a href="#extract"><code>extract</code></a>.</td>
 </tr>
-<tr>
-<td><strong>Functions</strong></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="#extract">extract</a></td>
-<td>Extracts comment from a string separated by newlines.</td>
-</tr>
 </tbody>
 </table>
+<div class="fir-symbol fancy-scrollbar">
+<h3 id="extract"><a class="headerlink" href="#extract" title="Permanent link">&para;</a><strong>extract</strong>&nbsp;</h3>
+<p><span class='annotate'>:: input:string, language?:Language, options?:table -&gt; comments:[<a href="/fir/generic/backend#GenericComment">GenericComment</a>]</span></p>
+</div>
+<p>Extracts comment from a string separated by newlines.</p>
+<ul>
+<li><code>patterns:boolean</code> (<code>false</code>): Whether to use patterns for the language fields and ignore string or not.</li>
+<li><code>ignore:string</code> (<code>"///"</code>): String used to determine when to start or stop ignoring comments.</li>
+<li><code>merge:boolean</code> (<code>true</code>): Whether to merge adjacent single-line comments.</li>
+<li><code>paragraphs:boolean</code> (<code>true</code>): Whether to split multi-line comments by empty strings (<code>""</code>).</li>
+</ul>
 <div class="fir-symbol fancy-scrollbar">
 <h3 id="GenericComment"><a class="headerlink" href="#GenericComment" title="Permanent link">&para;</a><strong>GenericComment</strong>&nbsp;</h3>
 </div>
@@ -916,17 +927,6 @@ parse comments from any file.</p>
 </div>
 </div>
 </div>
-<div class="fir-symbol fancy-scrollbar">
-<h3 id="extract"><a class="headerlink" href="#extract" title="Permanent link">&para;</a><strong>extract</strong>&nbsp;</h3>
-<p><span class='annotate'>:: input:string, language?:Language, options?:table -&gt; comments:[<a href="/fir/generic/backend#GenericComment">GenericComment</a>]</span></p>
-</div>
-<p>Extracts comment from a string separated by newlines.</p>
-<ul>
-<li><code>patterns:boolean</code> (<code>false</code>): Whether to use patterns for the language fields and ignore string or not.</li>
-<li><code>ignore:string</code> (<code>"///"</code>): String used to determine when to start or stop ignoring comments.</li>
-<li><code>merge:boolean</code> (<code>true</code>): Whether to merge adjacent single-line comments.</li>
-<li><code>paragraphs:boolean</code> (<code>true</code>): Whether to split multi-line comments by empty strings (<code>""</code>).</li>
-</ul>
 
 
 

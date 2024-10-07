@@ -489,15 +489,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#DescriptionLine" class="md-nav__link">
-    <span class="md-ellipsis">
-      DescriptionLine&nbsp;
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#determineSummaryBoundary" class="md-nav__link">
     <span class="md-ellipsis">
       determineSummaryBoundary&nbsp;
@@ -536,6 +527,15 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DescriptionLine" class="md-nav__link">
+    <span class="md-ellipsis">
+      DescriptionLine&nbsp;
+    </span>
+  </a>
   
 </li>
         
@@ -854,15 +854,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#DescriptionLine" class="md-nav__link">
-    <span class="md-ellipsis">
-      DescriptionLine&nbsp;
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#determineSummaryBoundary" class="md-nav__link">
     <span class="md-ellipsis">
       determineSummaryBoundary&nbsp;
@@ -901,6 +892,15 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DescriptionLine" class="md-nav__link">
+    <span class="md-ellipsis">
+      DescriptionLine&nbsp;
+    </span>
+  </a>
   
 </li>
         
@@ -974,14 +974,6 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Types</strong></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="#DescriptionLine">DescriptionLine</a></td>
-<td>A single element in a description returned by <code>parseDescription</code></td>
-</tr>
-<tr>
 <td><strong>Functions</strong></td>
 <td></td>
 </tr>
@@ -993,26 +985,16 @@
 <td><a href="#parseDescription">parseDescription</a></td>
 <td>Parses codeblocks, tags, headers and normal text in descriptions.</td>
 </tr>
+<tr>
+<td><strong>Types</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="#DescriptionLine">DescriptionLine</a></td>
+<td>A single element in a description returned by <code>parseDescription</code></td>
+</tr>
 </tbody>
 </table>
-<div class="fir-symbol fancy-scrollbar">
-<h3 id="DescriptionLine"><a class="headerlink" href="#DescriptionLine" title="Permanent link">&para;</a><strong>DescriptionLine</strong>&nbsp;</h3>
-</div>
-<p>A single element in a description returned by <code>parseDescription</code></p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Format</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="nc">DescriptionLine</span> <span class="kt">{</span>
-  <span class="nb">type</span>      <span class="o">::</span> <span class="n">string</span> <span class="kt">(</span><span class="n">text</span><span class="err">|</span><span class="n">snippet</span><span class="err">|</span><span class="n">header</span><span class="kt">)</span>
-  <span class="n">content</span>   <span class="o">::</span> <span class="kt">[</span><span class="n">string</span><span class="kt">]</span>
-  <span class="n">language</span><span class="err">?</span> <span class="o">::</span> <span class="n">string</span> <span class="c1">-- only when type is snippet</span>
-  <span class="n">title</span><span class="err">?</span>    <span class="o">::</span> <span class="n">string</span> <span class="c1">-- only when type is snippet</span>
-  <span class="n">n</span><span class="err">?</span>        <span class="o">::</span> <span class="n">number</span> <span class="c1">-- only when type is header</span>
-<span class="kt">}</span>
-</code></pre></div>
-</div>
-</div>
-</div>
 <div class="fir-symbol fancy-scrollbar">
 <h3 id="determineSummaryBoundary"><a class="headerlink" href="#determineSummaryBoundary" title="Permanent link">&para;</a><strong>determineSummaryBoundary</strong>&nbsp;</h3>
 <p><span class='annotate'>:: content:<a href="/fir/generic/backend#GenericComment">GenericComment</a>.content, lead:string -&gt; boundary:number</span></p>
@@ -1034,6 +1016,24 @@
 <ul>
 <li><code>@internal</code> - Adds an <code>internal</code> true flag to the element.</li>
 </ul>
+<div class="fir-symbol fancy-scrollbar">
+<h3 id="DescriptionLine"><a class="headerlink" href="#DescriptionLine" title="Permanent link">&para;</a><strong>DescriptionLine</strong>&nbsp;</h3>
+</div>
+<p>A single element in a description returned by <code>parseDescription</code></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Format</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nc">DescriptionLine</span> <span class="kt">{</span>
+  <span class="nb">type</span>      <span class="o">::</span> <span class="n">string</span> <span class="kt">(</span><span class="n">text</span><span class="err">|</span><span class="n">snippet</span><span class="err">|</span><span class="n">header</span><span class="kt">)</span>
+  <span class="n">content</span>   <span class="o">::</span> <span class="kt">[</span><span class="n">string</span><span class="kt">]</span>
+  <span class="n">language</span><span class="err">?</span> <span class="o">::</span> <span class="n">string</span> <span class="c1">-- only when type is snippet</span>
+  <span class="n">title</span><span class="err">?</span>    <span class="o">::</span> <span class="n">string</span> <span class="c1">-- only when type is snippet</span>
+  <span class="n">n</span><span class="err">?</span>        <span class="o">::</span> <span class="n">number</span> <span class="c1">-- only when type is header</span>
+<span class="kt">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <h2 id="API"><a class="headerlink" href="#API" title="Permanent link">&para;</a>API</h2>
 <p>This is the API provided to work with the generic parser.</p>
 <table>
